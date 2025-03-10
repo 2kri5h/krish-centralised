@@ -9,6 +9,7 @@ import Blogs from './pages/Blogs';
 import JoinUs from './pages/JoinUs';
 import UpcomingEvents from './pages/UpcomingEvents';
 import Navbar from './components/Navbar';
+import Login from './pages/Login';
 
 const App = () => {
   return (
@@ -23,6 +24,8 @@ const App = () => {
         <Route path="/blogs" element={<Blogs />} />
         <Route path="/join-us" element={<JoinUs />} />
         <Route path="/upcomingEvents" element={<UpcomingEvents />} />
+        <Route path='/login' element={<Login />} />
+        <Route path='/signup' element={<Login/>} />
       </Routes>
     </Router>
   );
