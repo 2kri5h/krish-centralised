@@ -5,7 +5,7 @@ import SARCPage from './pages/AboutUs';
 import AlumniGrid from './pages/Alum';
 import Initiatives from './pages/Initiatives';
 import Gallery from './pages/Gallery';
-import Contact from './pages/Contact';
+import Contact from './components/Contact/Contact';
 import Blogs from './pages/Blogs';
 import JoinUs from './pages/JoinUs';
 import UpcomingEvents from './pages/UpcomingEvents';
