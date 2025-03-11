@@ -18,12 +18,12 @@ const App = () => {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/aboutUs" element={<SARCPage />} />
-        <Route path="/alum" element={< AlumniGrid/>} />
         <Route path="/initiatives" element={<Initiatives />} />
         <Route path="/gallery" element={<Gallery />} />
-        <Route path="/contact" element={<Contact />} />
         <Route path="/blogs" element={<Blogs />} />
+        <Route path="/contact" element={<Contact />} />  
+        <Route path="/aboutUs" element={<SARCPage />} />
+        <Route path="/alum" element={< AlumniGrid/>} />
         <Route path="/join-us" element={<JoinUs />} />
         <Route path="/upcomingEvents" element={<UpcomingEvents />} />
         <Route path='/login' element={<Login />} />

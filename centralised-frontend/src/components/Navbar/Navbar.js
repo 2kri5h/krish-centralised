@@ -6,7 +6,7 @@ import "./Navbar.css";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [showWebsites, setShowWebsites] = useState(false);
+  const [showWebsites, setShowWebsites] = useState(false);  
 
   return (
     <nav className="bg-black py-4">
@@ -28,12 +28,33 @@ const Navbar = () => {
           >
             Initiatives
           </Link>
-          <Link
+          {/* <Link
             to="/websites"
             className="text-[#e2e2b6] text-md hover:text-[#6EACDA] transition-colors"
           >
             Websites
-          </Link>
+          </Link> */}
+          <div
+            className="websites-container"
+            onMouseEnter={() => setShowWebsites(true)}
+            onMouseLeave={() => setShowWebsites(false)}
+          >
+            <li className="websites-option">Websites</li>
+
+            {showWebsites && (
+              <div className="websites-dropdown">
+                <h2>WEBSITES</h2>
+                <div className="websites-list">
+                  <a href="#" className="website-link"><span className="website-box">Website name ↗</span></a>
+                  <a href="#" className="website-link"><span className="website-box">Website name ↗</span></a>
+                  <a href="#" className="website-link"><span className="website-box">Website name ↗</span></a>
+                  <a href="#" className="website-link"><span className="website-box">Website name ↗</span></a>
+                  <a href="#" className="website-link"><span className="website-box">Website name ↗</span></a>
+                  <a href="#" className="website-link"><span className="website-box">Website name ↗</span></a>
+                </div>
+              </div>
+            )}
+          </div>
           <Link
             to="/gallery"
             className="text-[#e2e2b6] text-md hover:text-[#6EACDA] transition-colors"

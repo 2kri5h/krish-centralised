@@ -1,0 +1,124 @@
+/* Websites Hover Effect */
+.websites-container {
+    position: relative;
+    display: inline-block;
+}
+
+.websites-option {
+    color: #e2e2b6;
+    text-decoration: none;
+    list-style: none;
+    cursor: pointer;
+    padding: 10px;
+    transition: color 0.3s ease;
+}
+
+.websites-option:hover {
+    color: #6EACDA;
+}
+
+.websites-dropdown {
+    position: absolute;
+    top: 100%;
+    left: -100%;
+    width: 50cap;
+    height: fit-content;
+    background-color: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 0 0 5% 5%;
+    color: white;
+    padding: 50px;
+    padding-top: 30px;
+    box-sizing: border-box;
+    z-index: 100;
+    overflow: hidden;
+}
+
+.websites-dropdown h2 {
+    font-size: 50px;
+    font-weight: bold;
+    font-style: italic;
+}
+
+.websites-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 50px 20px;
+    margin-top: 20px;
+}
+
+.website-link {
+    font-size: 20px;
+    text-decoration: none;
+    color: white;
+    transition: color 0.3s ease;
+    cursor: pointer;
+    outline: none;
+    border: none;
+    background: transparent;
+    transition: transform 0.3s cubic-bezier(0.33, 1.5, 0.68, 1);
+}
+
+.website-link:hover {
+    color: rgb(110, 172, 218);
+    transform: scale(1.1);
+}
+
+.website-box {
+    width: 140px;
+    height: auto;
+    float: left;
+    transition: .5s linear;
+    position: relative;
+    display: block;
+    overflow: hidden;
+    padding: 15px;
+    text-align: center;
+    margin: 0 5px;
+    background: transparent;
+    border-radius: 5%;
+}
+
+.website-box:before {
+    position: absolute;
+    content: '';
+    left: 0;
+    bottom: 0;
+    height: 4px;
+    width: 100%;
+    border-bottom: 4px solid transparent;
+    border-left: 4px solid transparent;
+    box-sizing: border-box;
+    transform: translateX(100%);
+}
+
+.website-box:after {
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    border-top: 4px solid transparent;
+    border-right: 4px solid transparent;
+    box-sizing: border-box;
+    transform: translateX(-100%);
+}
+
+.website-box:hover {
+    box-shadow: 0 5px 15px rgba(110, 172, 218, 0.5);
+}
+
+.website-box:hover:before {
+    border-color: rgb(110, 172, 218);
+    height: 100%;
+    transform: translateX(0);
+    transition: .3s transform linear, .3s height linear .3s;
+}
+
+.website-box:hover:after {
+    border-color: rgb(110, 172, 218);
+    height: 100%;
+    transform: translateX(0);
+    transition: .3s transform linear, .3s height linear .5s;
+}
