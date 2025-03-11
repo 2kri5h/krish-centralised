@@ -1,7 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
-import AboutUs from './pages/AboutUs';
+import SARCPage from './pages/AboutUs';
+import AlumniGrid from './pages/Alum';
 import Initiatives from './pages/Initiatives';
 import Gallery from './pages/Gallery';
 import Contact from './pages/Contact';
@@ -16,7 +17,8 @@ const App = () => {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/aboutUs" element={<AboutUs />} />
+        <Route path="/aboutUs" element={<SARCPage />} />
+        <Route path="/alum" element={< AlumniGrid/>} />
         <Route path="/initiatives" element={<Initiatives />} />
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/contact" element={<Contact />} />
