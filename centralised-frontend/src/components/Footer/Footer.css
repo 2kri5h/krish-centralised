@@ -1,0 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+.footer {
+    background-color: #6EACDA;
+    padding: 20px 0;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+}
+
+.footer-container {
+    width: 80%;
+    margin: auto;
+}
+
+.footer-title {
+    color: #FFFFE8;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: left;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    background-color: #FFFFE8;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid black;
+    margin-top: 10px;
+}
+
+.footer-section {
+    flex: 1;
+    text-align: left;
+}
+
+.contacts .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.icon {
+    font-size: 20px;
+    color: black;
+}
+
+.map-link {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: black;
+    text-decoration: none;
+}
+
+.social .social-item {
+    display: flex;
+    align-items: space-between;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.footer-credit {
+    margin-top: 10px;
+    color: white;
+    font-size: 14px;
+}

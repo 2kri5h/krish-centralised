@@ -9,7 +9,7 @@ import Contact from './pages/Contact';
 import Blogs from './pages/Blogs';
 import JoinUs from './pages/JoinUs';
 import UpcomingEvents from './pages/UpcomingEvents';
-import Navbar from './components/Navbar';
+import Navbar from './components/Navbar/Navbar';
 import Login from './pages/Login';
 
 const App = () => {
