@@ -1,12 +1,35 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { FiMenu, FiX } from "react-icons/fi"; // Import menu icons
+import { FiMenu, FiX } from "react-icons/fi";
 import logo from "../../assets/logo.png";
 import "./Navbar.css";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [showWebsites, setShowWebsites] = useState(false);  
+  const [showWebsites, setShowWebsites] = useState(false);
+
+  // Website data with their URLs
+  const websiteLinks = [
+    { name: "ILP", url: "https://ilp.sarc-iitb.org" },
+    { name: "PMP", url: "https://pmp.sarc-iitb.org" },
+    { name: "ASMP", url: "https://asmp.sarc-iitb.org" },
+    { name: "NTP", url: "https://ntp.sarc-iitb.org" },
+    { name: "PHONATHON ANDROID APP", url: null }, // null means not available
+    { name: "SARC CENTRALIZED WEBSITE", url: window.location.origin }, // current website
+    { name: "ALUMINATION", url: "https://alumination.sarc-iitb.org" },
+    { name: "SARCASM", url: "https://sarcasm.sarc-iitb.org" },
+    { name: "YEARBOOK", url: "https://yearbook.sarc-iitb.org" },
+  ];
+
+  // Handle website click
+  const handleWebsiteClick = (url) => {
+    if (!url || url === window.location.origin) {
+      // If URL is null or current website, do nothing
+      return;
+    }
+    // Open in new tab
+    window.open(url, '_blank');
+  };
 
   return (
     <nav className="bg-black py-4">
@@ -28,33 +51,42 @@ const Navbar = () => {
           >
             Initiatives
           </Link>
-          {/* <Link
-            to="/websites"
-            className="text-[#e2e2b6] text-md hover:text-[#6EACDA] transition-colors"
-          >
-            Websites
-          </Link> */}
+          
+          {/* Websites Dropdown */}
           <div
-            className="websites-container"
+            className="websites-container relative"
             onMouseEnter={() => setShowWebsites(true)}
             onMouseLeave={() => setShowWebsites(false)}
           >
-            <li className="websites-option">Websites</li>
+            <li className="text-[#e2e2b6] text-md hover:text-[#6EACDA] transition-colors cursor-pointer">
+              Websites
+            </li>
 
             {showWebsites && (
-              <div className="websites-dropdown">
-                <h2>WEBSITES</h2>
-                <div className="websites-list">
-                  <a href="#" className="website-link"><span className="website-box">Website name ↗</span></a>
-                  <a href="#" className="website-link"><span className="website-box">Website name ↗</span></a>
-                  <a href="#" className="website-link"><span className="website-box">Website name ↗</span></a>
-                  <a href="#" className="website-link"><span className="website-box">Website name ↗</span></a>
-                  <a href="#" className="website-link"><span className="website-box">Website name ↗</span></a>
-                  <a href="#" className="website-link"><span className="website-box">Website name ↗</span></a>
+              <div className="websites-dropdown absolute top-full left-0 bg-[#F5F0D7] border border-black rounded-lg p-4 min-w-[250px] shadow-lg">
+                <h2 className="text-black font-semibold mb-3">WEBSITES</h2>
+                <div className="websites-list space-y-2">
+                  {websiteLinks.map((site, index) => (
+                    <div
+                      key={index}
+                      onClick={() => handleWebsiteClick(site.url)}
+                      className={`website-link p-2 rounded-lg cursor-pointer transition-colors
+                                ${site.url ? 'hover:bg-blue-100' : 'opacity-60 cursor-not-allowed'}
+                                border border-black`}
+                    >
+                      <span className="website-box flex justify-between items-center">
+                        <span>{site.name}</span>
+                        {site.url && site.url !== window.location.origin && (
+                          <span>↗</span>
+                        )}
+                      </span>
+                    </div>
+                  ))}
                 </div>
               </div>
             )}
           </div>
+
           <Link
             to="/gallery"
             className="text-[#e2e2b6] text-md hover:text-[#6EACDA] transition-colors"
@@ -105,7 +137,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Menu (Dropdown) */}
+      {/* Mobile Menu */}
       {menuOpen && (
         <div className="md:hidden bg-black text-white text-center py-4 absolute top-16 left-0 w-full z-50 shadow-lg">
           <Link
@@ -121,13 +153,6 @@ const Navbar = () => {
             onClick={() => setMenuOpen(false)}
           >
             Initiatives
-          </Link>
-          <Link
-            to="/websites"
-            className="block py-2 hover:text-[#6EACDA]"
-            onClick={() => setMenuOpen(false)}
-          >
-            Websites
           </Link>
           <Link
             to="/gallery"
@@ -165,6 +190,23 @@ const Navbar = () => {
             >
               Login
             </Link>
+          </div>
+
+          {/* Add websites list for mobile */}
+          <div className="py-2">
+            <div className="font-semibold mb-2">Websites</div>
+            {websiteLinks.map((site, index) => (
+              <div
+                key={index}
+                onClick={() => {
+                  handleWebsiteClick(site.url);
+                  setMenuOpen(false);
+                }}
+                className={`py-1 px-4 ${site.url ? 'text-[#6EACDA]' : 'text-gray-500'}`}
+              >
+                {site.name}
+              </div>
+            ))}
           </div>
         </div>
       )}
