@@ -484,8 +484,8 @@ const Home = () => {
             expandedContent={
               <div className="relative">
                 <div className="star-shape bg-white/90 p-4">
-                  <p className="text-sm">Next Event</p>
-                  <p className="font-bold">26 FEB</p>
+                  <p className="text-sm">Coming Soon</p>
+                  <p className="font-bold">----</p>
                 </div>
               </div>
             }
@@ -603,8 +603,8 @@ const Home = () => {
 
 
 
-        
-        {/* Upcoming Events Section */}
+
+        {/* Upcoming Events Section
         <div id="events" className="mt-8">
           <div className="bg-[#FF6B2B] rounded-2xl p-4 md:p-8">
             <h2 className="text-2xl md:text-3xl font-semibold text-white mb-6">Upcoming Events</h2>
@@ -625,7 +625,7 @@ const Home = () => {
               ))}
             </div>
           </div>
-        </div>
+        </div> */}
 
         
 

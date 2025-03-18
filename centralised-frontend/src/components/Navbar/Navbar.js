@@ -93,12 +93,12 @@ const Navbar = () => {
           >
             Gallery
           </Link>
-          <Link
+          {/* <Link
             to="/blogs"
             className="text-[#e2e2b6] text-md hover:text-[#6EACDA] transition-colors"
           >
             Blogs
-          </Link>
+          </Link> */}
           {localStorage.getItem("access_token") && (
             <Link
               to="/profile"
@@ -161,13 +161,13 @@ const Navbar = () => {
           >
             Gallery
           </Link>
-          <Link
+          {/* <Link
             to="/blogs"
             className="block py-2 hover:text-[#6EACDA]"
             onClick={() => setMenuOpen(false)}
           >
             Blogs
-          </Link>
+          </Link> */}
           <Link
             to="/contact"
             className="block py-2 hover:text-[#6EACDA]"

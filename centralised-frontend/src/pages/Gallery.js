@@ -2,8 +2,17 @@ import React from "react";
 import eventIcon from "../assets/event.png"; // Event icon
 import image1 from "../assets/gallery/image1.JPG";
 import image2 from "../assets/gallery/image2.JPG";
-import image12 from "../assets/gallery/image12.JPG";
-import image13 from "../assets/gallery/image13.JPG";
+import image3 from "../assets/gallery/image2.JPG";
+import image4 from "../assets/gallery/image2.JPG";
+import image5 from "../assets/gallery/image2.JPG";
+import image6 from "../assets/gallery/image2.JPG";
+import image7 from "../assets/gallery/image2.JPG";
+import image8 from "../assets/gallery/image2.JPG";
+import image9 from "../assets/gallery/image2.JPG";
+import image10 from "../assets/gallery/image2.JPG";
+import image11 from "../assets/gallery/image2.JPG";
+import image12 from "../assets/gallery/image2.JPG";
+import image13 from "../assets/gallery/image2.JPG";
 import image14 from "../assets/gallery/image14.JPG";
 import image15 from "../assets/gallery/image15.JPG";
 import image16 from "../assets/gallery/image16.JPG";
@@ -15,82 +24,63 @@ import image21 from "../assets/gallery/image21.JPG";
 import image22 from "../assets/gallery/image22.JPG";
 import image23 from "../assets/gallery/image23.JPG";
 
-
 const images = [
-  image1, image2, image12, image13, image14, image15, image16, 
-  image17, image18, image19, image20, image21, image22, image23
+  image1, image2, image3, image4, image5, image6, 
+  image7, image8, image9, image10, image11, image12, 
+  image13, image14, image15, image16, image17, image18, 
+  image19, image20, image21, image22, image23
 ];
 
 const events = [
-  { year: 2024, name: "Alumination", month: "January", images: [image1, image2, image12] },
-  { year: 2024, name: "Event", month: "March", images: [image13, image14, image15] },
-  { year: 2024, name: "Event", month: "August", images: [image16, image17, image18, image19, image20, image21, image22, image23] },
+  { year: 2024, name: "Alumination", month: "January", images: [image1, image2] },
+  { year: 2024, name: "Event", month: "March", images: [image1, image2] },
+  { year: 2024, name: "Event", month: "August", images: [image1, image2] },
 ];
+
 const Gallery = () => {
   return (
-    <div className="bg-black min-h-screen text-white flex flex-col md:flex-row px-6 py-10">
-      
+    <div style={{ backgroundColor: '#000', minHeight: '100vh', color: '#fff', display: 'flex', flexDirection: 'row', position: 'relative' }}>
       {/* Timeline Section */}
-      <div className="relative md:w-1/5 flex flex-col items-center md:items-start">
-        
-        {/* Orange Timeline Line - Properly Aligned */}
-        <div className="absolute left-6 md:left-10 w-1 bg-orange-500 h-full"></div>
-
-        {/* Events */}
+      <div style={{ position: 'relative', width: '25%', borderRight: '4px solid #FFA500', padding: '16px' }}>
         {events.map((event, index) => (
-          <div key={index} className="relative flex flex-col md:flex-row items-center md:items-start space-y-2 my-10 w-full">
-            
-            {/* Timeline Dot */}
-            <div className="w-4 h-4 bg-orange-500 rounded-full absolute left-[16px] md:left-[28px]"></div>
-
-            {/* Event Info - Mobile and Desktop Adjusted */}
-            <div className="text-center md:text-left ml-8 md:ml-12 w-full md:w-auto">
-              <p className="text-orange-400 font-bold text-xl">{event.name}</p>
-              <p className="text-md">{event.month}</p>
-              <p className="text-gray-400 text-sm">{event.year}</p>
+          <div key={index} style={{ position: 'relative', display: 'flex', alignItems: 'center', margin: '20px 0' }}>
+            <div style={{ width: '16px', height: '16px', backgroundColor: '#FFA500', borderRadius: '50%', position: 'absolute', left: '-10px' }}></div>
+            <div style={{ marginLeft: '24px' }}>
+              <p style={{ color: '#FFA500', fontWeight: 'bold' }}>{event.name}</p>
+              <p>{event.month} {event.year}</p>
             </div>
-
-            {/* Mobile Only - Images in Front */}
-            <div className="block md:hidden w-full">
-              <div className="grid grid-cols-2 gap-4 mt-4">
-                {event.images.map((image, imgIndex) => (
-                  <div key={imgIndex} className={`overflow-hidden transition-all ${imgIndex % 2 === 0 ? 'rounded-full' : 'rounded-xl'}`}>
-                    <img src={image} alt={`Gallery ${imgIndex + 1}`} className="w-full h-full object-cover" />
-                  </div>
-                ))}
-              </div>
-            </div>
-
           </div>
         ))}
       </div>
 
-      {/* Gallery Grid (Aligned with Event Name) - Laptop Only */}
-      <div className="md:w-4/5 flex flex-col gap-12 hidden md:flex">
-        {events.map((event, eventIndex) => (
-          <div key={eventIndex} className="flex flex-col items-center md:items-start">
-            
-            {/* Align Images with Event Name */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 ml-8">
-              {event.images.map((image, imgIndex) => (
-                <div 
-                  key={imgIndex} 
-                  className={`overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-black 
-                    ${imgIndex % 2 === 0 ? 'rounded-full w-48 h-48' : 'rounded-xl w-56 h-56'}`} // Circular for even, square for odd
-                >
-                  <img 
-                    src={image} 
-                    alt={`Gallery ${imgIndex + 1}`} 
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              ))}
-            </div>
-
+      {/* Gallery Grid Section */}
+      <div style={{ width: '75%', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px', padding: '16px' }}>
+        {images.map((image, index) => (
+          <div key={index} style={{ overflow: 'hidden', transition: 'all 0.3s', cursor: 'pointer' }} 
+               onMouseEnter={(e) => e.currentTarget.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.5)'}
+               onMouseLeave={(e) => e.currentTarget.style.boxShadow = 'none'}>
+            <img 
+              src={image} 
+              alt={`Gallery ${index + 1}`} 
+              style={{ 
+                width: '100%', 
+                height: '100%', 
+                objectFit: 'cover', 
+                borderRadius: index % 2 === 0 ? '16px' : '0' // Even index rounded, odd index square
+              }} 
+            />
           </div>
         ))}
       </div>
 
+      {/* Fixed Top Right Image */}
+      <div style={{ position: 'absolute', top: '16px', right: '16px', width: '100px', height: '100px', overflow: 'hidden', borderRadius: '16px' }}>
+        <img 
+          src={image1} // Replace with the desired fixed image
+          alt="Fixed Image"
+          style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '16px' }} 
+        />
+      </div>
     </div>
   );
 };
