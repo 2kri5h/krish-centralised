@@ -67,6 +67,14 @@ const Navbar = () => {
           >
             Blogs
           </Link>
+          {localStorage.getItem("access_token") && (
+            <Link
+              to="/profile"
+              className="text-[#e2e2b6] text-md hover:text-[#6EACDA] transition-colors"
+            >
+              Profile
+            </Link>
+          )}
           <Link
             to="/contact"
             className="text-[#e2e2b6] text-md hover:text-[#6EACDA] transition-colors"

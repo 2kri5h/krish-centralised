@@ -11,6 +11,11 @@ import JoinUs from './pages/JoinUs';
 import UpcomingEvents from './pages/UpcomingEvents';
 import Navbar from './components/Navbar/Navbar';
 import Login from './pages/Login';
+import VerifyPage from './pages/VerifyPage';
+import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
+import ResetPassword from './pages/ForgotPassword/ResetPassword';
+import Profile from './pages/Profile';
+import ChangePassword from './pages/ChangePassword/ChangePassword';
 
 const App = () => {
   return (
@@ -26,8 +31,13 @@ const App = () => {
         <Route path="/alum" element={< AlumniGrid/>} />
         <Route path="/join-us" element={<JoinUs />} />
         <Route path="/upcomingEvents" element={<UpcomingEvents />} />
+        <Route path='/profile' element={<Profile />} />
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<Login/>} />
+        <Route path="/verify/:uid/:token" element={<VerifyPage />} />
+        <Route path='/forgotPassword' element={<ForgotPassword/>} />
+        <Route path='/api/auth/password/:uid/:token' element={<ResetPassword/>} />
+        <Route path="/changePassword" element={<ChangePassword />} />      
       </Routes>
     </Router>
   );
