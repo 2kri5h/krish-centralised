@@ -290,8 +290,9 @@ const StarShape = ({ number }) => {
   );
 };
 
-const GridItem = ({ title, color, expandedContent, iconWidth = "50%",icon, className }) => {
+const GridItem = ({ title, color, expandedContent, iconWidth = "50%",icon, className ,scrollToId}) => {
   const [isHovered, setIsHovered] = useState(false);
+
 
   const baseStyles = `
     rounded-2xl p-4 md:p-6 cursor-pointer 
@@ -309,12 +310,21 @@ const GridItem = ({ title, color, expandedContent, iconWidth = "50%",icon, class
       default: return 'bg-[#A7D1F3]';
     }
   };
+  const handleScroll = () => {
+    if (scrollToId) {
+      const section = document.getElementById(scrollToId);
+      if (section) {
+        section.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  };
 
   return (
     <div
       className={`${baseStyles} ${getBackgroundColor()}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      onClick={handleScroll} // Call scroll function on clic
     >
       <div className={`
         absolute inset-0 p-4 md:p-6
@@ -465,6 +475,7 @@ const Home = () => {
 </div>
 
             }
+            scrollToId="stat"
           />
 
           {/* About SARC */}
@@ -479,6 +490,7 @@ const Home = () => {
                 A student-run organization at IIT Bombay, SARC (Student Alumni Relations Cell) connects 65,000+ alumni and 12,000+ students, fostering lifelong bonds through 50+ events across various domains every year.
               </div>
             }
+            scrollToId="about"
           />
 
           {/* Esteemed Alumni */}
@@ -496,6 +508,7 @@ const Home = () => {
     />
               </div>
             }
+            scrollToId="alumni"
           />
 
           {/* Upcoming Events */}
@@ -521,6 +534,7 @@ const Home = () => {
             className="col-span-full md:col-span-4"
             icon={testimonialIcon}
             iconWidth="23%"
+            scrollToId="testimonial"
             expandedContent={
               <div className="flex flex-wrap md:flex-nowrap justify-center gap-4 p-4">
   {[1, 2, 3].map((i) => (
@@ -562,6 +576,7 @@ const Home = () => {
             </div>
             
             }
+            scrollToId="contactUs"
           />
         </div>
 
@@ -603,7 +618,7 @@ const Home = () => {
             
 
         {/* Stats Section */}
-        <div className="mt-8">
+        <div className="mt-8" id="stat">
           <div className="bg-[#A7D1F3] rounded-2xl p-6">
             <h2 className="text-2xl font-semibold text-white mb-6">Stats / Highlights</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -680,7 +695,7 @@ const Home = () => {
       </div>
 
       {/* Esteemed Alumni Section */}
-      <div className="max-w-7xl mx-auto p-4 md:p-6">
+      <div className="max-w-7xl mx-auto p-4 md:p-6" id="alumni">
         <div className="bg-blue-700 rounded-2xl p-6">
           <h2 className="text-2xl font-semibold text-white mb-6">Esteemed Alumni</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
@@ -699,7 +714,7 @@ const Home = () => {
 
 
         {/* Testimonials Section */}
-        <div className="mt-8 bg-[#F5F0D7] rounded-2xl p-6">
+        <div className="mt-8 bg-[#F5F0D7] rounded-2xl p-6" id="testimonial">
           <h2 className="text-xl font-semibold text-orange-500 mb-6">Testimonials</h2>
           <div className="relative">
             <div className="overflow-hidden">
@@ -771,7 +786,7 @@ const Home = () => {
       </div>
 
       
-
+      
       <Footer />
     </div>
   );
