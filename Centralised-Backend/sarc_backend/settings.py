@@ -25,11 +25,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Chatbot',
-    'Authentication',
     'corsheaders',  # Ensure this is present for CORS handling
     'rest_framework',  # For API handling
     'rest_framework_simplejwt',
     'oauth2_provider',
+    'Authentication',
+
+
 ]
 
 MIDDLEWARE = [
