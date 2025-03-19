@@ -29,7 +29,7 @@ venv.bak/
 *.swo
 
 # Database migrations (if you want to ignore them)
-# migrations/
+**/migrations/
 
 # Local development settings
 local_settings.py
