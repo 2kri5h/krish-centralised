@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  centralised-backend:
+    build:
+      context: ./Centralised-Backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./Centralised-Backend:/Backend/
+    networks:
+      - mynetwork
+    environment:
+      - DB_NAME=mydatabase  # Change to your desired database name
+      - DB_USER=ashwani  # Set the PostgreSQL username
+      - DB_PASSWORD=ashwan!_!!tb26Eco  # Set the PostgreSQL password
+      - DB_HOST=db  # Host is the service name defined in docker-compose
+      - DB_PORT=5432  # Default PostgreSQL port
+
+  centralised-frontend:
+    build:
+      context: ./centralised-frontend
+      dockerfile: Dockerfile
+    ports:
+      - "5014:5014"
+    volumes:
+      - ./centralised-frontend:/frontend
+    networks:
+      - mynetwork
+
+  db:
+    image: postgres:13  # You can specify the version you need
+    restart: always
+    environment:
+      POSTGRES_USER: ashwani  # Set the PostgreSQL username
+      POSTGRES_PASSWORD: ashwan!_!!tb26Eco  # Set the PostgreSQL password
+      POSTGRES_DB: mydatabase  # Set the database name
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    driver: bridge
+
+volumes:
+  db_data:

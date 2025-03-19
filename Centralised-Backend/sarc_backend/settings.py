@@ -6,7 +6,7 @@ from datetime import timedelta
 load_dotenv()  # Load .env variables
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(_file_).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-z!56b43!o#g*&4pq&2j17$wq#c5sn6us4%5ie_ap2r*au1l0m+'
@@ -25,13 +25,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Chatbot',
+    'Authentication',
     'corsheaders',  # Ensure this is present for CORS handling
     'rest_framework',  # For API handling
     'rest_framework_simplejwt',
     'oauth2_provider',
-    'Authentication',
-
-
 ]
 
 MIDDLEWARE = [
@@ -97,15 +95,16 @@ CORS_ALLOW_CREDENTIALS = True
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
+import os
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('DB_NAME'),
-        'USER': os.getenv('DB_USER'),
-        'PASSWORD': os.getenv('DB_PASSWORD'),
-        'HOST': os.getenv('DB_HOST', 'localhost'),
-        'PORT': os.getenv('DB_PORT', '5432'),
+        'NAME': os.getenv('DB_NAME'),  # This should match the environment variable in docker-compose
+        'USER': os.getenv('DB_USER'),  # This should match the environment variable in docker-compose
+        'PASSWORD': os.getenv('DB_PASSWORD'),  # This should match the environment variable in docker-compose
+        'HOST': os.getenv('DB_HOST', 'localhost'),  # Default to 'localhost' if not set
+        'PORT': os.getenv('DB_PORT', '5432'),  # Default to '5432' if not set
     }
 }
 

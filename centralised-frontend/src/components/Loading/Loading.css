@@ -1,0 +1,41 @@
+.loading-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full height of the viewport */
+    background-color: black; /* Black background */
+    color: white; /* Text color */
+}
+
+.loading-logo {
+    width: 100px; /* Adjust the size of the logo */
+    height: auto; /* Maintain aspect ratio */
+    margin-bottom: 20px; /* Space between logo and text */
+    transition: transform 0.5s ease; /* Smooth transition for scaling */
+}
+
+.progress-bar {
+    width: 30%; /* Width of the progress bar */
+    background-color: rgba(255, 255, 255, 0.3); /* Light background for the bar */
+    border-radius: 25px; /* Rounded corners */
+    overflow: hidden; /* Hide overflow */
+    margin: 20px 0; /* Space around the progress bar */
+}
+
+.progress {
+    height: 10px; /* Height of the progress indicator */
+    background-color: #ffffff; /* White color for the progress */
+    border-radius: 25px; /* Rounded corners */
+    transition: width 0.3s ease; /* Smooth transition for width */
+}
+
+.loading-text {
+    margin: 20px 0; /* Space around loading text */
+    font-size: 1.5rem; /* Font size for loading text */
+    transition: transform 0.5s ease; /* Smooth transition for scaling */
+}
+
+.progress-text {
+    font-size: 1.2rem; /* Font size for percentage text */
+}
