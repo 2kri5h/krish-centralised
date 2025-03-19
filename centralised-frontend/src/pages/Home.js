@@ -525,6 +525,7 @@ const Home = () => {
                 </div>
               </div>
             }
+            scrollToId="about"
           />
 
           {/* Testimonials */}
