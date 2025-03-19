@@ -290,7 +290,7 @@ const StarShape = ({ number }) => {
   );
 };
 
-const GridItem = ({ title, color, expandedContent, icon, className }) => {
+const GridItem = ({ title, color, expandedContent, iconWidth = "50%",icon, className }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   const baseStyles = `
@@ -328,7 +328,9 @@ const GridItem = ({ title, color, expandedContent, icon, className }) => {
           <img 
             src={icon} 
             alt={title}
-            className="absolute bottom-4 right-4 w-16 md:w-20 object-contain"
+            className="absolute bottom-4 right-4 object-contain"
+            style={{ width: iconWidth }}
+
           />
         )}
       </div>
@@ -431,17 +433,37 @@ const Home = () => {
             color="blue"
             className="col-span-full md:col-span-3 row-span-2"
             icon={boatImage}
+            iconWidth="60%"
             expandedContent={
               <div className="grid grid-cols-2 gap-4">
-                <div className="bg-white/90 rounded-lg p-3">
-                  <p className="text-2xl font-light">14,000+</p>
-                  <p>students</p>
-                </div>
-                <div className="bg-white/90 rounded-lg p-3">
-                  <p className="text-2xl font-light">70,000+</p>
-                  <p>alumni</p>
-                </div>
-              </div>
+  {/* First Box: Students */}
+  <div className="bg-[#F9F5DC] rounded-lg p-6 flex flex-col justify-center items-center shadow-md border border-gray-300">
+    <p className="text-4xl font-light text-black">14,000+</p>
+    <p className="text-lg font-medium text-gray-700">students</p>
+  </div>
+
+  {/* Second Box: Alumni Image */}
+  <div className="bg-[#F9F5DC] rounded-lg p-6 flex justify-center items-center shadow-md border border-gray-300">
+    <img 
+      src={alumniIcon} 
+      alt="Alumni"
+      className="w-32 md:w-40 object-contain"
+    />
+  </div>
+
+  {/* Third Box: Events */}
+  <div className="bg-[#F9F5DC] rounded-lg p-6 flex flex-col justify-center items-center shadow-md border border-gray-300">
+    <p className="text-4xl font-light text-black">50+</p>
+    <p className="text-lg font-medium text-gray-700">events</p>
+  </div>
+
+  {/* Fourth Box: Alumni */}
+  <div className="bg-[#F9F5DC] rounded-lg p-6 flex flex-col justify-center items-center shadow-md border border-gray-300">
+    <p className="text-4xl font-light text-black">70,000+</p>
+    <p className="text-lg font-medium text-gray-700">alumni</p>
+  </div>
+</div>
+
             }
           />
 
@@ -451,11 +473,10 @@ const Home = () => {
             color="cream"
             className="col-span-full md:col-span-2"
             icon={aboutIcon}
+            iconWidth="40%"
             expandedContent={
               <div className="space-y-2">
-                <div className="font-bold">WHAT is</div>
-                <div className="text-xl">SARC</div>
-                <div className="text-sm">Student Alumni Relations Cell</div>
+                A student-run organization at IIT Bombay, SARC (Student Alumni Relations Cell) connects 65,000+ alumni and 12,000+ students, fostering lifelong bonds through 50+ events across various domains every year.
               </div>
             }
           />
@@ -467,10 +488,12 @@ const Home = () => {
             className="col-span-full md:col-span-1"
             icon={alumniIcon}
             expandedContent={
-              <div className="grid grid-cols-2 gap-2">
-                {[1,2,3,4].map(i => (
-                  <div key={i} className="bg-white/20 rounded-lg p-2" />
-                ))}
+              <div >
+                <img 
+      src={alumniIcon} 
+      alt="Alumni"
+      className="w-40 object-fit"
+    />
               </div>
             }
           />
@@ -481,11 +504,11 @@ const Home = () => {
             color="orange"
             className="col-span-full md:col-span-3"
             icon={eventsIcon}
+            iconWidth="25%"
             expandedContent={
               <div className="relative">
-                <div className="star-shape bg-white/90 p-4">
-                  <p className="text-sm">Coming Soon</p>
-                  <p className="font-bold">----</p>
+                <div className="star-shape p-4">
+                  <p className="text-4xl ">Coming Soon</p>
                 </div>
               </div>
             }
@@ -497,14 +520,21 @@ const Home = () => {
             color="cream"
             className="col-span-full md:col-span-4"
             icon={testimonialIcon}
+            iconWidth="23%"
             expandedContent={
-              <div className="flex gap-4 overflow-x-auto">
-                {[1,2,3].map(i => (
-                  <div key={i} className="flex-none w-64 bg-white/90 rounded-lg p-3">
-                    <p className="text-sm italic">"Great experience..."</p>
-                  </div>
-                ))}
-              </div>
+              <div className="flex flex-wrap md:flex-nowrap justify-center gap-4 p-4">
+  {[1, 2, 3].map((i) => (
+    <div 
+      key={i} 
+      className="w-full sm:w-64 bg-[#F9F5DC] border border-black rounded-2xl p-4 flex flex-col justify-center items-center text-center shadow-md"
+    >
+      <p className="text-md font-semibold">Wow, what a concert man ....</p>
+      <p className="text-sm text-gray-600">CEO, Apple</p>
+    </div>
+  ))}
+</div>
+
+            
             }
           />
 
@@ -514,19 +544,23 @@ const Home = () => {
             color="blue"
             className="col-span-full md:col-span-2"
             icon={contactIcon}
+            iconWidth="45%"
             expandedContent={
               <div className="space-y-2">
-                <input 
-                  type="text" 
-                  placeholder="Phone" 
-                  className="w-full p-2 rounded bg-white/90"
-                />
-                <input 
-                  type="email" 
-                  placeholder="Email" 
-                  className="w-full p-2 rounded bg-white/90"
-                />
+              {/* First Row: Office Contact */}
+              <div className="flex justify-between items-center w-full p-3 rounded-lg bg-[#F9F5DC] shadow-md">
+                <span className="text-md font-medium text-gray-700">OFFICE</span>
+                <span className="text-lg font-bold text-black">881382383</span>
               </div>
+          
+            
+              {/* Third Row: Overall OC Contact */}
+              <div className="flex justify-between items-center w-full p-3 rounded-lg bg-[#F9F5DC] shadow-md">
+                <span className="text-md font-medium text-gray-700">OVERALL OC</span>
+                <span className="text-lg font-bold text-black">6263173987</span>
+              </div>
+            </div>
+            
             }
           />
         </div>
@@ -534,7 +568,7 @@ const Home = () => {
         
 
         {/* About SARC Section */}
-        <div id="about" className="max-w-7xl mx-auto p-6 mt-12">
+        <div id="about" className="max-w-7xl mx-auto pt-6 pb-6 mt-12">
           <div className="bg-[#FDF5C9] w-full border border-black rounded-lg p-6 shadow-lg">
             <h2 className="text-4xl font-bold text-blue-700 mb-6">About SARC</h2>
             
