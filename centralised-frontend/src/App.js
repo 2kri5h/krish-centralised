@@ -4,7 +4,7 @@ import Home from './pages/Home';
 import SARCPage from './pages/AboutUs';
 import AlumniGrid from './pages/Alum';
 import Initiatives from './pages/Initiatives';
-// import Gallery from './pages/Gallery';
+import Gallery from './pages/Gallery';
 import Contact from './components/Contact/Contact';
 import Blogs from './pages/Blogs';
 import JoinUs from './pages/JoinUs';
@@ -24,7 +24,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/initiatives" element={<Initiatives />} />
-        {/* <Route path="/gallery" element={<Gallery />} /> */}
+        <Route path="/gallery" element={<Gallery />} />
         <Route path="/blogs" element={<Blogs />} />
         <Route path="/contact" element={<Contact />} />  
         <Route path="/aboutUs" element={<SARCPage />} />
