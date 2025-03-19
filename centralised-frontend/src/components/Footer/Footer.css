@@ -72,3 +72,123 @@
     color: white;
     font-size: 14px;
 }
+
+/* Responsive Design for Tablets (768px and below) */
+@media screen and (max-width: 768px) {
+    .footer-container {
+        width: 90%;
+    }
+
+    .footer-title {
+        font-size: 20px;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 15px;
+    }
+
+    .footer-section {
+        text-align: center;
+        margin-bottom: 12px;
+    }
+
+    .contacts .contact-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 5px;
+    }
+
+    .icon {
+        font-size: 18px;
+    }
+
+    .footer-credit {
+        font-size: 12px;
+    }
+}
+
+/* Ultra-Compact Layout for Mobile (480px and below) */
+@media screen and (max-width: 480px) {
+    .footer-container {
+        width: 95%;
+        padding: 10px 0;
+    }
+
+    .footer-title {
+        font-size: 16px;
+    }
+
+    .footer-content {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+        padding: 10px;
+        margin-top: 5px;
+    }
+
+    .footer-section {
+        text-align: left;
+        font-size: 12px;
+    }
+
+    /* Contacts arranged in two columns */
+    .contacts {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+
+    .contacts .contact-item {
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        font-size: 12px;
+        margin-bottom: 0;
+        gap: 5px;
+    }
+
+    .contacts .contact-item div {
+        text-align: left;
+    }
+
+    .icon {
+        font-size: 14px;
+    }
+
+    /* Address fits within a single column */
+    .address {
+        grid-column: span 2;
+        text-align: center;
+        font-size: 12px;
+    }
+
+    .map-link {
+        font-size: 12px;
+        gap: 3px;
+    }
+
+    /* Social media icons in grid layout */
+    .social {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        justify-items: center;
+        grid-column: span 2;
+    }
+
+    .social .social-item {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 12px;
+    }
+
+    .footer-credit {
+        font-size: 10px;
+        margin-top: 5px;
+        grid-column: span 2;
+    }
+}
