@@ -157,7 +157,7 @@ import sidephoto from "../assets/gallery/sidegallery.png";
 import image1 from "../assets/gallery/gallery/1.jpg";
 import image2 from "../assets/gallery/gallery/2.jpg";
 import image3 from "../assets/gallery/gallery/3.jpg";
-// import image4 from "../assets/gallery/gallery/4.JPG";
+import image4 from "../assets/gallery/gallery/4.png";
 import image5 from "../assets/gallery/gallery/5.jpg";
 import image6 from "../assets/gallery/gallery/6.jpg";
 import image7 from "../assets/gallery/gallery/7.jpg";
@@ -184,14 +184,14 @@ import image27 from "../assets/gallery/gallery/27.jpg";
 import image28 from "../assets/gallery/gallery/28.jpg";
 import image29 from "../assets/gallery/gallery/29.jpg";
 import image30 from "../assets/gallery/gallery/30.jpg";
-// import image31 from "../assets/gallery/gallery/31.jpg";
+import image31 from "../assets/gallery/gallery/31.png";
 import image32 from "../assets/gallery/gallery/32.jpg";
-// import image33 from "../assets/gallery/gallery/33.jpg";
+import image33 from "../assets/gallery/gallery/33.png";
 import image34 from "../assets/gallery/gallery/34.jpg";
 import image35 from "../assets/gallery/gallery/35.jpeg";
 
 const images = [
-  image1, image2, image3, image5, image6, image7, image8, image9, image10, image11, image12, image13, image14, image15, image16, image17, image18, image19, image20, image21, image22, image23, image24, image25, image26, image27, image28, image29, image30, image32, image34, image35
+  image1, image2, image3,image4, image5, image6, image7, image8, image9, image10, image11, image12, image13, image14, image15, image16, image17, image18, image19, image20, image21, image22, image23, image24, image25, image26, image27, image28, image29, image30,image31, image32,image33, image34, image35
 ];
 
 const Gallery = () => {
