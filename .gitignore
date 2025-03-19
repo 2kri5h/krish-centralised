@@ -29,7 +29,9 @@ venv.bak/
 *.swo
 
 # Database migrations (if you want to ignore them)
-**/migrations/
+/Centralised-Backend/**/migrations/
+/Centralised-Backend/**/migrations/*.py[cod]
+/Centralised-Backend/**/__pycache__/
 
 # Local development settings
 local_settings.py
