@@ -4,6 +4,7 @@ import { FaMapMarkerAlt } from "react-icons/fa";
 import { FaPhoneVolume } from "react-icons/fa6";
 import { PiPhoneCallThin } from "react-icons/pi";
 import { FaInstagram, FaGoogle, FaFacebook, FaTwitter } from "react-icons/fa";
+import { MdEmail } from "react-icons/md";
 
 const Footer = () => {
   return (
@@ -53,24 +54,28 @@ const Footer = () => {
 
           {/* Social Media */}
           <div className="footer-section social">
-            <div className="social-item">
+            <a href="https://www.instagram.com/sarc_iitb/?hl=en" className="social-item">
               <FaInstagram className="icon" />
               <p>Instagram</p>
+            </a>
+            <br />
+            <a href="mailto:sarc@iitb.ac.in" className="social-item">
+              <MdEmail  className="icon" />
+              <p>Email</p>
+            </a>
+            <br />
+            <div className="social-item">
+              <a href="https://www.facebook.com/SARC.IITB/" className="social-item">
+                <FaFacebook className="icon" />
+                <p>Facebook</p>
+              </a>
             </div>
             <br />
             <div className="social-item">
-              <FaGoogle className="icon" />
-              <p>Google</p>
-            </div>
-            <br />
-            <div className="social-item">
-              <FaFacebook className="icon" />
-              <p>Facebook</p>
-            </div>
-            <br />
-            <div className="social-item">
-              <FaTwitter className="icon" />
-              <p>Twitter / X</p>
+              <a href="https://x.com/sarc_iitb" className="social-item">
+                <FaTwitter className="icon" />
+                <p>Twitter / X</p>
+              </a>
             </div>
           </div>
         </div>
