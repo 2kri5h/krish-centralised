@@ -17,24 +17,8 @@ const Footer = () => {
             <div className="contact-item">
               <PiPhoneCallThin style={{ scale: "2" }} />
               <div>
-                <p>Overall Co-ordinator</p>
-                <strong>123 456 7890</strong>
-              </div>
-            </div>
-            <br />
-            <div className="contact-item">
-              <PiPhoneCallThin style={{ scale: "2" }} />
-              <div>
-                <p>SARC Main Office</p>
-                <strong>123 456 7890</strong>
-              </div>
-            </div>
-            <br />
-            <div className="contact-item">
-              <PiPhoneCallThin style={{ scale: "2" }} />
-              <div>
-                <p>Event Co-ordinator</p>
-                <strong>123 456 7890</strong>
+                <p>Contact Us</p>
+                <strong>+91 62631 73987</strong>
               </div>
             </div>
           </div>

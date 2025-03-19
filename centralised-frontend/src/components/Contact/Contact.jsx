@@ -328,22 +328,22 @@ const Contact = () => {
           {/* Social Media */}
           <div className="contact-item">
             <img src={SocialIcon} alt="Social Media" className="contact-icon" />
-            <p className="contact-label">Social Media</p>
-            <p className="contact-detail">@sarciitb</p>
+            <p className="contact-label">Mail Us</p>
+            <p className="contact-detail">sarc@iitb.ac.in </p>
           </div>
 
           {/* Phone Number */}
           <div className="contact-item">
             <img src={PhoneIcon} alt="Phone Number" className="contact-icon" />
             <p className="contact-label">Phone Number</p>
-            <p className="contact-detail">+1234567890</p>
+            <p className="contact-detail">+91 62631 73987</p>
           </div>
 
           {/* Address */}
           <div className="contact-item">
             <img src={AddressIcon} alt="Address" className="contact-icon" />
             <p className="contact-label">Address</p>
-            <p className="contact-detail">SARC Office, IIT Bombay</p>
+            <p className="contact-detail">SARC Room, Old SAC, IIT Bombay</p>
           </div>
         </div>
       </div>
@@ -351,8 +351,8 @@ const Contact = () => {
       {/* Footer */}
       <footer className="contact-footer">
         <p>
-          Social Media: @sarcitb &nbsp; | &nbsp; Phone: +1234567890 &nbsp; |
-          &nbsp; Address: SARC Office IITB
+          Mail: sarc@iitb.ac.in &nbsp; | &nbsp; Phone: +91 62631 73987 &nbsp; |
+          &nbsp; Address: SARC Room, Old SAC, IIT Bombay
         </p>
       </footer>
     </div>
