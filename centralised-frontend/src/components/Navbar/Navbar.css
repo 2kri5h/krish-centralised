@@ -14,7 +14,7 @@
 }
 
 .websites-option:hover {
-    color: #6EACDA;
+    /* color: #6EACDA; */
 }
 
 .websites-dropdown {
@@ -50,6 +50,7 @@
 .website-link {
     font-size: 20px;
     text-decoration: none;
+    list-style: none;
     color: white;
     transition: color 0.3s ease;
     cursor: pointer;
@@ -121,4 +122,78 @@
     height: 100%;
     transform: translateX(0);
     transition: .3s transform linear, .3s height linear .5s;
+}
+
+
+/* Logout Button which comes after the user has logged in */
+
+.logout-button {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 45px;
+    height: 45px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition-duration: .3s;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.199);
+    background-color: rgb(255, 65, 65);
+}
+
+/* plus sign */
+.sign {
+    width: 100%;
+    transition-duration: .3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sign svg {
+    width: 17px;
+}
+
+.sign svg path {
+    fill: white;
+}
+
+/* text */
+.text {
+    position: absolute;
+    right: 0%;
+    width: 0%;
+    opacity: 0;
+    color: white;
+    font-size: 1.2em;
+    font-weight: 600;
+    transition-duration: .3s;
+}
+
+/* hover effect on button width */
+.logout-button:hover {
+    width: 125px;
+    border-radius: 40px;
+    transition-duration: .3s;
+}
+
+.logout-button:hover .sign {
+    width: 20%;
+    transition-duration: .3s;
+    padding-left: 0px;
+}
+
+/* hover effect button's text */
+.logout-button:hover .text {
+    opacity: 1;
+    width: 70%;
+    transition-duration: .3s;
+    padding-right: 10px;
+}
+
+/* button click effect*/
+.logout-button:active {
+    transform: translate(2px, 2px);
 }

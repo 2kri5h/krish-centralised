@@ -56,9 +56,15 @@
 
 .social .social-item {
     display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 8px;
+    align-items: space-between;
+    gap: 15px;
+    margin-bottom: 10px;
+    transition: all 0.3s ease;
+}
+
+.social .social-item:hover {
+    color: #6EACDA;
+    text-decoration: underline;
 }
 
 .footer-credit {
