@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import apiclient from "../apiclient/apiclient";
 import Footer from "../components/Footer/Footer";
 // Import images
@@ -346,13 +346,14 @@ const GridItem = ({ title, color, expandedContent, icon, className }) => {
 
 // Add this component for the testimonial card
 const TestimonialCard = ({ text, author }) => (
-  <div className="border-[1px] border-black rounded-lg p-6 bg-[#F5F0D7] h-[200px] m-2"> {/* Increased height */}
+  <div className="border-[1px] border-black rounded-lg p-6 bg-[#F5F0D7] h-[420px] m-2"> {/* Increased height */}
     <div className="flex flex-col justify-between h-full">
-      <p className="text-sm mb-4 font-medium italic">"{text}"</p>
-      <p className="text-xs text-gray-600 mt-auto">{author}</p>
+      <p className="text-lg mb-4 font-medium italic">"{text}"</p> {/* Larger text */}
+      <p className="text-sm text-gray-600 mt-auto">{author}</p> {/* Larger author text */}
     </div>
   </div>
 );
+
 
 // Add this component for the alumni card
 const AlumniCard = ({ name, title, image }) => (
@@ -374,10 +375,16 @@ const Home = () => {
 
   // Hardcoded testimonials data
   const testimonials = [
-    { text: "Wow, what a concept man...", author: "CEO, Apple" },
-    { text: "Wow, what a concept man...", author: "CEO, Apple" },
-    { text: "Wow, what a concept man...", author: "CEO, Apple" },
-    { text: "Wow, what a concept man...", author: "CEO, Apple" },
+    { text: "Wow, what a concept man...", author: "CEO, Apple1" },
+    { text: "Wow, what a concept man...", author: "CEO, Apple2" },
+    { text: "Wow, what a concept man...", author: "CEO, Apple3" },
+    { text: "Wow, what a concept man...", author: "CEO, Apple4" },
+    { text: "Wow, what a concept man...", author: "CEO, Apple5" },
+    { text: "Wow, what a concept man...", author: "CEO, Apple6" },
+    { text: "Wow, what a concept man...", author: "CEO, Apple7" },
+    { text: "Wow, what a concept man...", author: "CEO, Apple8" },
+    { text: "Wow, what a concept man...", author: "CEO, Apple9" },
+    { text: "Wow, what a concept man...", author: "CEO, Apple10" },
   ];
 
   // Hardcoded alumni data
@@ -402,24 +409,50 @@ const Home = () => {
       .then((response) => setData(response.data))
       .catch((error) => console.error(error));
   }, []);
-
+  
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
   };
+  
+  // Auto-scroll interval ref
+  const intervalRef = useRef();
+  
+  useEffect(() => {
+    intervalRef.current = setInterval(() => {
+      setCurrentTestimonialIndex((prev) => (prev + 1) % testimonials.length);
+    }, 5000);
 
+    return () => clearInterval(intervalRef.current);
+  }, [testimonials.length]);
+
+  // Navigation Functions
   const handlePrevTestimonial = () => {
-    setCurrentTestimonialIndex(prev => Math.max(0, prev - 1));
+    clearInterval(intervalRef.current);
+    setCurrentTestimonialIndex((prev) =>
+      prev === 0 ? testimonials.length - 1 : prev - 1
+    );
+    restartAutoScroll();
   };
 
   const handleNextTestimonial = () => {
-    setCurrentTestimonialIndex(prev => 
-      Math.min(prev + 1, testimonials.length - 4)
+    clearInterval(intervalRef.current);
+    setCurrentTestimonialIndex((prev) =>
+      prev === testimonials.length - 1 ? 0 : prev + 1
     );
+    restartAutoScroll();
   };
 
+  // Restart auto-scroll after manual interaction
+  const restartAutoScroll = () => {
+    intervalRef.current = setInterval(() => {
+      setCurrentTestimonialIndex((prev) => (prev + 1) % testimonials.length);
+    }, 5000);
+  };
+
+  
   return (
     <div className="bg-black min-h-screen">
       {/* Grid Layout Section */}
@@ -665,76 +698,75 @@ const Home = () => {
 
 
         {/* Testimonials Section */}
-        <div className="mt-8 bg-[#F5F0D7] rounded-2xl p-6">
-          <h2 className="text-xl font-semibold text-orange-500 mb-6">Testimonials</h2>
-          <div className="relative">
-            <div className="overflow-hidden">
+        <div className="mt-8 bg-[#F5F0D7] rounded-2xl p-6 min-h-[500px]"> {/* Increased section height */}
+      <h2 className="text-2xl font-semibold text-orange-500 mb-6">Testimonials</h2>
+      <div className="relative">
+        <div className="overflow-hidden">
+          <div 
+            className="flex transition-transform duration-500 ease-in-out"
+            style={{
+              transform: `translateX(-${currentTestimonialIndex * 25}%)`,
+            }}
+          >
+            {testimonials.map((testimonial, index) => (
               <div 
-                className="flex transition-transform duration-300"
-                style={{
-                  transform: `translateX(-${currentTestimonialIndex * 25}%)`,
-                }}
+                key={index} 
+                className="flex-none w-full md:w-1/4"
               >
-                {testimonials.map((testimonial, index) => (
-                  <div 
-                    key={index} 
-                    className="flex-none w-full md:w-1/4"
-                  >
-                    <TestimonialCard 
-                      text={testimonial.text} 
-                      author={testimonial.author} 
-                    />
-                  </div>
-                ))}
+                <TestimonialCard 
+                  text={testimonial.text} 
+                  author={testimonial.author} 
+                />
               </div>
-            </div>
-
-            {/* Navigation Arrows */}
-            <div className="flex justify-center mt-6 gap-8">
-              <button 
-                onClick={handlePrevTestimonial}
-                className="border-[1px] border-orange-500 p-2 rounded"
-              >
-                <svg 
-                  width="24" 
-                  height="24" 
-                  viewBox="0 0 24 24" 
-                  fill="none" 
-                  stroke="currentColor"
-                  className="transform rotate-180"
-                >
-                  <path 
-                    d="M9 18l6-6-6-6" 
-                    strokeWidth="1" 
-                    strokeLinecap="round" 
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </button>
-              <button 
-                onClick={handleNextTestimonial}
-                className="border-[1px] border-orange-500 p-2 rounded"
-              >
-                <svg 
-                  width="24" 
-                  height="24" 
-                  viewBox="0 0 24 24" 
-                  fill="none" 
-                  stroke="currentColor"
-                >
-                  <path 
-                    d="M9 18l6-6-6-6" 
-                    strokeWidth="1" 
-                    strokeLinecap="round" 
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </button>
-            </div>
+            ))}
           </div>
         </div>
 
+        {/* Enhanced Navigation Arrows */}
+        <div className="flex justify-center mt-8 gap-8">
+          <button 
+            onClick={handlePrevTestimonial}
+            className="bg-orange-500 text-white p-3 rounded-full hover:bg-orange-600 transition-colors"
+          >
+            <svg 
+              width="24" 
+              height="24" 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              stroke="currentColor"
+              className="transform rotate-180"
+            >
+              <path 
+                d="M9 18l6-6-6-6" 
+                strokeWidth="2" 
+                strokeLinecap="round" 
+                strokeLinejoin="round"
+              />
+            </svg>
+          </button>
+          <button 
+            onClick={handleNextTestimonial}
+            className="bg-orange-500 text-white p-3 rounded-full hover:bg-orange-600 transition-colors"
+          >
+            <svg 
+              width="24" 
+              height="24" 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              stroke="currentColor"
+            >
+              <path 
+                d="M9 18l6-6-6-6" 
+                strokeWidth="2" 
+                strokeLinecap="round" 
+                strokeLinejoin="round"
+              />
+            </svg>
+          </button>
+        </div>
       </div>
+    </div>
+  </div>
 
       
 
