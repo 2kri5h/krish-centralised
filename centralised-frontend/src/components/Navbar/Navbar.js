@@ -66,32 +66,31 @@ const Navbar = () => {
             </li>
 
             {showWebsites && (
-              <div className="websites-dropdown absolute top-full left-0 bg-[#F5F0D7] border border-black rounded-lg p-4 min-w-[250px] shadow-lg">
-                <h2 className="text-[#e2e2b6] font-semibold mb-3">WEBSITES</h2>
-                <div className="websites-list space-y-2">
-                  {websiteLinks.map((site, index) => (
-                    <div
-                      key={index}
-                      onClick={() => handleWebsiteClick(site.url)}
-                      className={`website-link p-2 rounded-lg cursor-pointer transition-colors
-                                ${
-                                  site.url
-                                    ? "hover:bg-blue-100"
-                                    : "opacity-60 cursor-not-allowed"
-                                }
-                                border border-black`}
-                    >
-                      <span className="website-box flex justify-between items-center">
-                        <span>{site.name}</span>
-                        {site.url && site.url !== window.location.origin && (
-                          <span>↗</span>
-                        )}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
+  <div className="fixed inset-0 w-full h-full bg-black bg-opacity-60 backdrop-blur-md flex mt-12 justify-center items-center z-50">
+    <div className="w-full max-w-6xl p-8">
+      <h2 className="text-white font-bold text-5xl mb-8 text-left">WEBSITES</h2>
+      <div className="grid grid-cols-2 gap-4">
+        {websiteLinks.map((site, index) => (
+          <div
+            key={index}
+            onClick={() => handleWebsiteClick(site.url)}
+            className={`p-6 rounded-lg cursor-pointer transition-colors
+                        ${site.url ? 'hover:bg-gray-700' : 'opacity-60 cursor-not-allowed'}
+                         text-white text-3xl font-bold flex justify-between items-center`}
+          >
+            <span>{site.name}</span>
+            {site.url && site.url !== window.location.origin && (
+              <span>↗</span>
             )}
+          </div>
+        ))}
+      </div>
+      <p className="text-gray-400 text-right mt-8 text-sm">
+        click name to redirect to websites
+      </p>
+    </div>
+  </div>
+)}
           </div>
 
           <Link
