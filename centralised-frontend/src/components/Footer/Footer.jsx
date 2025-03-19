@@ -32,7 +32,11 @@ const Footer = () => {
             <p>Maharashtra - 400076</p>
             <br />
             <a href="https://gmap.link.com" className="map-link">
-              <FaMapMarkerAlt className="icon" /> https://gmap.link.com
+              {/* <FaMapMarkerAlt className="icon" /> */}
+              <div class="center-body">
+                <div class="loader-shape-3"></div>
+              </div>
+              https://gmap.link.com
             </a>
           </div>
 
