@@ -109,6 +109,8 @@ from .serializers import *
 from oauth2_provider.models import AccessToken
 from oauth2_provider.views import TokenView
 from rest_framework_simplejwt.authentication import JWTAuthentication
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 
 # Generate Token Manually
 def get_tokens_for_user(user):
@@ -119,18 +121,25 @@ def get_tokens_for_user(user):
     }
 
 # for login and registration
+@method_decorator(csrf_exempt, name='dispatch')
 class UserAuthView(APIView):
     renderer_classes = [UserRenderer]
+    permission_classes = [AllowAny]  # Allow anyone to register
     
     def post(self, request, uid=None, token=None, format=None):
         action = request.query_params.get("action")
         data = request.data
         
+        print(f"Action: {action}")
+        print(f"Request data: {data}")
+        
         if action == "register":
             serializer = UserRegistrationSerializer(data=request.data)
-            if serializer.is_valid(raise_exception=True):
+            if serializer.is_valid():
                 user = serializer.save()
                 return Response({"success": True, "message": "User registered successfully"}, status=status.HTTP_201_CREATED)
+            print(f"Validation errors: {serializer.errors}")
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
                 
         elif action == "login":
             serializer = UserLoginSerializer(data=request.data)
@@ -138,7 +147,7 @@ class UserAuthView(APIView):
                 email = serializer.data.get('email')
                 password = serializer.data.get('password')
                 user = authenticate(email=email, password=password)
-                if user:
+                if user is not None:
                     token = get_tokens_for_user(user)
                     user_data = {
                         "id": user.id,

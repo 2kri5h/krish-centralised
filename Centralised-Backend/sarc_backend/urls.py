@@ -7,7 +7,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('api_root.urls')),
     path('api/auth/', include('Authentication.urls')),
-    path('api/', include('Chatbot.urls')),
+    # Comment out the chatbot URLs
+    # path('api/', include('Chatbot.urls')),
     path('o/', include(oauth2_urls)),
     path('o/token/', TokenView.as_view(), name="token"),
 ]

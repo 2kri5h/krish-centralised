@@ -10,25 +10,35 @@ from django.contrib.auth.hashers import make_password
 
 # this was the earlier serializer I made where the authentication was just by using tokens. In the new version, I am using token verification using email
 class UserRegistrationSerializer(serializers.ModelSerializer):
-    # we are including this because we need a confirm password field in our registration form
-    password2 = serializers.CharField(style={
-        'input_type': 'password' # isko likhne se password ... likh kar aayega
-        }, write_only=True)
     class Meta:
         model = User
-        fields = ['email', 'name', 'phone_number', 'roll_number', 'hostel_number', 'password', 'password2']
-        extra_kwargs = {'password': {'write_only': True}}
+        fields = ['email', 'name', 'password', 'phone_number', 'roll_number', 'hostel_number']
+        extra_kwargs = {
+            'password': {'write_only': True},
+            'email': {'required': True},
+            'name': {'required': True}
+        }
 
-    # validating if password and confirm password are same or not
-    def validate(self, attrs): # attrs is same as data
+    def validate(self, attrs):
         password = attrs.get('password')
-        password2 = attrs.get('password2')
-        if password != password2:
-            raise serializers.ValidationError("Password and Confirm Password doesn't match")
+        if not password:
+            raise serializers.ValidationError({"password": "Password is required"})
         return attrs
     
-    def create(self, validate_data):
-        return User.objects.create_user(**validate_data)
+    def create(self, validated_data):
+        # Create the user
+        try:
+            user = User.objects.create_user(
+                email=validated_data['email'],
+                name=validated_data.get('name', ''),
+                password=validated_data['password'],
+                phone_number=validated_data.get('phone_number', ''),
+                roll_number=validated_data.get('roll_number', ''),
+                hostel_number=validated_data.get('hostel_number', '')
+            )
+            return user
+        except Exception as e:
+            raise serializers.ValidationError(str(e))
 
 class SendRegisterVerifyEmailSerializer(serializers.ModelSerializer):
     password = serializers.CharField(max_length=255, style={'input_type': 'password'}, write_only=True)

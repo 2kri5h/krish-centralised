@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
 import Home from './pages/Home';
 import SARCPage from './pages/AboutUs';
 import AlumniGrid from './pages/Alum';
@@ -32,33 +33,35 @@ const App = () => {
   }, []);
 
   return (
-    <Router>
-      {loading ? (
-        <Loading />
-      ) : (
-        <>
-          <Navbar />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/initiatives" element={<Initiatives />} />
-            <Route path="/gallery" element={<Gallery />} />
-            <Route path="/blogs" element={<Blogs />} />
-            <Route path="/contact" element={<Contact />} />  
-            <Route path="/aboutUs" element={<SARCPage />} />
-            <Route path="/alum" element={<AlumniGrid />} />
-            <Route path="/join-us" element={<JoinUs />} />
-            <Route path="/upcomingEvents" element={<UpcomingEvents />} />
-            <Route path='/profile' element={<Profile />} />
-            <Route path='/login' element={<Login />} />
-            <Route path='/signup' element={<Signup />} />
-            <Route path="/verify/:uid/:token" element={<VerifyPage />} />
-            <Route path='/forgotPassword' element={<ForgotPassword />} />
-            <Route path='/api/auth/password/:uid/:token' element={<ResetPassword />} />
-            <Route path="/changePassword" element={<ChangePassword />} />      
-          </Routes>
-        </>
-      )}
-    </Router>
+    <AuthProvider>
+      <Router>
+        {loading ? (
+          <Loading />
+        ) : (
+          <>
+            <Navbar />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/initiatives" element={<Initiatives />} />
+              <Route path="/gallery" element={<Gallery />} />
+              <Route path="/blogs" element={<Blogs />} />
+              <Route path="/contact" element={<Contact />} />  
+              <Route path="/aboutUs" element={<SARCPage />} />
+              <Route path="/alum" element={<AlumniGrid />} />
+              <Route path="/join-us" element={<JoinUs />} />
+              <Route path="/upcomingEvents" element={<UpcomingEvents />} />
+              <Route path='/profile' element={<Profile />} />
+              <Route path='/login' element={<Login />} />
+              <Route path='/signup' element={<Signup />} />
+              <Route path="/verify/:uid/:token" element={<VerifyPage />} />
+              <Route path='/forgotPassword' element={<ForgotPassword />} />
+              <Route path='/api/auth/password/:uid/:token' element={<ResetPassword />} />
+              <Route path="/changePassword" element={<ChangePassword />} />      
+            </Routes>
+          </>
+        )}
+      </Router>
+    </AuthProvider>
   );
 };
 
