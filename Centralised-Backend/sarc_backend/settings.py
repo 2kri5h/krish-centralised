@@ -6,7 +6,7 @@ from datetime import timedelta
 load_dotenv()  # Load .env variables
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(_file_).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-z!56b43!o#g*&4pq&2j17$wq#c5sn6us4%5ie_ap2r*au1l0m+'
@@ -14,7 +14,7 @@ SECRET_KEY = 'django-insecure-z!56b43!o#g*&4pq&2j17$wq#c5sn6us4%5ie_ap2r*au1l0m+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['centralised.sarc-iitb.org', 'localhost', '127.0.0.1', '*']
 
 # Application definition
 INSTALLED_APPS = [
@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'rest_framework',  # For API handling
     'rest_framework_simplejwt',
     'oauth2_provider',
+    'api_root',
 ]
 
 MIDDLEWARE = [
@@ -82,16 +83,56 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'sarc_backend.wsgi.application'
 
+# CORS Settings
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:8000",
-    "http://127.0.0.1:8000",
-    "http://localhost:3000",
-    "http://127.0.0.1:5173",
+    'https://centralised.sarc-iitb.org',
+    'http://localhost:5024',
+    'http://127.0.0.1:5024',
 ]
 
-CORS_ALLOW_ALL_ORIGINS = True
-
 CORS_ALLOW_CREDENTIALS = True
+
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+]
+
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+]
+
+# CSRF Settings
+CSRF_TRUSTED_ORIGINS = [
+    'https://centralised.sarc-iitb.org',
+    'http://localhost:5024',
+    'http://127.0.0.1:5024',
+]
+
+# For API views that use token auth, you might want to exempt them from CSRF
+CSRF_EXEMPT_VIEWS = [
+    'Authentication.views.UserAuthView',
+]
+
+# Session settings
+SESSION_COOKIE_SECURE = True  # Only send cookies over HTTPS
+CSRF_COOKIE_SECURE = True  # Only send CSRF cookie over HTTPS
+SESSION_COOKIE_SAMESITE = 'Lax'  # Prevents CSRF in modern browsers
+CSRF_COOKIE_SAMESITE = 'Lax'  # Prevents CSRF in modern browsers
+
+# If you're using HTTPS
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases

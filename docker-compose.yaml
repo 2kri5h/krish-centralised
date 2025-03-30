@@ -4,13 +4,13 @@ services:
   centralisedbackend:
     restart: unless-stopped
     build:
-      context: ./Backend
+      context: ./Centralised-Backend
       dockerfile: Dockerfile
     ports:
-      - "8016:8000"
+      - "8017:8000"
     entrypoint: /Backend/wsgi-entrypoint.sh
     volumes:
-      - ./Backend:/Backend/
+      - ./Centralised-Backend:/Backend/
     expose:
       - 8000
     networks:
@@ -22,7 +22,7 @@ services:
       context: ./centralised-frontend
       dockerfile: Dockerfile
     ports:
-      - "5024:5024"
+      - "5024:3000"
     volumes:
       - ./centralised-frontend:/centralised-frontend
     networks:
@@ -31,3 +31,4 @@ services:
 networks:
   mynetwork:
     name: yearbook23_mynetwork
+    external: true

@@ -1,221 +1,347 @@
-import { useState, useEffect } from "react";
-import { motion, useScroll, useSpring } from "framer-motion";
+import React, { useState, useEffect, useRef } from "react";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 
 const initiativesData = [
   {
     id: 1,
-    name: "Alumni Student Mentorship Program (ASMP)",
-    description: "A year-long mentorship program that connects students with alumni to foster meaningful mentoring relationships. It includes events like 'Break the Ice' for initial interactions, 'Nail the Prep' for internship preparation, and 'Group Mentoring' for career guidance. ASMP helps students gain insights into various industries and build strong professional networks.",
+    name: "ALUMNI STUDENT MENTORSHIP PROGRAM",
+    description: "A yearlong mentorship initiative, this program connects students with experienced alumni who guide them toward their ambitions. Through one-on-one mentorship, get valuable insights, self-belief, and strategic advice. A journey where students aspire and alumni inspire.",
+    icon: "👨‍🏫",
+    color: "bg-gradient-to-r from-orange-500 to-amber-500"
   },
   {
     id: 2,
-    name: "Alumination",
-    description: "The flagship fest of SARC, Alumination is a two-day student-alumni fest featuring workshops, mentoring sessions, talk shows, and informal activities. Events like 'Speed Mentoring' and 'Coming Full Circle' provide students with networking opportunities and career insights. It’s a vibrant platform for students to interact with successful alumni and learn from their experiences.",
+    name: "ALUMINATION",
+    description: "Alumination is the flagship Student-Alumni Fest of SARC, bringing together alumni from across the globe. An unforgettable experience of learning, networking, and mentorship, it features events like Beyond the Horizon, Trailblazers, UnEngineering, Start It Up, and more. Through inspiring stories and interactive sessions, alumni serve as a guiding light for students navigating their own paths.",
+    icon: "🌟",
+    color: "bg-gradient-to-r from-blue-500 to-purple-500"
   },
   {
     id: 3,
-    name: "CEO Connect",
-    description: "A new initiative launched in 2022, CEO Connect brings together CEOs past, present, and future. It features interactive sessions with industry leaders like Bhavish Aggarwal (Ola), Vineet Rao (InMobi), and Zishaan Hayath (Toppr). Students gain valuable insights into entrepreneurship, leadership, and innovation, inspiring them to pursue their career goals.",
+    name: "INDUSTRIAL LEARNING PROGRAM",
+    description: "ILP offers students the opportunity to gain hands-on experience through internships and projects provided by our alumni. Held twice a year, in summers and winters, it enables meaningful industry exposure and skill development. Participants work on real-world challenges while receiving guidance from experienced professionals.",
+    icon: "🏭",
+    color: "bg-gradient-to-r from-green-500 to-teal-500"
   },
   {
     id: 4,
-    name: "Placement Mentoring Program (PMP)",
-    description: "Caters to final-year students preparing for placements. PMP offers mock interviews, group discussions, and personalized feedback from alumni. Over 350 interviews were conducted in 2022, helping students improve their communication skills, confidence, and performance in placement interviews. The program covers both core and non-core fields.",
+    name: "MOCK INTERVIEWS",
+    description: "Prepare for your dream job with our Mock Interview sessions. Alumni from top companies conduct simulated interviews, providing valuable feedback and insights. Gain confidence, improve your communication skills, and learn how to showcase your strengths effectively. A stepping stone to career success.",
+    icon: "🎯",
+    color: "bg-gradient-to-r from-red-500 to-pink-500"
   },
   {
     id: 5,
-    name: "Industrial Learning Program (ILP)",
-    description: "Provides students with professional experience through internships and projects offered by alumni. Conducted twice a year during summer and winter breaks, ILP covers a wide range of fields and domains. Students gain hands-on industry exposure, learn about real-world challenges, and build connections with professionals.",
+    name: "CORE ALUMNI MEET",
+    description: "Core Alumni Meet brings together distinguished alumni from core engineering sectors. Through panel discussions, interactive sessions, and networking opportunities, gain insights into industry trends, career paths, and emerging technologies. Connect with professionals who've made significant contributions to their fields.",
+    icon: "🔧",
+    color: "bg-gradient-to-r from-indigo-500 to-blue-500"
   },
   {
     id: 6,
-    name: "Phonathon",
-    description: "A telephonic marathon where students contact over 15,000 alumni to update them about institute initiatives. Phonathon helps students build communication skills, network with alumni, and learn about life after IIT Bombay. It’s a unique opportunity to connect with alumni across the globe and understand their career journeys.",
+    name: "ALUMNI BLOG",
+    description: "The Alumni Blog features inspiring stories, career advice, and personal experiences shared by our accomplished alumni. From entrepreneurial journeys to corporate success stories, these blogs offer valuable insights and motivation. A platform where wisdom flows from those who've walked the path before.",
+    icon: "✍️",
+    color: "bg-gradient-to-r from-yellow-500 to-orange-500"
   },
   {
     id: 7,
-    name: "SARCasm",
-    description: "The biggest crypt hunt of IIT Bombay, SARCasm is a thrilling 48-hour event where students solve puzzles and clues in teams. It’s a fun and creative way to engage with the IITB community, test problem-solving skills, and win exciting prizes. The event witnesses participation from over 1,000 students every year.",
+    name: "STUDENT ALUMNI MEET",
+    description: "SAM facilitates meaningful connections between current students and alumni through interactive sessions and networking events. Gain valuable insights into various career paths, industry trends, and life after graduation. A platform to build relationships that extend beyond the campus.",
+    icon: "🤝",
+    color: "bg-gradient-to-r from-purple-500 to-pink-500"
   },
   {
     id: 8,
-    name: "Core Talks",
-    description: "Department-wise talks that cater to higher studies and core jobs. Students gain insights into career opportunities, industrial applications, and placement strategies. Over 25 talks are conducted, each offering 2.5 placement points. It’s a great platform for students to explore their interests and make informed career decisions.",
+    name: "PHONATHON",
+    description: "Phonathon is a unique initiative where students connect with alumni via phone calls, fostering personal connections and strengthening the IITB network. These conversations bridge generations, create mentorship opportunities, and keep alumni engaged with their alma mater. A simple call that builds lasting relationships.",
+    icon: "📞",
+    color: "bg-gradient-to-r from-cyan-500 to-blue-500"
   },
   {
     id: 9,
-    name: "Exam Series",
-    description: "A series of workshops and mentoring sessions for students preparing for competitive exams like UPSC, CFA, GRE, GMAT, and CAT. Students interact with top AIRs and learn strategies to excel in these exams. The program provides guidance on exam preparation, time management, and stress handling.",
+    name: "ALUMNI STUDENT INTERACTION SERIES",
+    description: "ASIS brings distinguished alumni to campus for interactive sessions with students. Through talks, panel discussions, and Q&A sessions, gain insights into diverse career paths, industry trends, and personal growth. An opportunity to learn from the experiences and wisdom of successful alumni.",
+    icon: "💬",
+    color: "bg-gradient-to-r from-emerald-500 to-green-500"
   },
   {
     id: 10,
-    name: "Beyond the Horizon",
-    description: "An informal event highlighting alumni who pursued non-traditional career paths. It features inspiring stories from alumni like Nitesh Tiwari (director of *Dangal* and *Chhichhore*), motivating students to explore unconventional fields. The event encourages students to think beyond traditional career options and follow their passions.",
+    name: "DEPARTMENT ALUMNI MEET",
+    description: "DAM connects students with alumni from their specific departments, facilitating focused discussions on specialized career paths and opportunities. Through interactive sessions and networking events, gain department-specific insights and build valuable connections. A targeted approach to alumni engagement.",
+    icon: "🏛️",
+    color: "bg-gradient-to-r from-rose-500 to-red-500"
   },
   {
     id: 11,
-    name: "Dean Ki Adaalat",
-    description: "An interactive panel discussion with the Dean ACR, Dean AA, and Dean RnD of IIT Bombay. Students get to ask questions and clarify their perceptions about the institution, fostering transparency and open communication. It’s a unique opportunity to understand the vision and functioning of the institute.",
+    name: "ALUMNI RESEARCH INITIATIVE",
+    description: "ARI connects students with alumni researchers, fostering collaboration on cutting-edge projects. Through mentorship and guidance, explore research opportunities, methodologies, and career paths in academia and R&D. A platform to nurture the next generation of innovators and researchers.",
+    icon: "🔬",
+    color: "bg-gradient-to-r from-violet-500 to-purple-500"
   },
   {
     id: 12,
-    name: "UG & PG Orientation",
-    description: "The first event of SARC for UG and PG freshers. It includes fun activities, games, and ice-breaking sessions to help new students settle into campus life. Over 250 students attended the 2022 edition, making it a memorable start to their IIT journey. The event fosters a sense of community and belonging among freshers.",
+    name: "HOSTEL ALUMNI MEET",
+    description: "HAM brings together current hostel residents and their alumni, celebrating the unique culture and traditions of each hostel. Through informal gatherings and interactive sessions, share stories, experiences, and advice. A nostalgic journey that strengthens the hostel fraternity across generations.",
+    icon: "🏠",
+    color: "bg-gradient-to-r from-amber-500 to-yellow-500"
   },
   {
     id: 13,
-    name: "Reunions",
-    description: "A series of events organized for alumni to relive their memories and connect with students. It provides an opportunity for students to interact with a large number of alumni, fostering a strong alumni-student network. Alumni share their experiences, career journeys, and advice, inspiring students to achieve their goals.",
+    name: "ALUMNI CAMPUS VISIT",
+    description: "ACV welcomes alumni back to their alma mater, organizing guided tours and interactive sessions with current students. Revisit familiar places, witness campus developments, and share your experiences with the next generation. A heartwarming return to where it all began.",
+    icon: "🚶",
+    color: "bg-gradient-to-r from-teal-500 to-cyan-500"
   },
   {
     id: 14,
-    name: "Institute Valedictory Function",
-    description: "A semi-formal event for graduating students, organized by SARC and the Dean ACR Office. It features keynote speakers like Mr. Arun Firodia and Dr. Ganesh Natarajan, celebrating the achievements of graduating students. The event marks the culmination of their journey at IIT Bombay and inspires them for the future.",
+    name: "ALUMNI NEWSLETTER",
+    description: "The Alumni Newsletter keeps the IITB community connected by sharing campus news, alumni achievements, and upcoming events. Stay updated with the latest developments, success stories, and opportunities for engagement. A regular digest that bridges the gap between past and present.",
+    icon: "📰",
+    color: "bg-gradient-to-r from-pink-500 to-rose-500"
   },
   {
     id: 15,
-    name: "Shadow Program",
-    description: "Students visit an alumnus's workplace to gain insights into the work methodology and office environment. It helps students understand industry practices, work culture, and professional expectations. The program provides a behind-the-scenes look at how organizations function and prepares students for their careers.",
+    name: "ALUMNI DIRECTORY",
+    description: "The Alumni Directory is a comprehensive database of IITB graduates, facilitating connections and networking within the community. Find batchmates, explore career paths, and connect with alumni in your field or region. A valuable resource for building professional relationships and seeking mentorship.",
+    icon: "📚",
+    color: "bg-gradient-to-r from-blue-500 to-indigo-500"
   },
   {
     id: 16,
-    name: "Transverse Mentoring",
-    description: "A mentoring session where two alumni from similar fields help students clarify doubts about career paths and required skills. It’s ideal for students confused between two career options. Alumni provide insights into the work, challenges, and opportunities in their respective fields, helping students make informed decisions.",
+    name: "ALUMNI WEBSITE",
+    description: "The Alumni Website serves as a central hub for all alumni-related information, events, and initiatives. Stay connected with your alma mater, explore engagement opportunities, and access resources for personal and professional growth. A digital platform that keeps the IITB spirit alive.",
+    icon: "🌐",
+    color: "bg-gradient-to-r from-green-500 to-emerald-500"
   },
   {
     id: 17,
-    name: "Ask the Alum",
-    description: "An interactive session where students can ask questions to alumni about internships, career paths, and other topics. It’s a great opportunity to gain firsthand insights from experienced professionals. Alumni share their experiences, challenges, and advice, helping students navigate their career journeys.",
+    name: "ALUMNI SOCIAL MEDIA",
+    description: "Our Alumni Social Media channels keep you connected with the latest happenings, achievements, and opportunities within the IITB community. Follow us for updates, success stories, event announcements, and nostalgic throwbacks. A digital space where the IITB family comes together.",
+    icon: "📱",
+    color: "bg-gradient-to-r from-red-500 to-orange-500"
   },
   {
     id: 18,
-    name: "Start It Up",
-    description: "A session where students interact with entrepreneurs to gain insights into their journey and success stories. It’s designed to inspire students to explore entrepreneurship and innovation. Alumni share their experiences of starting and scaling businesses, motivating students to think creatively and take risks.",
+    name: "ALUMNI FUNDRAISING",
+    description: "Alumni Fundraising initiatives support various development projects, scholarships, and infrastructure improvements at IITB. Contribute to the growth and excellence of your alma mater, making a meaningful impact on future generations. A way to give back and leave a lasting legacy.",
+    icon: "💰",
+    color: "bg-gradient-to-r from-purple-500 to-violet-500"
   },
   {
     id: 19,
-    name: "Mock Interviews and Group Discussions",
-    description: "Conducted by alumni for students preparing for placements. Over 350 interviews were conducted in 2022, helping students improve their communication skills, confidence, and performance in placement interviews. The program covers both core and non-core fields, providing personalized feedback and tips for improvement.",
+    name: "ALUMNI AWARDS",
+    description: "The Alumni Awards recognize and celebrate the outstanding achievements and contributions of IITB graduates across various fields. Honor excellence, innovation, leadership, and social impact within our community. A prestigious acknowledgment of alumni who exemplify the IITB spirit.",
+    icon: "🏆",
+    color: "bg-gradient-to-r from-yellow-500 to-amber-500"
   },
   {
     id: 20,
-    name: "Workshops",
-    description: "Hands-on workshops on topics like finance, trading, consulting, analytics, and product management, organized during Alumination. These workshops help students gain practical knowledge and skills, preparing them for real-world challenges. Alumni and industry experts conduct the workshops, sharing their expertise and insights.",
+    name: "ALUMNI REUNIONS",
+    description: "Alumni Reunions bring together batches celebrating milestone anniversaries, rekindling old friendships and creating new memories. Revisit the campus, reconnect with classmates, and relive the golden days of your IITB journey. A heartwarming celebration of shared experiences and enduring bonds.",
+    icon: "🎉",
+    color: "bg-gradient-to-r from-cyan-500 to-teal-500"
   },
   {
     id: 21,
-    name: "Class Song",
-    description: "An annual event where students create and perform a class song. The 2022 edition was a huge success, bringing together students to celebrate their journey and create lasting memories. The event fosters creativity, teamwork, and a sense of belonging among students.",
+    name: "ALUMNI CHAPTERS",
+    description: "Alumni Chapters across the globe bring together IITB graduates in various cities and countries, fostering local communities and networking opportunities. Participate in regional events, professional development activities, and social gatherings. A home away from home for the global IITB family.",
+    icon: "🌍",
+    color: "bg-gradient-to-r from-pink-500 to-purple-500"
   },
   {
     id: 22,
-    name: "Knowledge Tree Newsletter",
-    description: "A monthly newsletter that keeps alumni informed about student activities, research, and events at IIT Bombay. It features faculty interviews, technical breakthroughs, and updates on campus life. With a reach of over 65,000 alumni, the newsletter strengthens the bond between the institute and its alumni community.",
+    name: "ALUMNI CAREER SERVICES",
+    description: "Alumni Career Services offer professional development resources, job opportunities, and networking platforms for IITB graduates at all career stages. Access industry insights, mentorship, and placement assistance to advance your professional journey. A support system for lifelong career growth.",
+    icon: "💼",
+    color: "bg-gradient-to-r from-blue-500 to-cyan-500"
+  },
+  {
+    id: 23,
+    name: "ASK THE ALUM",
+    description: "An interactive online session where students get to ask their doubts directly to alumni from various fields. Whether it's career choices, industry insights or personal growth, get firsthand advice. Gain valuable knowledge from those who've walked the path before.",
+    icon: "❓",
+    color: "bg-gradient-to-r from-emerald-500 to-teal-500"
+  },
+  {
+    id: 24,
+    name: "INSTITUTE VALEDICTORY FUNCTION",
+    description: "A grand farewell celebrating your journey at IIT Bombay, featuring inspiring speeches from directors, deans, and accomplished alumni. Institute Valedictory Function marks the transition from student to alumnus, honouring achievements and shared memories.",
+    icon: "🎓",
+    color: "bg-gradient-to-r from-orange-500 to-red-500"
   },
 ];
 
-const Initiative = () => {
-  const { scrollY } = useScroll();
-  const [scrollProgress, setScrollProgress] = useState(0);
+const Initiatives = () => {
+  const [selectedInitiative, setSelectedInitiative] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
-
-  // Smooth scroll progress for the ball animation
-  const ballY = useSpring(scrollY, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001
+  const containerRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"]
   });
 
-  useEffect(() => {
-    return scrollY.onChange((latest) => {
-      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = latest / maxScroll;
-      setScrollProgress(progress);
+  const handleInitiativeClick = (initiative) => {
+    setSelectedInitiative(initiative);
+  };
 
-      // Determine the current initiative index based on scroll position
-      const index = Math.floor(progress * initiativesData.length);
-      setCurrentIndex(index);
-    });
-  }, [scrollY]);
+  const closeModal = () => {
+    setSelectedInitiative(null);
+  };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (containerRef.current) {
+        const container = containerRef.current;
+        const scrollPosition = window.scrollY;
+        const containerHeight = container.offsetHeight;
+        const windowHeight = window.innerHeight;
+        const scrollableHeight = containerHeight - windowHeight;
+        
+        if (scrollableHeight > 0) {
+          const scrollProgress = scrollPosition / scrollableHeight;
+          const initiativeIndex = Math.min(
+            Math.floor(scrollProgress * initiativesData.length),
+            initiativesData.length - 1
+          );
+          setCurrentIndex(initiativeIndex);
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
-    <div className="bg-black min-h-screen text-white flex flex-col items-center py-10 px-4 relative">
-      {/* Background Path and Ball Container - Set to a lower z-index */}
-      <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 0 }}>
-        {/* Zigzag Path with increased stroke width and opacity */}
-        <svg
-          width="100%"
-          height="100%"
-          preserveAspectRatio="none"
-          className="absolute inset-0"
-        >
-          <path
-            d={`
-              M 50,0
-              ${initiativesData.map((_, index) => {
-                const y = (100 / initiativesData.length) * (index + 1);
-                const midY = y - (100 / initiativesData.length) / 2;
-                return index % 2 === 0
-                  ? `C 75,${midY - 20} 90,${midY} 50,${y}`
-                  : `C 25,${midY - 20} 10,${midY} 50,${y}`;
-              }).join(' ')}
-            `}
-            stroke="lightgrey"
-            strokeWidth="6"
-            fill="none"
-            style={{ opacity: 0.8 }}
-          />
-        </svg>
+    <div className="bg-black min-h-screen text-white" ref={containerRef}>
+      {/* Header Section */}
+      <div className="relative py-16 px-4 md:px-8 lg:px-16 overflow-hidden">
+        <div className="absolute inset-0 z-0 opacity-20">
+          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-orange-600 to-transparent"></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-orange-500 filter blur-3xl opacity-30"></div>
+          <div className="absolute bottom-0 right-0 w-64 h-64 rounded-full bg-blue-500 filter blur-3xl opacity-20"></div>
+        </div>
         
-        {/* Animated Ball */}
-        <motion.div
-          className="absolute w-6 h-6 bg-orange-500 rounded-full shadow-lg"
-          style={{
-            top: `${(currentIndex * 100) / initiativesData.length}%`,
-            left: `${50 + Math.sin(scrollProgress * Math.PI * initiativesData.length) * 40}%`,
-            transform: 'translate(-50%, -50%)',
-            opacity: 0.8,
-          }}
-        />
-      </div>
-
-      {/* Initiative List - Set to a higher z-index */}
-      <div className="w-full max-w-5xl space-y-20 relative" style={{ zIndex: 1 }}>
-        {initiativesData.map((initiative, index) => (
-          <motion.div
-            key={initiative.id}
-            initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
-            className="bg-orange-500 p-6 rounded-2xl transition-all duration-300 hover:shadow-lg hover:shadow-black"
+        <div className="relative z-10 max-w-5xl mx-auto text-center">
+          <motion.h1 
+            className="text-4xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-orange-400 to-yellow-300"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
           >
-            <div className="text-left text-black p-4">
-              <h2 className="text-xl font-bold">{initiative.name}</h2>
-              <div className="bg-yellow-100 p-4 rounded-md mt-2 border border-black transition-all duration-300 hover:shadow-lg hover:shadow-black">
-                <p className="text-sm">{initiative.description}</p>
-              </div>
-            </div>
-          </motion.div>
-        ))}
+            Our Initiatives
+          </motion.h1>
+          <motion.p 
+            className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            Discover the various programs and events that connect students with alumni, 
+            fostering mentorship, knowledge sharing, and lifelong relationships.
+          </motion.p>
+        </div>
       </div>
 
-      {/* Scroll Progress Indicator - Keep at highest z-index */}
-      <motion.div
-        className="fixed bottom-4 right-4 w-16 h-16 rounded-full bg-orange-500 flex items-center justify-center text-white font-bold"
-        style={{
-          zIndex: 2,
-          scale: useSpring(scrollProgress, {
-            stiffness: 100,
-            damping: 30,
-            restDelta: 0.001
-          })
-        }}
-      >
-        {Math.round(scrollProgress * 100)}%
-      </motion.div>
+      {/* Main Content */}
+      <div className="relative px-4 md:px-8 lg:px-16 pb-24">
+        <div className="max-w-7xl mx-auto">
+          {/* Progress Indicator */}
+          <div className="hidden lg:block fixed left-8 top-1/2 transform -translate-y-1/2 h-1/2 w-1 bg-gray-700 rounded-full z-20">
+            <motion.div 
+              className="w-3 h-3 bg-orange-500 rounded-full absolute -left-1"
+              style={{ top: `${(currentIndex / (initiativesData.length - 1)) * 100}%` }}
+            />
+          </div>
+
+          {/* Initiatives Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            {initiativesData.map((initiative) => (
+              <motion.div
+                key={initiative.id}
+                className={`${initiative.color} rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer transform hover:-translate-y-2`}
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.98 }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: initiative.id * 0.05 }}
+                onClick={() => handleInitiativeClick(initiative)}
+              >
+                <div className="p-6 h-full flex flex-col">
+                  <div className="flex items-center mb-4">
+                    <span className="text-4xl mr-3">{initiative.icon}</span>
+                    <h3 className="text-xl font-bold text-white">{initiative.name}</h3>
+                  </div>
+                  <p className="text-white/80 text-sm line-clamp-3 flex-grow">
+                    {initiative.description}
+                  </p>
+                  <div className="mt-4 flex justify-end">
+                    <span className="text-white/90 text-sm font-medium flex items-center">
+                      Learn more
+                      <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                      </svg>
+                    </span>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Modal for Initiative Details */}
+      <AnimatePresence>
+        {selectedInitiative && (
+          <motion.div
+            className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={closeModal}
+          >
+            <motion.div
+              className={`${selectedInitiative.color} max-w-2xl w-full rounded-2xl overflow-hidden`}
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ type: "spring", damping: 25 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="p-8">
+                <div className="flex items-center justify-between mb-6">
+                  <div className="flex items-center">
+                    <span className="text-5xl mr-4">{selectedInitiative.icon}</span>
+                    <h2 className="text-2xl font-bold text-white">{selectedInitiative.name}</h2>
+                  </div>
+                  <button 
+                    onClick={closeModal}
+                    className="text-white/80 hover:text-white transition-colors"
+                  >
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
+                <p className="text-white/90 leading-relaxed">
+                  {selectedInitiative.description}
+                </p>
+                <div className="mt-8 flex justify-end">
+                  <button 
+                    className="bg-white/20 hover:bg-white/30 text-white py-2 px-4 rounded-lg transition-colors"
+                    onClick={closeModal}
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
 
-export default Initiative;
+export default Initiatives;

@@ -5,9 +5,9 @@ from oauth2_provider.views import TokenView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('chatbot/', include('Chatbot.urls')),
+    path('api/', include('api_root.urls')),
     path('api/auth/', include('Authentication.urls')),
-
+    path('api/', include('Chatbot.urls')),
     path('o/', include(oauth2_urls)),
     path('o/token/', TokenView.as_view(), name="token"),
 ]

@@ -9,6 +9,19 @@ import eventsIcon from "../assets/event.png";
 import testimonialIcon from "../assets/testimonial.svg";
 import contactIcon from "../assets/contact.svg";
 import alumniGroupImage from "../assets/alumGRP.svg";
+// Import alumni images with exact filenames
+import deepakImage from "../assets/gallery/gallery/Alumni/Copy of Deepak-Satwalekar.jpg";
+import downloadImage from "../assets/gallery/gallery/Alumni/Copy of download (1).jpeg";
+import falguniImage from "../assets/gallery/gallery/Alumni/Copy of Falguni-Nayar_1-1-scaled.jpg";
+import ashimaImage from "../assets/gallery/gallery/Alumni/Copy of IAS-Ashima-Mittal-posted-as-the-CEO-Zilla-Parishad-of-Nashik-Maharashtra.jpeg";
+import imagesImage from "../assets/gallery/gallery/Alumni/Copy of images.jpg";
+import sivanImage from "../assets/gallery/gallery/Alumni/Copy of K._Sivan.jpg";
+import sameerImage from "../assets/gallery/gallery/Alumni/Copy of sameer-saxena.jpg";
+import shubhamImage from "../assets/gallery/gallery/Alumni/Copy of Shubham Kumar (IITB CE 2018).jpeg";
+import uaxcImage from "../assets/gallery/gallery/Alumni/Copy of UaxcE0fi_400x400.jpg";
+import unnamedImage from "../assets/gallery/gallery/Alumni/Copy of unnamed.jpg";
+import wnqaemozImage from "../assets/gallery/gallery/Alumni/Copy of WnQAEMOz_400x400.jpg";
+import nandanImage from "../assets/gallery/gallery/Alumni/Nandan Nilekani (IITB EE 1973).jpg";
 
 const ResponsiveStats = () => {
   const containerStyle = {
@@ -318,6 +331,8 @@ const GridItem = ({ title, color, expandedContent, iconWidth = "50%",icon, class
       }
     }
   };
+  
+  
 
   return (
     <div
@@ -385,34 +400,104 @@ const Home = () => {
   const [data, setData] = useState(null);
   const [currentTestimonialIndex, setCurrentTestimonialIndex] = useState(0);
 
-  // Hardcoded testimonials data
+  // Updated testimonials data
   const testimonials = [
-    { text: "Wow, what a concept man...", author: "CEO, Apple1" },
-    { text: "Wow, what a concept man...", author: "CEO, Apple2" },
-    { text: "Wow, what a concept man...", author: "CEO, Apple3" },
-    { text: "Wow, what a concept man...", author: "CEO, Apple4" },
-    { text: "Wow, what a concept man...", author: "CEO, Apple5" },
-    { text: "Wow, what a concept man...", author: "CEO, Apple6" },
-    { text: "Wow, what a concept man...", author: "CEO, Apple7" },
-    { text: "Wow, what a concept man...", author: "CEO, Apple8" },
-    { text: "Wow, what a concept man...", author: "CEO, Apple9" },
-    { text: "Wow, what a concept man...", author: "CEO, Apple10" },
+    { 
+      text: "SARC keeps the IIT Bombay spirit alive by connecting alumni with students in meaningful ways. It's a fantastic initiative that encourages learning, growth and exploration.", 
+      author: "Sameer Saxena, Writer & Director" 
+    },
+    { 
+      text: "The bridge that SARC creates between alumni and students is invaluable. It's inspiring to see how it helps young minds explore diverse career paths beyond conventional choices.", 
+      author: "Nitesh Tiwari, Filmmaker" 
+    },
+    { 
+      text: "SARC is a powerful bridge between students and alumni, creating a community where experiences, insights, and opportunities are shared. It's incredible to see how it continues to inspire and guide students, helping them shape their future with confidence.", 
+      author: "Bhavish Aggarwal, Co-founder & CEO, Ola" 
+    },
+    { 
+      text: "The mentorship and guidance SARC facilitates are truly invaluable. It empowers students to dream big, take risks and carve their own paths with confidence.", 
+      author: "Ahana Gautam, Co-founder, Open Secret" 
+    },
+    { 
+      text: "SARC goes beyond just connecting students and alumni—it serves as a guiding force, helping students gain clarity, direction, and confidence from the experiences of those who have been in their shoes.", 
+      author: "Ashima Mittal, IAS Officer" 
+    },
+    { 
+      text: "SARC has been instrumental in building a strong and enduring alumni network. By fostering mentorship and knowledge-sharing, it ensures that each generation of IIT Bombay students learns from those who have walked the path before them.", 
+      author: "Nandan Nilekani, Co-founder, Infosys" 
+    },
+    { 
+      text: "SARC brings together alumni stories that go beyond textbooks and classrooms. It's a fantastic initiative that helps students explore unconventional paths and find the courage to carve their own unique journeys.", 
+      author: "Vipul Goyal, Stand-up Comedian & Writer" 
+    },
+    { 
+      text: "SARC connects students with alumni who have faced similar crossroads, helping them make informed decisions and pursue their goals with conviction.", 
+      author: "Shubham Kumar, AIR 1 UPSC CSE 2020" 
+    }
   ];
 
-  // Hardcoded alumni data
+  // Updated alumni data with exact image paths
   const alumniData = [
-    { name: "Mr XYZ", title: "CEO, Google", image: "/placeholder.jpg" },
-    { name: "Mr XYZ", title: "CEO, Google", image: "/placeholder.jpg" },
-    { name: "Mr XYZ", title: "CEO, Google", image: "/placeholder.jpg" },
-    { name: "Mr XYZ", title: "CEO, Google", image: "/placeholder.jpg" },
-    { name: "Mr XYZ", title: "CEO, Google", image: "/placeholder.jpg" },
-    { name: "Mr XYZ", title: "CEO, Google", image: "/placeholder.jpg" },
-    { name: "Mr XYZ", title: "CEO, Google", image: "/placeholder.jpg" },
-    { name: "Mr XYZ", title: "CEO, Google", image: "/placeholder.jpg" },
-    { name: "Mr XYZ", title: "CEO, Google", image: "/placeholder.jpg" },
-    { name: "Mr XYZ", title: "CEO, Google", image: "/placeholder.jpg" },
-    { name: "Mr XYZ", title: "CEO, Google", image: "/placeholder.jpg" },
-    { name: "Mr XYZ", title: "CEO, Google", image: "/placeholder.jpg" },
+    { 
+      name: "Deepak Satwalekar", 
+      title: "Former MD & CEO, HDFC Standard Life Insurance", 
+      image: deepakImage 
+    },
+    { 
+      name: "Nitesh Tiwari", 
+      title: "Director", 
+      image: downloadImage 
+    },
+    { 
+      name: "Falguni Nayar", 
+      title: "Founder & CEO, Nykaa", 
+      image: falguniImage 
+    },
+    { 
+      name: "Ashima Mittal", 
+      title: "IAS Officer, CEO Zilla Parishad of Nashik", 
+      image: ashimaImage 
+    },
+    { 
+      name: "Ashishkumar Chauhan", 
+      title: "MD & CEO, Bombay Stock Exchange", 
+      image: imagesImage 
+    },
+    { 
+      name: "K. Sivan", 
+      title: "Former Chairman, ISRO", 
+      image: sivanImage 
+    },
+    { 
+      name: "Sameer Saxena", 
+      title: "Co-founder, TVF", 
+      image: sameerImage 
+    },
+    { 
+      name: "Shubham Kumar", 
+      title: "IITB CE 2018", 
+      image: shubhamImage 
+    },
+    { 
+      name: "Bhavish Aggarwal", 
+      title: "Founder & CEO, Ola", 
+      image: uaxcImage 
+    },
+    { 
+      name: "Vipul Goyal", 
+      title: "Comedian", 
+      image: unnamedImage 
+    },
+    { 
+      name: "Ahana Gautam", 
+      title: "CEO, Open Secret", 
+      image: wnqaemozImage 
+    },
+    { 
+      name: "Nandan Nilekani", 
+      title: "Co-founder & Chairman, Infosys", 
+      image: nandanImage 
+    }
   ];
 
   useEffect(() => {
@@ -430,39 +515,57 @@ const Home = () => {
   };
   
   // Auto-scroll interval ref
-  const intervalRef = useRef();
+const intervalRef = useRef();
+
+useEffect(() => {
+  intervalRef.current = setInterval(() => {
+    setCurrentTestimonialIndex((prev) => {
+      if (window.innerWidth >= 768) { // For md screens and above
+        return prev === Math.floor(testimonials.length / 4) * 4 - 2 ? 0 : (prev + 1) % testimonials.length;
+      }
+      return (prev + 1) % testimonials.length;
+    });
+  }, 5000);
+
+  return () => clearInterval(intervalRef.current);
+}, [testimonials.length]);
+
+// Navigation Functions
+const handlePrevTestimonial = () => {
+  clearInterval(intervalRef.current);
+  setCurrentTestimonialIndex((prev) => {
+    if (window.innerWidth >= 768) { // For md screens and above
+      return prev === 0 ? Math.floor(testimonials.length / 4) * 4 - 2 : prev - 1;
+    }
+    return prev === 0 ? testimonials.length - 1 : prev - 1;
+  });
+  restartAutoScroll();
+};
+
+const handleNextTestimonial = () => {
+  clearInterval(intervalRef.current);
+  setCurrentTestimonialIndex((prev) => {
+    if (window.innerWidth >= 768) { // For md screens and above
+      return prev === Math.floor(testimonials.length / 4) * 4 - 2 ? 0 : prev + 1;
+    }
+    return prev === testimonials.length - 1 ? 0 : prev + 1;
+  });
+  restartAutoScroll();
+};
+
+// Restart auto-scroll after manual interaction
+const restartAutoScroll = () => {
+  intervalRef.current = setInterval(() => {
+    setCurrentTestimonialIndex((prev) => {
+      if (window.innerWidth >= 768) { // For md screens and above
+        return prev === Math.floor(testimonials.length / 4) * 4 - 2 ? 0 : (prev + 1) % testimonials.length;
+      }
+      return (prev + 1) % testimonials.length;
+    });
+  }, 5000);
+};
+
   
-  useEffect(() => {
-    intervalRef.current = setInterval(() => {
-      setCurrentTestimonialIndex((prev) => (prev + 1) % testimonials.length);
-    }, 5000);
-
-    return () => clearInterval(intervalRef.current);
-  }, [testimonials.length]);
-
-  // Navigation Functions
-  const handlePrevTestimonial = () => {
-    clearInterval(intervalRef.current);
-    setCurrentTestimonialIndex((prev) =>
-      prev === 0 ? testimonials.length - 1 : prev - 1
-    );
-    restartAutoScroll();
-  };
-
-  const handleNextTestimonial = () => {
-    clearInterval(intervalRef.current);
-    setCurrentTestimonialIndex((prev) =>
-      prev === testimonials.length - 1 ? 0 : prev + 1
-    );
-    restartAutoScroll();
-  };
-
-  // Restart auto-scroll after manual interaction
-  const restartAutoScroll = () => {
-    intervalRef.current = setInterval(() => {
-      setCurrentTestimonialIndex((prev) => (prev + 1) % testimonials.length);
-    }, 5000);
-  };
 
   
   return (
@@ -755,7 +858,7 @@ const Home = () => {
           <div 
             className="flex transition-transform duration-500 ease-in-out"
             style={{
-              transform: `translateX(-${currentTestimonialIndex * 25}%)`,
+              transform: `translateX(-${currentTestimonialIndex * (window.innerWidth < 768 ? 100 : 25)}%)`,
             }}
           >
             {testimonials.map((testimonial, index) => (

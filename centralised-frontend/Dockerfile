@@ -1,23 +1,20 @@
 # Use the official Node.js image as base
-FROM node:20.0.0 as build
+FROM node:20.0.0
 
 # Create and set the working directory
-WORKDIR /frontend_centralised
+WORKDIR /centralised-frontend
 
 # Copy package.json and yarn.lock to the container
-COPY package.json yarn.lock /frontend_centralised/
+COPY package.json yarn.lock ./
 
 # Install dependencies
 RUN yarn install
 
 # Copy the frontend project files to the container
-COPY . /frontend_centralised/
+COPY . .
 
-# Build the frontend app
-RUN yarn build
-
-# Use a lightweight web server to serve the built frontend app
+# Install serve globally
 RUN yarn global add serve
 
-# Command to serve the built app
-CMD ["serve", "-s", "build", "-l", "5024"]
+# Command to serve the app
+CMD ["yarn", "start"]

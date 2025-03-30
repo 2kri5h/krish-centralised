@@ -121,34 +121,35 @@ def get_tokens_for_user(user):
 # for login and registration
 class UserAuthView(APIView):
     renderer_classes = [UserRenderer]
-
-    # def post(self, request, format=None):
-    #     action = request.query_params.get("action")
-    #     if action == "register":
-    #         serializer = UserRegistrationSerializer(data=request.data)
-    #         if serializer.is_valid(raise_exception=True):
-    #             user = serializer.save()
-    #             token = get_tokens_for_user(user)
-    #             return Response({"token": token, "message": "User registered successfully"}, status=status.HTTP_201_CREATED)
-
-    #     elif action == "login":
-    #         serializer = UserLoginSerializer(data=request.data)
-    #         if serializer.is_valid(raise_exception=True):
-    #             email = serializer.data.get('email')
-    #             password = serializer.data.get('password')
-    #             user = authenticate(email=email, password=password)
-    #             if user:
-    #                 token = get_tokens_for_user(user)
-    #                 return Response({"token": token, "message": "User login successful"}, status=status.HTTP_200_OK)
-    #             return Response({"errors": {"non_field_errors": ["Invalid credentials"]}}, status=status.HTTP_404_NOT_FOUND)
-
-    #     return Response({"error": "Invalid action"}, status=status.HTTP_400_BAD_REQUEST)
-    def post(self, request, uid=None, token=None, format=None): #uid and token are optional parameters
-        action = request.query_params.get("action") # the action attribute will be sent as a query parameter in the URL, eg, api/auth/?action=login
-
+    
+    def post(self, request, uid=None, token=None, format=None):
+        action = request.query_params.get("action")
         data = request.data
-
-        if action == "register-verify-email":
+        
+        if action == "register":
+            serializer = UserRegistrationSerializer(data=request.data)
+            if serializer.is_valid(raise_exception=True):
+                user = serializer.save()
+                return Response({"success": True, "message": "User registered successfully"}, status=status.HTTP_201_CREATED)
+                
+        elif action == "login":
+            serializer = UserLoginSerializer(data=request.data)
+            if serializer.is_valid(raise_exception=True):
+                email = serializer.data.get('email')
+                password = serializer.data.get('password')
+                user = authenticate(email=email, password=password)
+                if user:
+                    token = get_tokens_for_user(user)
+                    user_data = {
+                        "id": user.id,
+                        "email": user.email,
+                        "name": user.name,
+                        # Add other user fields you want to return
+                    }
+                    return Response({"token": token, "user": user_data, "message": "Login successful"}, status=status.HTTP_200_OK)
+                return Response({"error": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
+                
+        elif action == "register-verify-email":
             serializer = SendRegisterVerifyEmailSerializer(data=request.data)
             if serializer.is_valid(raise_exception=True):
                 user = serializer.save()
@@ -190,30 +191,6 @@ class UserAuthView(APIView):
                 token = get_tokens_for_user(user) # Generating JWT Token (access and refresh token)
                 return Response({"token": token, "message": "User Verified successfully"}, status=status.HTTP_200_OK)
 
-        elif action == "login":
-            serializer = UserLoginSerializer(data=request.data)
-            if serializer.is_valid(raise_exception=True):
-                email = serializer.data.get('email')
-                password = serializer.data.get('password')
-                
-                user = authenticate(email=email, password=password)
-                if user:
-
-                    if not user.is_verified:
-                        return Response(
-                            {"errors": {"non_field_errors": ["Please verify your email before login"]}},
-                            status=status.HTTP_403_FORBIDDEN,
-                        )
-                    else:
-                        token = get_tokens_for_user(user)
-
-                        return Response(
-                            {"token": token, "message": "User login successful"},
-                            status=status.HTTP_200_OK
-                        )
-                    
-                return Response({"errors": {"non_field_errors": ["Invalid credentials"]}}, status=status.HTTP_404_NOT_FOUND)
-            
         elif action == "oauth-login":
             access_token = request.data.get("access_token")
             if not access_token:
