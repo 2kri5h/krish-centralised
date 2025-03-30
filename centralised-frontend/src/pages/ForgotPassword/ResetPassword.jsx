@@ -25,7 +25,7 @@ const ResetPassword = () => {
 
     try {
       const response = await axios.post(
-        `http://127.0.0.1:8000/api/auth/password/${uid}/${token}/?action=reset-password`,
+        `https://centralised.sarc-iitb.org/api/auth/password/${uid}/${token}/?action=reset-password`,
         {
           password: passwordResetData.password,
           password2: passwordResetData.password2,

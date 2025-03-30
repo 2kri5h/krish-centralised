@@ -16,7 +16,7 @@ const Profile = () => {
 
       try {
         const response = await axios.get(
-          "http://127.0.0.1:8000/api/auth/profile/",
+          "https://centralised.sarc-iitb.org/api/auth/profile/",
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,

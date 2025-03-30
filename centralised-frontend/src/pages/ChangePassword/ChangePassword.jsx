@@ -26,7 +26,7 @@ const ChangePassword = () => {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/auth/password/?action=change",
+        "https://centralised.sarc-iitb.org/api/auth/password/?action=change",
         {
           password: passwordData.password,
           password2: passwordData.password2,

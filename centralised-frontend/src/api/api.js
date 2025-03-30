@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://127.0.0.1:8000/api/auth/";
+const BASE_URL = "https://centralised.sarc-iitb.org/api/auth/";
 
 export const loginUser = async (email, password) => {
     try {

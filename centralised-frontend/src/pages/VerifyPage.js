@@ -11,7 +11,7 @@ const VerifyPage = () => {
     const verifyAndLogin = async () => {
       try {
         const response = await axios.post(
-           `http://127.0.0.1:8000/api/auth/register-verify/${uid}/${token}/?action=register-verify`
+           `https://centralised.sarc-iitb.org/api/auth/register-verify/${uid}/${token}/?action=register-verify`
         );
 
         localStorage.setItem("access_token", response.data.token.access);
