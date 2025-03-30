@@ -1,3 +1,4 @@
+/* Completely new Login.css without any background image references */
 .auth-container {
   display: flex;
   min-height: 100vh;
@@ -6,9 +7,8 @@
 
 .auth-image {
   flex: 1;
+  /* Using a gradient instead of an image */
   background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-  background-size: cover;
-  background-position: center;
   display: none;
 }
 

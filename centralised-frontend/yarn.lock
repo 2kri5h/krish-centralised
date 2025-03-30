@@ -4959,9 +4959,9 @@ html-encoding-sniffer@^2.0.1:
     whatwg-encoding "^1.0.5"
 
 html-entities@^2.1.0, html-entities@^2.3.2:
-  version "2.5.6"
-  resolved "https://registry.yarnpkg.com/html-entities/-/html-entities-2.5.6.tgz#b26e780b769e24a6342ff1c8eacec11b544b2c58"
-  integrity sha512-he75h7h3poG52iRupbVtjupeGz24QgHOYK/cbJpj3TSLsHbnmG3DyPg94V2DC7w0O6f76xnYMS09J5UkbMkARQ==
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/html-entities/-/html-entities-2.6.0.tgz#7c64f1ea3b36818ccae3d3fb48b6974208e984f8"
+  integrity sha512-kig+rMn/QOVRvr7c86gQ8lWXq+Hkv6CbAH1hLu+RG338StTpE8Z0b44SDVaqVu7HGKf27frdmUYEs9hTUX/cLQ==
 
 html-escaper@^2.0.0:
   version "2.0.2"
@@ -7766,7 +7766,7 @@ react-router@7.4.1:
     set-cookie-parser "^2.6.0"
     turbo-stream "2.4.0"
 
-react-scripts@5.0.1:
+react-scripts@^5.0.1:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/react-scripts/-/react-scripts-5.0.1.tgz#6285dbd65a8ba6e49ca8d651ce30645a6d980003"
   integrity sha512-8VAmEm/ZAwQzJ+GOMLbBsTdDKOpuZh7RPs0UymvBR2vRk4iZWCskjbFnxqjrzoIvlNNRZ3QJFx6/qDSi6zSnaQ==
