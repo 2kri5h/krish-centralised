@@ -1,0 +1,33 @@
+version: '2.2'
+
+services:
+  centralisedbackend:
+    restart: unless-stopped
+    build:
+      context: ./Backend
+      dockerfile: Dockerfile
+    ports:
+      - "8016:8000"
+    entrypoint: /Backend/wsgi-entrypoint.sh
+    volumes:
+      - ./Backend:/Backend/
+    expose:
+      - 8000
+    networks:
+      - mynetwork
+  
+
+  centralisedfrontend:
+    build:
+      context: ./centralised-frontend
+      dockerfile: Dockerfile
+    ports:
+      - "5024:5024"
+    volumes:
+      - ./centralised-frontend:/centralised-frontend
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    name: yearbook23_mynetwork

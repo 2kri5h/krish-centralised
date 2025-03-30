@@ -2,16 +2,16 @@
 FROM node:20.0.0 as build
 
 # Create and set the working directory
-WORKDIR /frontend
+WORKDIR /frontend_centralised
 
 # Copy package.json and yarn.lock to the container
-COPY package.json yarn.lock /frontend/
+COPY package.json yarn.lock /frontend_centralised/
 
 # Install dependencies
 RUN yarn install
 
 # Copy the frontend project files to the container
-COPY . /frontend/
+COPY . /frontend_centralised/
 
 # Build the frontend app
 RUN yarn build
@@ -20,4 +20,4 @@ RUN yarn build
 RUN yarn global add serve
 
 # Command to serve the built app
-CMD ["serve", "-s", "build", "-l", "5014"]
+CMD ["serve", "-s", "build", "-l", "5024"]
