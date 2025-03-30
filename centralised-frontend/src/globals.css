@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+.grid-item-hover {
+  transition: transform 0.3s ease-in-out;
+}
+
+.grid-item-content {
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Custom styles for expanded states */
+.expanded-stats {
+  background-color: #A7D1F3;
+  transform: translateY(0);
+}
+
+.expanded-about {
+  background-color: #F5E6C9;
+  transform: translateY(0);
+}
+
+.expanded-alumni {
+  background-color: #0066CC;
+  transform: translateY(0);
+}
+
+.expanded-events {
+  background-color: #FF6B2B;
+  transform: translateY(0);
+}
+
+.star-shape {
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+}
+
+/* Optional: Add a backdrop blur effect when cards are hovered */
+.backdrop-blur {
+  backdrop-filter: blur(8px);
+} 

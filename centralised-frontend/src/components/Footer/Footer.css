@@ -1,0 +1,257 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+.footer {
+    background-color: #6EACDA;
+    padding: 20px 0;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+}
+
+.footer-container {
+    width: 80%;
+    margin: auto;
+}
+
+.footer-title {
+    color: #FFFFE8;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: left;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    background-color: #FFFFE8;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid black;
+    margin-top: 10px;
+}
+
+.footer-section {
+    flex: 1;
+    text-align: left;
+}
+
+.contacts .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.icon {
+    font-size: 20px;
+    color: black;
+}
+
+.map-link {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: black;
+    text-decoration: none;
+}
+
+.social .social-item {
+    display: flex;
+    align-items: space-between;
+    gap: 15px;
+    margin-bottom: 10px;
+    transition: all 0.3s ease;
+}
+
+.social .social-item:hover {
+    color: #6EACDA;
+    text-decoration: underline;
+}
+
+.footer-credit {
+    margin-top: 10px;
+    color: white;
+    font-size: 14px;
+}
+
+/* Responsive Design for Tablets (768px and below) */
+@media screen and (max-width: 768px) {
+    .footer-container {
+        width: 90%;
+    }
+
+    .footer-title {
+        font-size: 20px;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 15px;
+    }
+
+    .footer-section {
+        text-align: center;
+        margin-bottom: 12px;
+    }
+
+    .contacts .contact-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 5px;
+    }
+
+    .icon {
+        font-size: 18px;
+    }
+
+    .footer-credit {
+        font-size: 12px;
+    }
+}
+
+/* Ultra-Compact Layout for Mobile (480px and below) */
+@media screen and (max-width: 480px) {
+    .footer-container {
+        width: 95%;
+        padding: 10px 0;
+    }
+
+    .footer-title {
+        font-size: 16px;
+    }
+
+    .footer-content {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+        padding: 10px;
+        margin-top: 5px;
+    }
+
+    .footer-section {
+        text-align: left;
+        font-size: 12px;
+    }
+
+    /* Contacts arranged in two columns */
+    .contacts {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+
+    .contacts .contact-item {
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        font-size: 12px;
+        margin-bottom: 0;
+        gap: 5px;
+    }
+
+    .contacts .contact-item div {
+        text-align: left;
+    }
+
+    .icon {
+        font-size: 14px;
+    }
+
+    /* Address fits within a single column */
+    .address {
+        grid-column: span 2;
+        text-align: center;
+        font-size: 12px;
+    }
+
+    .map-link {
+        font-size: 12px;
+        gap: 3px;
+    }
+
+    /* Social media icons in grid layout */
+    .social {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        justify-items: center;
+        grid-column: span 2;
+    }
+
+    .social .social-item {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 12px;
+    }
+
+    .footer-credit {
+        font-size: 10px;
+        margin-top: 5px;
+        grid-column: span 2;
+    }
+}
+
+
+
+/* Map jumping icon */
+.center-body {
+    background: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    height: fit-content;
+}
+
+.loader-shape-3 {
+    position: relative;
+    display: inline-block;
+    width: 35px;
+    height: 50px;
+}
+
+.loader-shape-3:after {
+    width: 20px;
+    height: 10px;
+    border-radius: 100%;
+    background-color: #6EACDA;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin-top: 15px;
+}
+
+.loader-shape-3:before {
+    width: 10px;
+    height: 10px;
+    border-radius: 100% 100% 100% 0;
+    box-shadow: 0px 0px 0px 2px #216599;
+    animation: anm-SL-3-move 1s linear infinite;
+    top: 80%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-46deg);
+    margin-top: 30px;
+    z-index: 1000;
+}
+
+.loader-shape-3:before,
+.loader-shape-3:after {
+    position: absolute;
+    content: "";
+}
+
+@keyframes anm-SL-3-move {
+    0% {
+        top: 0;
+    }
+
+    50% {
+        top: -5px;
+    }
+
+    100% {
+        top: 0;
+    }
+}

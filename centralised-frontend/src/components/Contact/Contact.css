@@ -1,0 +1,300 @@
+/* Overall Page Styling */
+.contact-page {
+    background-color: black;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+
+/* Header */
+.contact-title {
+    font-size: 80px;
+    font-weight: bold;
+    font-style: italic;
+    color: #e2e2b6;
+    text-align: left;
+    padding: 20px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.contact-icon {
+    width: 15%;
+    height: auto;
+    margin-left: 10px;
+    vertical-align: middle;
+}
+
+/* Council Section */
+.council-section {
+    padding: 3% 10%;
+}
+
+/* Council Section */
+.council-section h2 {
+    font-size: 30px;
+    font-weight: bold;
+    color: #6EACDA;
+}
+
+.council-section p {
+    font-size: 16px;
+    color: #aaa;
+}
+
+/* Portfolio Sections */
+.portfolio-wrapper {
+    display: flex;
+    justify-content: space-evenly;
+    /* Ensures even spacing */
+    gap: 10px;
+    /* Adds spacing between portfolio sections */
+    flex-wrap: wrap;
+    /* Allows wrapping on smaller screens */
+    width: 100%;
+}
+
+.portfolio-section {
+    flex: 1;
+    /* Makes each portfolio take equal space */
+    min-width: 300px;
+    /* Ensures responsiveness */
+    max-width: 33%;
+    /* Ensures only three portfolios per row */
+}
+
+/* Portfolio Title */
+.portfolio-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #6EACDA;
+    margin: 20px 0;
+    text-align: left;
+}
+
+/* Council Grid */
+.council-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+
+.council-card {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-direction: row;
+    align-items: normal;
+    justify-content: flex-start;
+}
+
+.council-card .first-card {
+    width: max-content;
+}
+
+.profile-placeholder {
+    width: 200px;
+    height: 200px;
+    background-color: grey;
+    border-radius: 5px;
+    margin: 0 20px 0 0;
+    object-fit: cover;
+}
+
+.council-info {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 10px 0;
+}
+
+.role {
+    color: orange;
+    font-weight: bold;
+}
+
+.username {
+    color: grey;
+    font-size: 14px;
+}
+
+/**************************  Additional Contacts Section ****************************/
+/* Overall Section */
+.additional-contacts {
+    background-color: black;
+    color: white;
+    text-align: center;
+    padding: 50px 20px;
+}
+
+/* Heading */
+.contact-heading {
+    font-size: 28px;
+    font-weight: bold;
+    color: #6EACDA;
+    margin-bottom: 10px;
+}
+
+/* Subtext */
+.contact-subtext {
+    font-size: 16px;
+    color: #aaa;
+    margin-bottom: 30px;
+}
+
+/* Contact Information Grid */
+.contact-info {
+    display: flex;
+    justify-content: center;
+    gap: 80px;
+    align-items: center;
+    flex-wrap: wrap;
+    /* Ensures responsiveness */
+    margin-bottom: 40px;
+}
+
+/* Individual Contact Item */
+.contact-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 8px;
+}
+
+/* Contact Icons */
+.contact-icon {
+    width: 60px;
+    height: auto;
+    transition: transform 0.3s ease;
+}
+
+.contact-icon:hover {
+    transform: scale(1.1);
+}
+
+/* Contact Labels */
+.contact-label {
+    color: #FF6500;
+}
+
+/* Contact Details */
+.contact-detail {
+    font-size: 18px;
+    color: white;
+}
+
+/* Footer */
+.contact-footer {
+    margin-top: 20px;
+    padding: 10px 0;
+    font-size: 14px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    color: grey;
+}
+
+
+
+
+
+/*************** Social Media Icons ***************/
+ul {
+    list-style: none;
+}
+
+.example-2 {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+
+.example-2 .icon-content {
+    margin: 10px 0px;
+    margin-right: 10px;
+    position: relative;
+}
+
+.example-2 .icon-content .tooltip {
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 5px;
+    opacity: 0;
+    visibility: hidden;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.example-2 .icon-content:hover .tooltip {
+    opacity: 1;
+    visibility: visible;
+    top: -50px;
+}
+
+.example-2 .icon-content a {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    color: #4d4d4d;
+    background-color: #fff;
+    transition: all 0.3s ease-in-out;
+}
+
+.example-2 .icon-content a:hover {
+    box-shadow: 3px 2px 45px 0px rgb(0 0 0 / 12%);
+}
+
+.example-2 .icon-content a svg {
+    position: relative;
+    z-index: 1;
+    width: 30px;
+    height: 30px;
+}
+
+.example-2 .icon-content a:hover {
+    color: white;
+}
+
+.example-2 .icon-content a .filled {
+    position: absolute;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 0;
+    background-color: #000;
+    transition: all 0.3s ease-in-out;
+}
+
+.example-2 .icon-content a:hover .filled {
+    height: 100%;
+}
+
+.example-2 .icon-content a[data-social="linkedin"] .filled,
+.example-2 .icon-content a[data-social="linkedin"]~.tooltip {
+    background-color: #0274b3;
+}
+
+.example-2 .icon-content a[data-social="instagram"] .filled,
+.example-2 .icon-content a[data-social="instagram"]~.tooltip {
+    background: linear-gradient(45deg,
+            #405de6,
+            #5b51db,
+            #b33ab4,
+            #c135b4,
+            #e1306c,
+            #fd1f1f);
+}

@@ -1,29 +1,62 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
-import AboutUs from './pages/AboutUs';
+import SARCPage from './pages/AboutUs';
+import AlumniGrid from './pages/Alum';
 import Initiatives from './pages/Initiatives';
 import Gallery from './pages/Gallery';
-import Contact from './pages/Contact';
+import Contact from './components/Contact/Contact';
 import Blogs from './pages/Blogs';
 import JoinUs from './pages/JoinUs';
 import UpcomingEvents from './pages/UpcomingEvents';
-import Navbar from './components/Navbar';
+import Navbar from './components/Navbar/Navbar';
+import Login from './pages/Login';
+import VerifyPage from './pages/VerifyPage';
+import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
+import ResetPassword from './pages/ForgotPassword/ResetPassword';
+import Profile from './pages/Profile';
+import ChangePassword from './pages/ChangePassword/ChangePassword';
+import Loading from './components/Loading/Loading';
 
 const App = () => {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadAssets = async () => {
+      await new Promise(resolve => setTimeout(resolve, 3000));
+      setLoading(false);
+    };
+
+    loadAssets();
+  }, []);
+
   return (
     <Router>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/aboutUs" element={<AboutUs />} />
-        <Route path="/initiatives" element={<Initiatives />} />
-        <Route path="/gallery" element={<Gallery />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/blogs" element={<Blogs />} />
-        <Route path="/join-us" element={<JoinUs />} />
-        <Route path="/upcomingEvents" element={<UpcomingEvents />} />
-      </Routes>
+      {loading ? (
+        <Loading />
+      ) : (
+        <>
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/initiatives" element={<Initiatives />} />
+            <Route path="/gallery" element={<Gallery />} />
+            <Route path="/blogs" element={<Blogs />} />
+            <Route path="/contact" element={<Contact />} />  
+            <Route path="/aboutUs" element={<SARCPage />} />
+            <Route path="/alum" element={<AlumniGrid />} />
+            <Route path="/join-us" element={<JoinUs />} />
+            <Route path="/upcomingEvents" element={<UpcomingEvents />} />
+            <Route path='/profile' element={<Profile />} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/signup' element={<Login />} />
+            <Route path="/verify/:uid/:token" element={<VerifyPage />} />
+            <Route path='/forgotPassword' element={<ForgotPassword />} />
+            <Route path='/api/auth/password/:uid/:token' element={<ResetPassword />} />
+            <Route path="/changePassword" element={<ChangePassword />} />      
+          </Routes>
+        </>
+      )}
     </Router>
   );
 };
