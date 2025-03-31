@@ -57,7 +57,7 @@ class SendRegisterVerifyEmailSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         validated_data.pop('password2')
         validated_data["is_verified"] = False  # Ensure user is unverified initially
-        user = User.objects.create_user(**validated_data)  # create_user() se password hash hokar save hota hai
+        user = User.objects.create_user(**validated_data)  # create_user() hashes the password
         return user
         
 class UserRegisterEmailSerializer(serializers.Serializer):
@@ -127,23 +127,19 @@ class SendPasswordResetEmailSerializer(serializers.Serializer):
         email = attrs.get('email')
         if User.objects.filter(email=email).exists():
             user = User.objects.get(email=email)
-            uid = urlsafe_base64_encode(force_bytes(user.id)) # user id ko encode kar rha hai for security
-            print("Encoded UID: ", uid)
+            uid = urlsafe_base64_encode(force_bytes(user.id))
             token = PasswordResetTokenGenerator().make_token(user)
-            print("Password Reset Token: ", token)
-            # absolute url
-            link = 'http://localhost:3000/api/auth/password/' + uid + '/' + token
-            print("Password Reset Link: ", link)
-            # send email
-            data = {
-                'subject': 'Reset Your Password',
-                'body': f'Click Following Link to Reset Your Password: {link}',
-                'to_email': user.email
-            }
-            Util.send_email(data)
+            
+            # Get domain from context if available, otherwise use default
+            request = self.context.get('request')
+            domain = request.get_host() if request else 'centralised.sarc-iitb.org'
+            
+            # Send email with reset link
+            Util.send_password_reset_email(user, uid, token, domain)
+            
             return attrs
         else:
-            raise ValidationErr("You are not a Registered User")
+            raise serializers.ValidationError("You are not a registered user")
         
 class UserPasswordResetSerializer(serializers.Serializer):
     password = serializers.CharField(max_length=255, style={'input_type': 'password'}, write_only=True)

@@ -111,6 +111,9 @@ from oauth2_provider.views import TokenView
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+from django.conf import settings
 
 # Generate Token Manually
 def get_tokens_for_user(user):
@@ -148,58 +151,47 @@ class UserAuthView(APIView):
                 password = serializer.data.get('password')
                 user = authenticate(email=email, password=password)
                 if user is not None:
+                    if not user.is_verified:
+                        return Response({"error": "Email not verified. Please check your email for verification link."}, status=status.HTTP_401_UNAUTHORIZED)
+                    
                     token = get_tokens_for_user(user)
-                    user_data = {
-                        "id": user.id,
-                        "email": user.email,
-                        "name": user.name,
-                        # Add other user fields you want to return
-                    }
-                    return Response({"token": token, "user": user_data, "message": "Login successful"}, status=status.HTTP_200_OK)
-                return Response({"error": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
+                    # Store user data in token response
+                    user_data = UserProfileViewSerializer(user).data
+                    return Response({"token": token, "user": user_data, "message": "User login successful"}, status=status.HTTP_200_OK)
+                else:
+                    return Response({"errors": {"non_field_errors":["Invalid credentials"]}}, status=status.HTTP_404_NOT_FOUND)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
                 
         elif action == "register-verify-email":
             serializer = SendRegisterVerifyEmailSerializer(data=request.data)
             if serializer.is_valid(raise_exception=True):
                 user = serializer.save()
-
-                uid = urlsafe_base64_encode(force_bytes(user.id)) # user id ko encode kar rha hai for security
-                print("Encoded UID: ", uid)
-
+                # Send verification email
+                uid = urlsafe_base64_encode(force_bytes(user.id))
                 token = PasswordResetTokenGenerator().make_token(user)
-                print("Registration Verification Token: ", token)
-
-                # absolute url
-                link = 'http://localhost:3000/verify/' + uid + '/' + token
-                print("Registration Verification Link: ", link)
-
-                # send email
-                data = {
-                    'subject': 'Registration Verification Link',
-                    'body': f'Click Following Link to register successfully: {link}',
-                    'to_email': user.email
-                }
-                Util.send_email(data)
-
-                return Response({"message": "Verification email sent successfully. Please check your webmail."}, status=status.HTTP_200_OK)
+                
+                domain = request.get_host()
+                Util.send_verification_email(user, uid, token, domain)
+                
+                return Response({"message": "Registration successful. Please check your email to verify your account."}, status=status.HTTP_201_CREATED)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
-        elif action == "register-verify":
-            # Ensure uid and token are provided
-            if not uid or not token:
-                return Response({"error": "Missing uid or token for password reset"}, status=status.HTTP_400_BAD_REQUEST)
-
-            serializer = UserRegisterEmailSerializer(data=request.data, context={"uid": uid, "token": token})
-
-            if serializer.is_valid(raise_exception=True):
+        elif action == "verify-email":
+            # This is for the verification link
+            try:
                 id = smart_str(urlsafe_base64_decode(uid))
                 user = User.objects.get(id=id)
                 
-                user.is_verified = True 
+                if not PasswordResetTokenGenerator().check_token(user, token):
+                    return Response({"error": "Token is invalid or expired"}, status=status.HTTP_400_BAD_REQUEST)
+                
+                user.is_verified = True
                 user.save()
-
-                token = get_tokens_for_user(user) # Generating JWT Token (access and refresh token)
-                return Response({"token": token, "message": "User Verified successfully"}, status=status.HTTP_200_OK)
-
+                
+                return Response({"message": "Email verified successfully. You can now login."}, status=status.HTTP_200_OK)
+            except Exception as e:
+                return Response({"error": "Invalid verification link"}, status=status.HTTP_400_BAD_REQUEST)
+        
         elif action == "oauth-login":
             access_token = request.data.get("access_token")
             if not access_token:
@@ -223,6 +215,26 @@ class UserAuthView(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         return Response({"error": "Invalid action"}, status=status.HTTP_400_BAD_REQUEST)
+
+    def get(self, request, uid=None, token=None, format=None):
+        # Handle email verification via GET request (when user clicks the link)
+        if uid and token:
+            try:
+                id = smart_str(urlsafe_base64_decode(uid))
+                user = User.objects.get(id=id)
+                
+                if not PasswordResetTokenGenerator().check_token(user, token):
+                    return Response({"error": "Token is invalid or expired"}, status=status.HTTP_400_BAD_REQUEST)
+                
+                user.is_verified = True
+                user.save()
+                
+                # Redirect to frontend verification success page
+                return redirect(f"http://{request.get_host().split(':')[0]}:3000/login?verified=true")
+            except Exception as e:
+                return Response({"error": "Invalid verification link"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        return Response({"error": "Invalid request"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 # to get the profile of the user
@@ -278,13 +290,10 @@ class UserPasswordView(APIView):
         elif action == "reset-password-email":
             serializer = SendPasswordResetEmailSerializer(data=request.data)
             if serializer.is_valid(raise_exception=True):
-                return Response({"message": "Password reset email sent successfully. Please check your webmail."}, status=status.HTTP_200_OK)
+                return Response({"message": "Password reset email sent successfully. Please check your email."}, status=status.HTTP_200_OK)
 
-        elif action == "reset-password":
-            # Ensure uid and token are provided
-            if not uid or not token:
-                return Response({"error": "Missing uid or token for password reset"}, status=status.HTTP_400_BAD_REQUEST)
-
+        elif uid and token:
+            # Handle password reset with token
             serializer = UserPasswordResetSerializer(data=request.data, context={"uid": uid, "token": token})
             if serializer.is_valid(raise_exception=True):
                 return Response({"message": "Password reset successfully"}, status=status.HTTP_200_OK)

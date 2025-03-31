@@ -1,0 +1,78 @@
+.verify-email-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  background-color: #f5f5f5;
+}
+
+.verify-email-card {
+  width: 100%;
+  max-width: 450px;
+  padding: 30px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.verifying, .success, .error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid #6EACDA;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.success-icon, .error-icon {
+  font-size: 60px;
+  margin-bottom: 20px;
+}
+
+.success-icon {
+  color: #2ecc71;
+}
+
+.error-icon {
+  color: #e74c3c;
+}
+
+h2 {
+  margin-bottom: 15px;
+  color: #333;
+}
+
+p {
+  color: #666;
+  margin-bottom: 25px;
+}
+
+.login-btn, .retry-btn {
+  padding: 12px 30px;
+  background-color: #6EACDA;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.login-btn:hover, .retry-btn:hover {
+  background-color: #5a91b8;
+} 

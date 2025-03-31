@@ -674,18 +674,30 @@ const restartAutoScroll = () => {
             scrollToId="testimonial"
             expandedContent={
               <div className="flex flex-wrap md:flex-nowrap justify-center gap-4 p-4">
-  {[1, 2, 3].map((i) => (
-    <div 
-      key={i} 
-      className="w-full sm:w-64 bg-[#F9F5DC] border border-black rounded-2xl p-4 flex flex-col justify-center items-center text-center shadow-md"
-    >
-      <p className="text-md font-semibold">Wow, what a concert man ....</p>
-      <p className="text-sm text-gray-600">CEO, Apple</p>
-    </div>
-  ))}
-</div>
+                {/* First Testimonial */}
+                <div 
+                  className="w-full sm:w-64 bg-[#F9F5DC]/90 backdrop-filter backdrop-blur-lg shadow-[0_8px_32px_0_rgba(31,38,135,0.37)] border border-opacity-20 border-white rounded-2xl p-4 flex flex-col justify-center items-center text-center transition-all duration-300 hover:transform hover:scale-105"
+                >
+                  <p className="text-md font-semibold">"SARC keeps the IIT Bombay spirit alive by connecting alumni with students in meaningful ways."</p>
+                  <p className="text-sm text-gray-600 mt-2">Sameer Saxena, Writer & Director</p>
+                </div>
 
-            
+                {/* Second Testimonial */}
+                <div 
+                  className="w-full sm:w-64 bg-[#F9F5DC]/90 backdrop-filter backdrop-blur-lg shadow-[0_8px_32px_0_rgba(31,38,135,0.37)] border border-opacity-20 border-white rounded-2xl p-4 flex flex-col justify-center items-center text-center transition-all duration-300 hover:transform hover:scale-105"
+                >
+                  <p className="text-md font-semibold">"The mentorship and guidance SARC facilitates are truly invaluable for students."</p>
+                  <p className="text-sm text-gray-600 mt-2">Ashima Mittal, IAS Officer</p>
+                </div>
+
+                {/* Third Testimonial */}
+                <div 
+                  className="w-full sm:w-64 bg-[#F9F5DC]/90 backdrop-filter backdrop-blur-lg shadow-[0_8px_32px_0_rgba(31,38,135,0.37)] border border-opacity-20 border-white rounded-2xl p-4 flex flex-col justify-center items-center text-center transition-all duration-300 hover:transform hover:scale-105"
+                >
+                  <p className="text-md font-semibold">"SARC brings together alumni stories that inspire and guide future generations."</p>
+                  <p className="text-sm text-gray-600 mt-2">Nandan Nilekani, Co-founder, Infosys</p>
+                </div>
+              </div>
             }
           />
 

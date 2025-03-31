@@ -8,66 +8,61 @@ import { MdEmail } from "react-icons/md";
 
 const Footer = () => {
   return (
-    <footer className="footer" id="contactUs">
+    <footer className="footer">
       <div className="footer-container">
-        <h2 className="footer-title">Contact</h2>
         <div className="footer-content">
-          {/* Contact Details */}
-          <div className="footer-section contacts">
-            <div className="contact-item">
-              <PiPhoneCallThin style={{ scale: "2" }} />
-              <div>
-                <p>Contact Us</p>
-                <strong>+91 62631 73987</strong>
+          {/* Contact Section */}
+          <div className="footer-section">
+            <h3>Contact Us</h3>
+            <div className="contacts">
+              <div className="contact-item">
+                {/* <div className="contact-label">Office</div> */}
+                {/* <div className="contact-info">
+                  <i className="fas fa-phone icon"></i>
+                  <span>+91 881382383</span>
+                </div> */}
+                <span>+91 881382383</span>
               </div>
             </div>
           </div>
 
-          {/* Address */}
-          <div className="footer-section address">
-            <strong>ADDRESS:</strong>
-            <br /> <br />
-            <p>SARC office, IIT Bombay</p>
-            <p>Powai, Mumbai</p>
-            <p>Maharashtra - 400076</p>
-            <br />
-            <a href="https://gmap.link.com" className="map-link">
-              {/* <FaMapMarkerAlt className="icon" /> */}
-              <div class="center-body">
-                <div class="loader-shape-3"></div>
-              </div>
-              https://gmap.link.com
-            </a>
+          {/* Address Section */}
+          <div className="footer-section">
+            <h3>Address</h3>
+            <div className="address">
+              <p>SARC office, IIT Bombay</p>
+              <p>Powai, Mumbai</p>
+              <p>Maharashtra - 400076</p>
+            </div>
           </div>
 
-          {/* Social Media */}
-          <div className="footer-section social">
-            <a href="https://www.instagram.com/sarc_iitb/?hl=en" className="social-item">
-              <FaInstagram className="icon" />
-              <p>Instagram</p>
-            </a>
-            <br />
-            <a href="mailto:sarc@iitb.ac.in" className="social-item">
-              <MdEmail  className="icon" />
-              <p>Email</p>
-            </a>
-            <br />
-            <div className="social-item">
-              <a href="https://www.facebook.com/SARC.IITB/" className="social-item">
-                <FaFacebook className="icon" />
-                <p>Facebook</p>
+          {/* Social Links Section */}
+          <div className="footer-section">
+            <h3>Connect With Us</h3>
+            <div className="social-links">
+              <a href="https://www.instagram.com/sarc_iitb/?hl=en" className="social-item" target="_blank" rel="noopener noreferrer">
+                <i className="fab fa-instagram"></i>
+                <span>Instagram</span>
               </a>
-            </div>
-            <br />
-            <div className="social-item">
-              <a href="https://x.com/sarc_iitb" className="social-item">
-                <FaTwitter className="icon" />
-                <p>Twitter / X</p>
+              <a href="mailto:sarc@iitb.ac.in" className="social-item">
+                <i className="far fa-envelope"></i>
+                <span>Email</span>
+              </a>
+              <a href="https://www.facebook.com/SARC.IITB/" className="social-item" target="_blank" rel="noopener noreferrer">
+                <i className="fab fa-facebook"></i>
+                <span>Facebook</span>
+              </a>
+              <a href="https://x.com/sarc_iitb" className="social-item" target="_blank" rel="noopener noreferrer">
+                <i className="fab fa-twitter"></i>
+                <span>Twitter</span>
               </a>
             </div>
           </div>
         </div>
-        <p className="footer-credit">Made with 💙 by SARC</p>
+        
+        <div className="footer-credit">
+          Made with ❤️ by SARC
+        </div>
       </div>
     </footer>
   );

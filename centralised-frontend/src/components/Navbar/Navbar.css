@@ -197,3 +197,23 @@
 .logout-button:active {
     transform: translate(2px, 2px);
 }
+
+.nav-auth {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.logout-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: inherit;
+    color: inherit;
+    padding: 0;
+    font-family: inherit;
+}
+
+.logout-btn:hover {
+    color: #6EACDA;
+}

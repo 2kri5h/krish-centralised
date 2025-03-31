@@ -15,7 +15,9 @@ export const AuthProvider = ({ children }) => {
     if (storedToken && storedUser) {
       setToken(storedToken);
       try {
-        setUser(JSON.parse(storedUser));
+        const parsedUser = JSON.parse(storedUser);
+        console.log("Retrieved user from localStorage:", parsedUser);
+        setUser(parsedUser);
       } catch (e) {
         console.error("Failed to parse user data:", e);
         localStorage.removeItem('user');
@@ -29,6 +31,10 @@ export const AuthProvider = ({ children }) => {
     // Store token as string, not object
     const accessToken = tokenData.access;
     
+    // Log the user data we're storing
+    console.log("Storing user data in login:", userData);
+    
+    // Make sure we're storing the complete user object
     localStorage.setItem('token', accessToken);
     localStorage.setItem('refreshToken', tokenData.refresh);
     localStorage.setItem('user', JSON.stringify(userData));
@@ -45,8 +51,15 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
   };
 
+  // Add a function to update user data
+  const updateUser = (updatedUserData) => {
+    const updatedUser = { ...user, ...updatedUserData };
+    localStorage.setItem('user', JSON.stringify(updatedUser));
+    setUser(updatedUser);
+  };
+
   return (
-    <AuthContext.Provider value={{ user, token, loading, login, logout }}>
+    <AuthContext.Provider value={{ user, token, loading, login, logout, updateUser }}>
       {children}
     </AuthContext.Provider>
   );

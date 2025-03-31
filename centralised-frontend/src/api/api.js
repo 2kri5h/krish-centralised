@@ -42,11 +42,20 @@ export const logoutUser = () => {
     localStorage.removeItem('user');
 };
 
-export const forgotPassword = async (userData) => {
+export const forgotPassword = async (data) => {
     try {
-        const response = await axios.post(`${BASE_URL}password/?action=reset-password-email`, userData);
+        const response = await axios.post('/api/auth/password/?action=reset-password-email', data);
         return response.data;
     } catch (error) {
-        throw error.response?.data || { error: "Something went wrong" };
+        throw error.response?.data || { error: 'Something went wrong' };
+    }
+};
+
+export const resetPassword = async (uid, token, data) => {
+    try {
+        const response = await axios.post(`/api/auth/password/${uid}/${token}/`, data);
+        return response.data;
+    } catch (error) {
+        throw error.response?.data || { error: 'Something went wrong' };
     }
 };

@@ -19,6 +19,7 @@ import Profile from './pages/Profile';
 import ChangePassword from './pages/ChangePassword/ChangePassword';
 import Loading from './components/Loading/Loading';
 import Signup from './pages/Signup';
+import VerifyEmail from './pages/VerifyEmail';
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -54,8 +55,9 @@ const App = () => {
               <Route path='/login' element={<Login />} />
               <Route path='/signup' element={<Signup />} />
               <Route path="/verify/:uid/:token" element={<VerifyPage />} />
-              <Route path='/forgotPassword' element={<ForgotPassword />} />
-              <Route path='/api/auth/password/:uid/:token' element={<ResetPassword />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/reset-password/:uid/:token" element={<ResetPassword />} />
+              <Route path="/verify/:uid/:token" element={<VerifyEmail />} />
               <Route path="/changePassword" element={<ChangePassword />} />      
             </Routes>
           </>

@@ -10,6 +10,7 @@ import ContactIcon from "../../assets/contact.svg";
 import SocialIcon from "../../assets/social.png"; // Replace with actual filename
 import PhoneIcon from "../../assets/phone.png"; // Replace with actual filename
 import AddressIcon from "../../assets/address.png";
+import { motion } from "framer-motion";
 
 const councilMembers = [
   {
@@ -184,179 +185,233 @@ const socialLinks = (linkedinUsername, instagramUsername) => [
 
 const Contact = () => {
   return (
-    <div className="contact-page">
-      {/* Header */}
-      <h1 className="contact-title">
-        CONTACT US
-        <img src={ContactIcon} alt="Contact Icon" className="contact-icon" />
-      </h1>
+    <div className="bg-black min-h-screen text-white">
+      {/* Header with Gradient Background - Improved centering */}
+      <div className="relative py-20 px-4 md:px-8 lg:px-16 overflow-hidden">
+        <div className="absolute inset-0 z-0 opacity-20">
+          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-orange-600 to-transparent"></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-orange-500 filter blur-3xl opacity-30"></div>
+          <div className="absolute bottom-0 right-0 w-64 h-64 rounded-full bg-blue-500 filter blur-3xl opacity-20"></div>
+        </div>
+        
+        <div className="relative z-10 max-w-5xl mx-auto text-center">
+          <motion.h1 
+            className="text-4xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-orange-400 to-yellow-300 flex items-center justify-center"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            CONTACT US
+            <img src={ContactIcon} alt="Contact Icon" className="ml-4 h-12 md:h-16" />
+          </motion.h1>
+          <motion.p
+            className="text-lg text-gray-300 max-w-2xl mx-auto"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            Connect with our team members and reach out through various channels
+          </motion.p>
+        </div>
+      </div>
 
-      {/* Council Members Section */}
-      <section className="council-section">
-        <h2>Council Members</h2>
-        <p>Meet our council members</p>
-
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
+      {/* Council Members Section - More formal and professional styling */}
+      <section className="relative px-4 md:px-8 lg:px-16 pb-24">
+        <motion.h2 
+          className="text-3xl font-bold mb-12 text-center bg-clip-text text-transparent bg-gradient-to-r from-orange-400 to-yellow-300"
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
         >
-          <h3 className="portfolio-title">Overall Coordinator</h3>
-          <div className="council-card first-card">
-            <img
-              src={require("../../assets/ctm/aniruddha.jpg")}
-              alt="Aniruddha Goyal"
-              className="profile-placeholder"
-            />
-            <div className="council-info">
-              <div>
-                <h3>Aniruddha Goyal</h3>
-                <p className="role">Overall Coordinator</p>
-              </div>
-              <ul className="example-2">
+          Council Members
+        </motion.h2>
+        
+        {/* Overall Coordinator - Special styling */}
+        <div className="flex justify-center mb-16">
+          <motion.div 
+            className="bg-gradient-to-r from-orange-500 to-amber-500 p-1 rounded-xl max-w-md w-full"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <div className="bg-black/90 rounded-lg p-6 flex flex-col items-center">
+              <img
+                src={require("../../assets/ctm/aniruddha.jpg")}
+                alt="Aniruddha Goyal"
+                className="w-32 h-32 rounded-full object-cover mb-4 border-2 border-orange-400"
+              />
+              <h3 className="text-xl font-bold">Aniruddha Goyal</h3>
+              <p className="text-gray-300 mb-3">Overall Coordinator</p>
+              <ul className="flex space-x-4">
                 {socialLinksOC().map(
                   ({ href, ariaLabel, social, svgPath, tooltip }) => (
-                    <li className="icon-content" key={social}>
+                    <li key={social}>
                       <a
                         href={href}
                         aria-label={ariaLabel}
-                        data-social={social}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-white hover:text-orange-400 transition-colors"
                       >
-                        <div className="filled"></div>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
-                          width="1"
-                          height="1"
+                          width="20"
+                          height="20"
                           fill="currentColor"
-                          viewBox="-2 -4 20 25"
+                          viewBox="0 0 16 16"
                         >
                           <path d={svgPath} fill="currentColor"></path>
                         </svg>
                       </a>
-                      <div className="tooltip">{tooltip}</div>
                     </li>
                   )
                 )}
               </ul>
             </div>
-          </div>
+          </motion.div>
         </div>
 
-        {Array.from({ length: Math.ceil(councilMembers.length / 3) }).map(
-          (_, index) => {
-            const startIndex = index * 3;
-            const portfoliosInRow = councilMembers.slice(
-              startIndex,
-              startIndex + 3
-            );
-
-            return (
-              <div key={index} className="portfolio-wrapper">
-                {portfoliosInRow.map((portfolio, i) => (
-                  <div key={i} className="portfolio-section">
-                    {/* Portfolio Name */}
-                    <h3 className="portfolio-title">{portfolio.portfolio}</h3>
-
-                    {/* Two Members in a Column */}
-                    <div className="council-grid">
-                      {portfolio.members.map((member, j) => (
-                        <div className="council-card" key={j}>
-                          <img
-                            src={require(`../../assets/ctm/${member.photo}`)}
-                            alt={member.name}
-                            className="profile-placeholder"
-                          />
-                          <div className="council-info">
-                            <>
-                              <h3>{member.name}</h3>
-                              <p className="role">{portfolio.portfolio}</p>
-                              <p className="username">{member.username}</p>
-                            </>
-                            <>
-                              <ul className="example-2">
-                                {socialLinks(member.linkedinUsername, member.instagramUsername).map(
-                                  ({ href, ariaLabel, social, svgPath, tooltip }) => (
-                                    <li className="icon-content" key={social}>
-                                      <a
-                                        href={href}
-                                        aria-label={ariaLabel}
-                                        data-social={social}
-                                        target="_blank" rel="noopener noreferrer"
-                                      >
-                                        <div className="filled"></div>
-                                        <svg
-                                          xmlns="http://www.w3.org/2000/svg"
-                                          width="1"
-                                          height="1"
-                                          fill="currentColor"
-                                          viewBox="-2 -4 20 25"
-                                        >
-                                          <path
-                                            d={svgPath}
-                                            fill="currentColor"
-                                          ></path>
-                                        </svg>
-                                      </a>
-                                      <div className="tooltip">{tooltip}</div>
-                                    </li>
-                                  )
-                                )}
-                              </ul>
-                            </>
-                          </div>
+        {/* Portfolio sections - More professional grid layout with larger boxes */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {councilMembers.map((portfolio, index) => (
+            <motion.div 
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className="flex flex-col"
+            >
+              <h3 className="text-xl font-semibold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-orange-400 to-yellow-300 text-center">
+                {portfolio.portfolio}
+              </h3>
+              
+              <div className="space-y-6">
+                {portfolio.members.map((member, j) => (
+                  <motion.div 
+                    className={`bg-gradient-to-r ${getGradientColor(index)} p-0.5 rounded-lg shadow-lg`}
+                    key={j}
+                    whileHover={{ scale: 1.02, boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1)" }}
+                  >
+                    <div className="bg-black/95 rounded-lg p-6 flex items-center">
+                      <img
+                        src={require(`../../assets/ctm/${member.photo}`)}
+                        alt={member.name}
+                        className="w-20 h-20 rounded-full object-cover mr-5 border border-gray-700"
+                      />
+                      <div>
+                        <h4 className="text-lg font-medium text-white">{member.name}</h4>
+                        <div className="flex mt-3 space-x-4">
+                          {socialLinks(member.linkedinUsername, member.instagramUsername).map(
+                            ({ href, social, svgPath }) => (
+                              <a
+                                key={social}
+                                href={href}
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="text-gray-400 hover:text-white transition-colors"
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="18"
+                                  height="18"
+                                  fill="currentColor"
+                                  viewBox="0 0 16 16"
+                                >
+                                  <path d={svgPath}></path>
+                                </svg>
+                              </a>
+                            )
+                          )}
                         </div>
-                      ))}
+                      </div>
                     </div>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
-            );
-          }
-        )}
+            </motion.div>
+          ))}
+        </div>
       </section>
 
-      {/* Additional Contacts Section */}
-      <div className="additional-contacts">
-        <h2 className="contact-heading">Additional Contacts</h2>
-        <p className="contact-subtext">
-          Connect with us through various channels
-        </p>
+      {/* Contact Information Section - Even larger cards */}
+      {/* <div className="bg-gradient-to-b from-black to-gray-900 px-4 md:px-8 lg:px-16 py-16">
+        <motion.h2 
+          className="text-3xl font-bold mb-12 text-center bg-clip-text text-transparent bg-gradient-to-r from-orange-400 to-yellow-300"
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          Get In Touch
+        </motion.h2>
 
-        <div className="contact-info">
-          {/* Social Media */}
-          <div className="contact-item">
-            <img src={SocialIcon} alt="Social Media" className="contact-icon" />
-            <p className="contact-label">Mail Us</p>
-            <p className="contact-detail">sarc@iitb.ac.in </p>
-          </div>
-
-          {/* Phone Number */}
-          <div className="contact-item">
-            <img src={PhoneIcon} alt="Phone Number" className="contact-icon" />
-            <p className="contact-label">Phone Number</p>
-            <p className="contact-detail">+91 62631 73987</p>
-          </div>
-
-          {/* Address */}
-          <div className="contact-item">
-            <img src={AddressIcon} alt="Address" className="contact-icon" />
-            <p className="contact-label">Address</p>
-            <p className="contact-detail">SARC Room, Old SAC, IIT Bombay</p>
-          </div>
+        <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+          <motion.div 
+            className="bg-gradient-to-r from-orange-500 to-amber-500 p-1 rounded-xl shadow-lg"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <div className="bg-black/95 rounded-lg p-10 h-full flex flex-col items-center text-center">
+              <img src={SocialIcon} alt="Mail Us" className="w-20 h-20 mb-6" />
+              <h3 className="text-2xl font-semibold mb-4">Mail Us</h3>
+              <p className="text-gray-300 text-lg">sarc@iitb.ac.in</p>
+            </div>
+          </motion.div>
+          
+          <motion.div 
+            className="bg-gradient-to-r from-blue-500 to-purple-500 p-1 rounded-xl shadow-lg"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+          >
+            <div className="bg-black/95 rounded-lg p-10 h-full flex flex-col items-center text-center">
+              <img src={PhoneIcon} alt="Phone Number" className="w-20 h-20 mb-6" />
+              <h3 className="text-2xl font-semibold mb-4">Phone Number</h3>
+              <p className="text-gray-300 text-lg">+91 62631 73987</p>
+            </div>
+          </motion.div>
+          
+          <motion.div 
+            className="bg-gradient-to-r from-green-500 to-teal-500 p-1 rounded-xl shadow-lg"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            <div className="bg-black/95 rounded-lg p-10 h-full flex flex-col items-center text-center">
+              <img src={AddressIcon} alt="Address" className="w-20 h-20 mb-6" />
+              <h3 className="text-2xl font-semibold mb-4">Address</h3>
+              <p className="text-gray-300 text-lg">SARC Room, Old SAC, IIT Bombay</p>
+            </div>
+          </motion.div>
         </div>
-      </div>
+      </div> */}
 
-      {/* Footer */}
-      <footer className="contact-footer">
-        <p>
-          Mail: sarc@iitb.ac.in &nbsp; | &nbsp; Phone: +91 62631 73987 &nbsp; |
-          &nbsp; Address: SARC Room, Old SAC, IIT Bombay
+      {/* Footer - More professional styling */}
+      <footer className="bg-black py-6 text-center border-t border-gray-800">
+        <p className="text-gray-400 text-sm">
+          Mail: sarc@iitb.ac.in &nbsp; | &nbsp; Phone: +91 62631 73987 &nbsp; | &nbsp; Address: SARC Room, Old SAC, IIT Bombay
         </p>
       </footer>
     </div>
   );
+};
+
+// Helper function to get gradient colors similar to initiatives
+const getGradientColor = (index) => {
+  const gradients = [
+    "from-orange-500 to-amber-500",
+    "from-blue-500 to-purple-500",
+    "from-green-500 to-teal-500",
+    "from-red-500 to-pink-500",
+    "from-indigo-500 to-blue-500",
+    "from-yellow-500 to-orange-500",
+    "from-purple-500 to-pink-500",
+    "from-cyan-500 to-blue-500",
+    "from-emerald-500 to-green-500",
+    "from-rose-500 to-red-500",
+  ];
+  
+  return gradients[index % gradients.length];
 };
 
 export default Contact;
