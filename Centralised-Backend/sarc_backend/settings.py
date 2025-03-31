@@ -252,3 +252,13 @@ SIMPLE_JWT = {
 LOGIN_URL = '/admin/login/'
 
 APPEND_SLASH = False
+
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp-auth.iitb.ac.in'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'sarc@iitb.ac.in'
+EMAIL_HOST_PASSWORD = '87638c40a92a794bc81b6de03e5ae86c'
+DEFAULT_FROM_EMAIL = 'sarc@iitb.ac.in'

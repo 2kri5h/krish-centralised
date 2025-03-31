@@ -14,6 +14,7 @@ const Signup = () => {
     hostel_number: "",
   });
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -28,10 +29,11 @@ const Signup = () => {
     e.preventDefault();
     setLoading(true);
     setError("");
+    setSuccess("");
 
     try {
       // Use query parameter for action
-      const response = await apiClient.post("/auth/?action=register", {
+      const response = await apiClient.post("/auth/?action=register-verify-email", {
         name: formData.name,
         email: formData.email,
         password: formData.password,
@@ -40,20 +42,41 @@ const Signup = () => {
         hostel_number: formData.hostel_number,
       });
 
-      if (response.data.success) {
-        // Redirect to login after successful registration
-        navigate("/login", { 
-          state: { message: "Registration successful! Please login with your credentials." } 
+      if (response.data.message) {
+        // Show success message
+        setSuccess("Email sent successfully! Please check your webmail to verify your account.");
+        
+        // Clear form data
+        setFormData({
+          name: "",
+          email: "",
+          password: "",
+          phone: "",
+          roll_number: "",
+          hostel_number: "",
         });
+        
+        // Don't navigate immediately, let user see the success message
       } else {
         setError("Registration failed. Please try again.");
       }
     } catch (err) {
       console.error("Signup error:", err);
-      setError(
-        err.response?.data?.error || 
-        "Registration failed. Please check your information and try again."
-      );
+      
+      // Handle specific error messages from backend
+      if (err.response?.data?.error) {
+        setError(err.response.data.error);
+      } else if (err.response?.data?.errors?.email) {
+        setError(`Email error: ${err.response.data.errors.email[0]}`);
+      } else if (err.response?.data?.errors?.password) {
+        setError(`Password error: ${err.response.data.errors.password[0]}`);
+      } else if (err.response?.data?.errors?.non_field_errors) {
+        setError(err.response.data.errors.non_field_errors[0]);
+      } else {
+        setError(
+          "Registration failed. Please check your information and try again."
+        );
+      }
     } finally {
       setLoading(false);
     }
@@ -103,6 +126,16 @@ const Signup = () => {
               animate={{ opacity: 1, y: 0 }}
             >
               {error}
+            </motion.div>
+          )}
+
+          {success && (
+            <motion.div 
+              className="bg-green-500/10 border border-green-500/20 text-green-400 px-4 py-3 rounded-lg mb-6"
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              {success}
             </motion.div>
           )}
 

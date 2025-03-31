@@ -39,11 +39,55 @@ const Login = () => {
       }
     } catch (err) {
       console.error("Login error:", err);
-      setError(err.error || "Login failed. Please check your credentials.");
+      
+      // Handle specific error messages from backend
+      if (err.error === "Email not verified. Please check your email for verification link.") {
+        setError("Your email is not verified. Please check your webmail for the verification link.");
+      } else if (err.errors?.non_field_errors) {
+        setError(err.errors.non_field_errors[0]);
+      } else if (err.error) {
+        setError(err.error);
+      } else {
+        setError("Login failed. Please check your credentials.");
+      }
     } finally {
       setLoading(false);
     }
   };
+
+  const handleResendVerification = async () => {
+    if (!formData.email) {
+      setError("Please enter your email address to resend verification");
+      return;
+    }
+    
+    setLoading(true);
+    try {
+      // Call the resend verification API
+      const response = await fetch("https://centralised.sarc-iitb.org/api/auth/resend-verification/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: formData.email }),
+      });
+      
+      const data = await response.json();
+      
+      if (response.ok) {
+        setError("");
+        setResendSuccess("Verification email sent! Please check your webmail.");
+      } else {
+        setError(data.error || "Failed to resend verification email");
+      }
+    } catch (err) {
+      setError("Failed to resend verification email. Please try again later.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const [resendSuccess, setResendSuccess] = useState("");
 
   return (
     <div className="min-h-screen bg-black flex">
@@ -88,7 +132,25 @@ const Login = () => {
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
             >
-              {error}
+              <p>{error}</p>
+              {error.includes("not verified") && (
+                <button 
+                  onClick={handleResendVerification}
+                  className="mt-2 text-orange-400 hover:text-orange-300 text-sm underline"
+                >
+                  Resend verification email
+                </button>
+              )}
+            </motion.div>
+          )}
+
+          {resendSuccess && (
+            <motion.div 
+              className="bg-green-500/10 border border-green-500/20 text-green-400 px-4 py-3 rounded-lg mb-6"
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              {resendSuccess}
             </motion.div>
           )}
 

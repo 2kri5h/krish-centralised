@@ -16,7 +16,7 @@ export const loginUser = async (email, password) => {
 
 export const registerUser = async (userData) => {
     try {
-        const response = await axios.post(`${BASE_URL}?action=register`, userData);
+        const response = await axios.post(`${BASE_URL}?action=register-verify-email`, userData);
         return response.data;
     } catch (error) {
         throw error.response?.data || { error: "Something went wrong" };
@@ -44,7 +44,7 @@ export const logoutUser = () => {
 
 export const forgotPassword = async (data) => {
     try {
-        const response = await axios.post('/api/auth/password/?action=reset-password-email', data);
+        const response = await axios.post(`${BASE_URL}password/?action=reset-password-email`, data);
         return response.data;
     } catch (error) {
         throw error.response?.data || { error: 'Something went wrong' };
@@ -53,7 +53,16 @@ export const forgotPassword = async (data) => {
 
 export const resetPassword = async (uid, token, data) => {
     try {
-        const response = await axios.post(`/api/auth/password/${uid}/${token}/`, data);
+        const response = await axios.post(`${BASE_URL}password/${uid}/${token}/`, data);
+        return response.data;
+    } catch (error) {
+        throw error.response?.data || { error: 'Something went wrong' };
+    }
+};
+
+export const verifyEmail = async (uid, token) => {
+    try {
+        const response = await axios.get(`${BASE_URL}register-verify/${uid}/${token}/`);
         return response.data;
     } catch (error) {
         throw error.response?.data || { error: 'Something went wrong' };

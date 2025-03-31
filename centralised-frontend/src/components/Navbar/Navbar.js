@@ -1,13 +1,16 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FiMenu, FiX } from "react-icons/fi";
 import logo from "../../assets/logo.png";
 import "./Navbar.css";
+import { useAuth } from '../../context/AuthContext';
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [showWebsites, setShowWebsites] = useState(false);
   const isLoggedIn = localStorage.getItem("access_token");
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
 
   // Website data with their URLs
   const websiteLinks = [
@@ -33,64 +36,49 @@ const Navbar = () => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("access_token");
-    // Remove any other auth-related items if needed
-    window.location.href = "/";
+    logout();
+    navigate('/');
   };
 
-  const AuthButtons = ({ isMobile = false }) => (
-    !isLoggedIn ? (
-      <div className={`flex ${isMobile ? 'flex-col space-y-2' : 'items-center'}`}>
-        <Link 
-          to="/signup" 
-          className={`${isMobile ? 'w-full' : ''} bg-gradient-to-r from-orange-500 to-amber-500 
-            text-white px-4 py-2 rounded-lg text-sm font-semibold 
-            hover:from-orange-600 hover:to-amber-600 transition-all duration-300`}
-          onClick={() => setMenuOpen(false)}
-        >
-          Sign Up
-        </Link>
-        {!isMobile && <span className="text-white/20 mx-2">|</span>}
-        <Link 
-          to="/login" 
-          className={`${isMobile ? 'w-full' : ''} bg-gradient-to-r from-orange-500 to-amber-500 
-            text-white px-4 py-2 rounded-lg text-sm font-semibold 
-            hover:from-orange-600 hover:to-amber-600 transition-all duration-300`}
-          onClick={() => setMenuOpen(false)}
+  const AuthButtons = ({ isMobile }) => {
+    if (user) {
+      // User is logged in, show profile and logout options
+      return (
+        <div className={isMobile ? "mobile-auth-buttons" : "auth-buttons"}>
+          <Link
+            to="/profile"
+            className={isMobile ? "block py-2 hover:text-[#6EACDA]" : "text-[#e2e2b6] text-md hover:text-[#6EACDA] transition-colors"}
+          >
+            Profile
+          </Link>
+          <button
+            onClick={handleLogout}
+            className={isMobile ? "block py-2 hover:text-[#6EACDA] text-left w-full" : "text-[#e2e2b6] text-md hover:text-[#6EACDA] transition-colors"}
+          >
+            Logout
+          </button>
+        </div>
+      );
+    }
+
+    // User is not logged in, show login and signup options
+    return (
+      <div className={isMobile ? "mobile-auth-buttons" : "auth-buttons"}>
+        <Link
+          to="/login"
+          className={isMobile ? "block py-2 hover:text-[#6EACDA]" : "text-[#e2e2b6] text-md hover:text-[#6EACDA] transition-colors"}
         >
           Login
         </Link>
-      </div>
-    ) : (
-      <div className={`flex ${isMobile ? 'flex-col space-y-2' : 'items-center space-x-4'}`}>
         <Link
-          to="/profile"
-          className={`${isMobile ? 'w-full' : ''} bg-gradient-to-r from-blue-500 to-blue-600 
-            text-white px-4 py-2 rounded-lg text-sm font-semibold 
-            hover:from-blue-600 hover:to-blue-700 transition-all duration-300`}
-          onClick={() => setMenuOpen(false)}
+          to="/signup"
+          className={isMobile ? "block py-2 hover:text-[#6EACDA]" : "text-[#e2e2b6] text-md hover:text-[#6EACDA] transition-colors"}
         >
-          Profile
+          Sign Up
         </Link>
-        <button
-          onClick={() => {
-            handleLogout();
-            setMenuOpen(false);
-          }}
-          className={`${isMobile ? 'w-full' : ''} bg-gradient-to-r from-red-500 to-red-600 
-            text-white px-4 py-2 rounded-lg text-sm font-semibold 
-            hover:from-red-600 hover:to-red-700 transition-all duration-300 
-            flex items-center justify-center space-x-2`}
-        >
-          <span>Logout</span>
-          <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" 
-              d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-          </svg>
-        </button>
       </div>
-    )
-  );
+    );
+  };
 
   return (
     <nav className="bg-black py-4">
