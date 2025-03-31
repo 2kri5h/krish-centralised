@@ -1,40 +1,23 @@
-# # Use the official Node.js image as base
-# FROM node:20.0.0
-
-# # Create and set the working directory
-# WORKDIR /centralised-frontend
-
-# # Copy package.json and yarn.lock to the container
-# COPY package.json yarn.lock ./
-
-# # Install dependencies
-# RUN yarn install
-
-# # Copy the frontend project files to the container
-# COPY . .
-
-# # Install serve globally
-# RUN yarn global add serve
-
-# # Command to serve the app
-# CMD ["yarn", "start"]
-
-
-
-# Use Node.js base image
-FROM node:20.0.0
+# Use Node.js 16 (more compatible with React)
+FROM node:16
 
 # Set working directory
-WORKDIR /centralised-frontend
+WORKDIR /app
 
-# Copy package.json and yarn.lock to container
-COPY package.json yarn.lock ./
+# Copy package.json
+COPY package.json ./
 
-# Install dependencies and react-scripts globally
-RUN yarn install && yarn global add react-scripts
+# Install dependencies
+RUN npm install
 
-# Copy project files to container
-COPY . .
+# Copy the rest of the application
+COPY . ./
 
-# Command to start the app using npx for safety
-CMD ["npx", "react-scripts", "start"]
+# Set environment variable for OpenSSL
+# ENV NODE_OPTIONS=--openssl-legacy-provider
+
+# Expose port 3000
+EXPOSE 3000
+
+# Start the application using npm
+CMD ["npm", "start"]

@@ -31,6 +31,8 @@ const Navbar = () => {
     window.open(url, "_blank");
   };
 
+  const isLoggedIn = localStorage.getItem("access_token");
+
   return (
     <nav className="bg-black py-4">
       <div className="max-w-7xl mx-auto px-4 flex justify-between items-center">
@@ -105,7 +107,7 @@ const Navbar = () => {
           >
             Blogs
           </Link> */}
-          {localStorage.getItem("access_token") && (
+          {isLoggedIn && (
             <Link
               to="/profile"
               className="text-[#e2e2b6] text-md hover:text-[#6EACDA] transition-colors"
@@ -120,33 +122,38 @@ const Navbar = () => {
             Contact us
           </Link>
 
-          {/* Sign Up & Login Button */}
-          {!localStorage.getItem("access_token") ? (
-            <div className="flex items-center bg-orange-500 hover:bg-orange-600 text-white rounded-lg overflow-hidden">
-              <Link to="/signup" className="px-4 py-2 text-sm font-semibold">
+          {/* Authentication Buttons - Desktop */}
+          {!isLoggedIn ? (
+            <div className="flex items-center bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-lg overflow-hidden">
+              <Link to="/signup" className="px-4 py-2 text-sm font-semibold hover:bg-white/10 transition-colors">
                 Sign Up
               </Link>
-              <span className="text-white">|</span>
-              <Link to="/login" className="px-4 py-2 text-sm font-semibold">
+              <span className="text-white/20">|</span>
+              <Link to="/login" className="px-4 py-2 text-sm font-semibold hover:bg-white/10 transition-colors">
                 Login
               </Link>
             </div>
           ) : (
-            <button
-              onClick={() => {
-                localStorage.removeItem("access_token");
-                window.location.href = "/";
-              }}
-              className="logout-button bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-semibold"
-            >
-              <div class="sign">
-                <svg viewBox="0 0 512 512">
-                  <path d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z"></path>
+            <div className="flex items-center space-x-4">
+              <Link
+                to="/profile"
+                className="text-[#e2e2b6] text-md hover:text-[#6EACDA] transition-colors"
+              >
+                Profile
+              </Link>
+              <button
+                onClick={() => {
+                  localStorage.removeItem("access_token");
+                  window.location.href = "/";
+                }}
+                className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-4 py-2 rounded-lg font-semibold transition-all duration-300 flex items-center space-x-2"
+              >
+                <span>Logout</span>
+                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                 </svg>
-              </div>
-
-              <div class="text">Logout</div>
-            </button>
+              </button>
+            </div>
           )}
         </div>
 
@@ -200,20 +207,49 @@ const Navbar = () => {
             Contact us
           </Link>
 
-          {/* Sign Up & Login for Mobile */}
-          <div className="flex justify-center space-x-3 mt-4">
-            <Link
-              to="/signup"
-              className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg text-sm font-semibold"
-            >
-              Sign Up
-            </Link>
-            <Link
-              to="/login"
-              className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg text-sm font-semibold"
-            >
-              Login
-            </Link>
+          {/* Authentication Buttons - Mobile */}
+          <div className="mt-4 space-y-2 px-4">
+            {!isLoggedIn ? (
+              <>
+                <Link
+                  to="/signup"
+                  className="block w-full bg-gradient-to-r from-orange-500 to-amber-500 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:from-orange-600 hover:to-amber-600 transition-all duration-300"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Sign Up
+                </Link>
+                <Link
+                  to="/login"
+                  className="block w-full bg-gradient-to-r from-orange-500 to-amber-500 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:from-orange-600 hover:to-amber-600 transition-all duration-300"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Login
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/profile"
+                  className="block w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:from-blue-600 hover:to-blue-700 transition-all duration-300"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Profile
+                </Link>
+                <button
+                  onClick={() => {
+                    localStorage.removeItem("access_token");
+                    window.location.href = "/";
+                    setMenuOpen(false);
+                  }}
+                  className="w-full bg-gradient-to-r from-red-500 to-red-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:from-red-600 hover:to-red-700 transition-all duration-300 flex items-center justify-center space-x-2"
+                >
+                  <span>Logout</span>
+                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                  </svg>
+                </button>
+              </>
+            )}
           </div>
 
           {/* Add websites list for mobile */}

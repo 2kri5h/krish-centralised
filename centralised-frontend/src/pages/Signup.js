@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import apiClient from "../apiclient/apiclient";
+import { motion } from "framer-motion";
+import loginImage from "../assets/login.png";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -58,132 +60,108 @@ const Signup = () => {
   };
 
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center px-4 py-12">
-      <div className="max-w-md w-full bg-orange-500 rounded-lg shadow-lg p-8">
-        <h2 className="text-3xl font-bold text-center text-white mb-6">
-          Create an Account
-        </h2>
-        
-        {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-            {error}
-          </div>
-        )}
-        
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label htmlFor="name" className="block text-white font-medium mb-2">
-              Full Name
-            </label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
-              placeholder="Enter your full name"
-            />
-          </div>
-          
-          <div>
-            <label htmlFor="email" className="block text-white font-medium mb-2">
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
-              placeholder="Enter your email"
-            />
-          </div>
-          
-          <div>
-            <label htmlFor="password" className="block text-white font-medium mb-2">
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
-              placeholder="Create a password"
-            />
-          </div>
-          
-          <div>
-            <label htmlFor="phone" className="block text-white font-medium mb-2">
-              Phone Number
-            </label>
-            <input
-              type="tel"
-              id="phone"
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              required
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
-              placeholder="Enter your phone number"
-            />
-          </div>
-          
-          <div>
-            <label htmlFor="roll_number" className="block text-white font-medium mb-2">
-              Roll Number
-            </label>
-            <input
-              type="text"
-              id="roll_number"
-              name="roll_number"
-              value={formData.roll_number}
-              onChange={handleChange}
-              required
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
-              placeholder="Enter your roll number"
-            />
-          </div>
-          
-          <div>
-            <label htmlFor="hostel_number" className="block text-white font-medium mb-2">
-              Hostel Number
-            </label>
-            <input
-              type="text"
-              id="hostel_number"
-              name="hostel_number"
-              value={formData.hostel_number}
-              onChange={handleChange}
-              required
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
-              placeholder="Enter your hostel number"
-            />
-          </div>
-          
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-yellow-500 text-black py-2 px-4 rounded-md hover:bg-yellow-600 transition duration-300 font-medium disabled:opacity-50 mt-6"
+    <div className="min-h-screen bg-black flex">
+      {/* Left side - Image */}
+      <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
+        <motion.div 
+          className="absolute inset-0 z-0 opacity-20"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.2 }}
+          transition={{ duration: 1 }}
+        >
+          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-orange-600 to-transparent"></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-orange-500 filter blur-3xl opacity-30"></div>
+        </motion.div>
+        <img 
+          src={loginImage} 
+          alt="Signup" 
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+      </div>
+
+      {/* Right side - Form */}
+      <div className="w-full lg:w-1/2 flex items-center justify-center px-8 py-12">
+        <motion.div 
+          className="max-w-md w-full"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          <motion.h2 
+            className="text-4xl font-bold mb-8 text-center bg-clip-text text-transparent bg-gradient-to-r from-orange-400 to-yellow-300"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
           >
-            {loading ? "Creating Account..." : "Sign Up"}
-          </button>
-        </form>
-        
-        <div className="mt-6 text-center">
-          <p className="text-white">
-            Already have an account?{" "}
-            <Link to="/login" className="text-yellow-300 hover:underline">
-              Login
-            </Link>
-          </p>
-        </div>
+            Create Account
+          </motion.h2>
+
+          {error && (
+            <motion.div 
+              className="bg-red-500/10 border border-red-500/20 text-red-400 px-4 py-3 rounded-lg mb-6"
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              {error}
+            </motion.div>
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Form fields with animations */}
+            {[
+              { name: "name", type: "text", placeholder: "Full Name" },
+              { name: "email", type: "email", placeholder: "Email Address" },
+              { name: "password", type: "password", placeholder: "Password" },
+              { name: "phone", type: "tel", placeholder: "Phone Number" },
+              { name: "roll_number", type: "text", placeholder: "Roll Number" },
+              { name: "hostel_number", type: "text", placeholder: "Hostel Number" },
+            ].map((field, index) => (
+              <motion.div
+                key={field.name}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
+              >
+                <input
+                  type={field.type}
+                  name={field.name}
+                  placeholder={field.placeholder}
+                  value={formData[field.name]}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-3 bg-white/5 border border-gray-700 rounded-lg focus:outline-none focus:border-orange-500 text-white"
+                />
+              </motion.div>
+            ))}
+
+            <motion.button
+              type="submit"
+              className="w-full bg-gradient-to-r from-orange-500 to-amber-500 text-white py-3 px-4 rounded-lg font-medium hover:from-orange-600 hover:to-amber-600 transition-all duration-300 disabled:opacity-50 mt-6"
+              disabled={loading}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.9 }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              {loading ? "Creating Account..." : "Sign Up"}
+            </motion.button>
+          </form>
+
+          <motion.div 
+            className="mt-6 text-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 1 }}
+          >
+            <p className="text-gray-400">
+              Already have an account?{" "}
+              <Link to="/login" className="text-orange-400 hover:text-orange-300 transition-colors">
+                Login
+              </Link>
+            </p>
+          </motion.div>
+        </motion.div>
       </div>
     </div>
   );

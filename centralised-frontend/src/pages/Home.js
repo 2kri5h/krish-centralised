@@ -679,8 +679,8 @@ const restartAutoScroll = () => {
       key={i} 
       className="w-full sm:w-64 bg-[#F9F5DC] border border-black rounded-2xl p-4 flex flex-col justify-center items-center text-center shadow-md"
     >
-      <p className="text-md font-semibold">Wow, what a concert man ....</p>
-      <p className="text-sm text-gray-600">CEO, Apple</p>
+      <p className="text-md font-semibold">SARC keeps the IIT Bombay spirit alive by connecting alumni with...</p>
+      <p className="text-sm text-gray-600">Sameer Saxena, Writer & Director</p>
     </div>
   ))}
 </div>
@@ -707,7 +707,7 @@ const restartAutoScroll = () => {
             
               {/* Third Row: Overall OC Contact */}
               <div className="flex justify-between items-center w-full p-3 rounded-lg bg-[#F9F5DC] shadow-md">
-                <span className="text-md font-medium text-gray-700">OVERALL OC</span>
+                <span className="text-md font-medium text-gray-700">Web Head</span>
                 <span className="text-lg font-bold text-black">6263173987</span>
               </div>
             </div>
