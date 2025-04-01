@@ -1,0 +1,57 @@
+.auth-buttons {
+  position: absolute;
+  top: 20px;
+  right: 40px;
+  z-index: 1000;
+}
+
+.auth-container {
+  display: flex;
+  align-items: center;
+  background-color: #FF6B00;
+  border-radius: 30px;
+  padding: 5px 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.auth-button {
+  color: white;
+  text-decoration: none;
+  padding: 8px 15px;
+  font-weight: 500;
+  font-size: 16px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.auth-button:hover {
+  transform: translateY(-2px);
+}
+
+.auth-divider {
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0 5px;
+}
+
+.signup-btn, .profile-btn {
+  color: white;
+}
+
+.login-btn, .logout-btn {
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .auth-buttons {
+    position: static;
+    margin: 20px auto;
+    width: fit-content;
+  }
+  
+  .auth-container {
+    width: 100%;
+    justify-content: center;
+  }
+} 

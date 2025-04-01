@@ -36,7 +36,7 @@ const Loading = () => {
                 className="loading-text" 
                 style={{ transform: `scale(${scale})` }}
             >
-                Welcome to Our Website
+                
             </h2> {/* Scale welcome message */}
             <div className="progress-bar">
                 <div 

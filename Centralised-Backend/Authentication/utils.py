@@ -38,38 +38,42 @@ class Util:
             return False
     
     @staticmethod
-    def get_verification_email_html(user_name, verification_link):
+    def get_verification_email_html(name, verification_link):
+        # Print the verification link for debugging
+        print(f"DEBUG - Verification link: {verification_link}")
+        
         return f"""
         <!DOCTYPE html>
         <html>
         <head>
-            <meta charset="UTF-8">
-            <title>Verify Your Email</title>
             <style>
                 body {{
                     font-family: Arial, sans-serif;
                     line-height: 1.6;
                     color: #333;
+                    margin: 0;
+                    padding: 0;
+                }}
+                .container {{
                     max-width: 600px;
                     margin: 0 auto;
                     padding: 20px;
-                }}
-                .container {{
                     border: 1px solid #ddd;
                     border-radius: 5px;
-                    padding: 20px;
                 }}
                 .header {{
-                    background-color: #6EACDA;
+                    background-color: #0066cc;
                     color: white;
                     padding: 10px 20px;
                     text-align: center;
                     border-radius: 5px 5px 0 0;
-                    margin-bottom: 20px;
+                }}
+                .content {{
+                    padding: 20px;
                 }}
                 .button {{
                     display: inline-block;
-                    background-color: #6EACDA;
+                    background-color: #0066cc;
                     color: white;
                     text-decoration: none;
                     padding: 10px 20px;
@@ -77,38 +81,40 @@ class Util:
                     margin: 20px 0;
                 }}
                 .footer {{
-                    margin-top: 30px;
-                    font-size: 12px;
-                    color: #777;
+                    background-color: #f5f5f5;
+                    padding: 10px 20px;
                     text-align: center;
+                    font-size: 12px;
+                    color: #666;
+                    border-radius: 0 0 5px 5px;
                 }}
             </style>
         </head>
         <body>
             <div class="container">
                 <div class="header">
-                    <h1>Verify Your Email</h1>
+                    <h1>Email Verification</h1>
                 </div>
-                
-                <p>Hello {user_name},</p>
-                
-                <p>Thank you for registering with SARC IIT Bombay. To complete your registration, please verify your email address by clicking the button below:</p>
-                
-                <p style="text-align: center;">
-                    <a href="{verification_link}" class="button">Verify Email</a>
-                </p>
-                
-                <p>If the button doesn't work, you can also copy and paste the following link into your browser:</p>
-                
-                <p style="word-break: break-all;">{verification_link}</p>
-                
-                <p>This link will expire in 24 hours for security reasons.</p>
-                
-                <p>If you did not create an account, please ignore this email.</p>
-                
-                <p>Best regards,<br>
-                SARC IIT Bombay Team</p>
-                
+                <div class="content">
+                    <p>Hello {name},</p>
+                    
+                    <p>Thank you for registering with SARC IIT Bombay. To complete your registration, please verify your email address by clicking the button below:</p>
+                    
+                    <p style="text-align: center;">
+                        <a href="{verification_link}" class="button">Verify Email</a>
+                    </p>
+                    
+                    <p>If the button doesn't work, you can also copy and paste the following link into your browser:</p>
+                    
+                    <p style="word-break: break-all;">{verification_link}</p>
+                    
+                    <p>This link will expire in 24 hours for security reasons.</p>
+                    
+                    <p>If you did not create an account, please ignore this email.</p>
+                    
+                    <p>Best regards,<br>
+                    SARC IIT Bombay Team</p>
+                </div>
                 <div class="footer">
                     <p>This is an automated email. Please do not reply to this message.</p>
                     <p>&copy; 2025 SARC IIT Bombay. All rights reserved.</p>

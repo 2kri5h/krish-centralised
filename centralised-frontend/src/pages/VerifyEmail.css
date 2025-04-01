@@ -1,78 +1,78 @@
-.verify-email-container {
+.verify-container {
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  background-color: #121212;
   padding: 20px;
-  background-color: #f5f5f5;
 }
 
-.verify-email-card {
-  width: 100%;
-  max-width: 450px;
-  padding: 30px;
-  background-color: white;
+.verify-card {
+  background-color: rgba(255, 255, 255, 0.05);
   border-radius: 10px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  text-align: center;
-}
-
-.verifying, .success, .error {
+  padding: 40px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  text-align: center;
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
 }
 
-.spinner {
+.verify-spinner {
+  border: 4px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  border-top: 4px solid #6EACDA;
   width: 50px;
   height: 50px;
-  border: 5px solid #f3f3f3;
-  border-top: 5px solid #6EACDA;
-  border-radius: 50%;
   animation: spin 1s linear infinite;
   margin-bottom: 20px;
+}
+
+.verify-success {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: #4CAF50;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 40px;
+  margin-bottom: 20px;
+}
+
+.verify-error {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: #F44336;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 40px;
+  margin-bottom: 20px;
+}
+
+.verify-button {
+  background-color: #6EACDA;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: background-color 0.3s;
+}
+
+.verify-button:hover {
+  background-color: #5a91b8;
 }
 
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
-}
-
-.success-icon, .error-icon {
-  font-size: 60px;
-  margin-bottom: 20px;
-}
-
-.success-icon {
-  color: #2ecc71;
-}
-
-.error-icon {
-  color: #e74c3c;
-}
-
-h2 {
-  margin-bottom: 15px;
-  color: #333;
-}
-
-p {
-  color: #666;
-  margin-bottom: 25px;
-}
-
-.login-btn, .retry-btn {
-  padding: 12px 30px;
-  background-color: #6EACDA;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.login-btn:hover, .retry-btn:hover {
-  background-color: #5a91b8;
 } 

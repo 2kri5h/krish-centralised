@@ -1,9 +1,11 @@
-import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import { loginUser } from "../api/api";
 import { useAuth } from "../context/AuthContext";
 import { motion } from "framer-motion";
 import loginImage from "../assets/login.png";
+import './Login.css';
+import axios from "axios";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -12,8 +14,26 @@ const Login = () => {
   });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const location = useLocation();
+  const { login, isAuthenticated } = useAuth();
+
+  useEffect(() => {
+    // Check if user was redirected from verification page
+    const params = new URLSearchParams(location.search);
+    if (params.get('verified') === 'true') {
+      setSuccessMessage('Email verified successfully! You can now log in.');
+    } else if (params.get('verification') === 'failed') {
+      setError('Email verification failed. Please try again or contact support.');
+    }
+  }, [location]);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/profile');
+    }
+  }, [isAuthenticated, navigate]);
 
   const handleChange = (e) => {
     setFormData({
@@ -63,31 +83,21 @@ const Login = () => {
     
     setLoading(true);
     try {
-      // Call the resend verification API
-      const response = await fetch("https://centralised.sarc-iitb.org/api/auth/resend-verification/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email: formData.email }),
+      // Call the resend verification API with the correct endpoint
+      const response = await axios.post("/api/auth/resend-verification/", {
+        email: formData.email
       });
       
-      const data = await response.json();
-      
-      if (response.ok) {
+      if (response.status === 200) {
         setError("");
-        setResendSuccess("Verification email sent! Please check your webmail.");
-      } else {
-        setError(data.error || "Failed to resend verification email");
+        setSuccessMessage("Verification email sent! Please check your webmail.");
       }
-    } catch (err) {
-      setError("Failed to resend verification email. Please try again later.");
+    } catch (error) {
+      setError(error.response?.data?.error || "Failed to resend verification email");
     } finally {
       setLoading(false);
     }
   };
-
-  const [resendSuccess, setResendSuccess] = useState("");
 
   return (
     <div className="min-h-screen bg-black flex">
@@ -126,6 +136,16 @@ const Login = () => {
             Welcome Back
           </motion.h2>
 
+          {successMessage && (
+            <motion.div 
+              className="bg-green-500/10 border border-green-500/20 text-green-400 px-4 py-3 rounded-lg mb-6"
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              {successMessage}
+            </motion.div>
+          )}
+
           {error && (
             <motion.div 
               className="bg-red-500/10 border border-red-500/20 text-red-400 px-4 py-3 rounded-lg mb-6"
@@ -141,16 +161,6 @@ const Login = () => {
                   Resend verification email
                 </button>
               )}
-            </motion.div>
-          )}
-
-          {resendSuccess && (
-            <motion.div 
-              className="bg-green-500/10 border border-green-500/20 text-green-400 px-4 py-3 rounded-lg mb-6"
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-            >
-              {resendSuccess}
             </motion.div>
           )}
 

@@ -1,12 +1,22 @@
-#!/bin/bash
-
-# Wait for a few seconds to ensure all services are up
-sleep 5
+#!/bin/sh
 
 echo "Applying database migrations..."
-# Apply database migrations
-poetry run python manage.py migrate || true
+until cd /Centralised-Backend
+do
+    echo "Waiting for server volume..."
+done
+
+# Create SQLite directory if it doesn't exist
+mkdir -p /Centralised-Backend/sqlite
+
+# Make migrations for all apps
+python manage.py makemigrations
+
+# Apply migrations
+python manage.py migrate
+
+# Collect static files
+python manage.py collectstatic --noinput
 
 echo "Starting Django server..."
-# Start server
-poetry run python manage.py runserver 0.0.0.0:8000 
+gunicorn sarc_backend.wsgi:application --bind 0.0.0.0:8000 --workers 4 --threads 4 

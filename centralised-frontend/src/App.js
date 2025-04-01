@@ -20,6 +20,7 @@ import ChangePassword from './pages/ChangePassword/ChangePassword';
 import Loading from './components/Loading/Loading';
 import Signup from './pages/Signup';
 import VerifyEmail from './pages/VerifyEmail';
+import DirectVerify from './pages/DirectVerify';
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -54,10 +55,10 @@ const App = () => {
               <Route path='/profile' element={<Profile />} />
               <Route path='/login' element={<Login />} />
               <Route path='/signup' element={<Signup />} />
-              <Route path="/verify/:uid/:token" element={<VerifyPage />} />
+              <Route path="/verify/:uid/:token" element={<VerifyEmail />} />
+              <Route path="/direct-verify/*" element={<DirectVerify />} />
               <Route path="/forgot-password" element={<ForgotPassword />} />
               <Route path="/reset-password/:uid/:token" element={<ResetPassword />} />
-              <Route path="/verify/:uid/:token" element={<VerifyEmail />} />
               <Route path="/changePassword" element={<ChangePassword />} />      
             </Routes>
           </>

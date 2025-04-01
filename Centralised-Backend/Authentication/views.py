@@ -1,122 +1,16 @@
-# from django.shortcuts import render
-# from rest_framework.response import Response
-# from rest_framework import status
-# from rest_framework.views import APIView
-# from .serializers import *
-# from django.contrib.auth import authenticate
-# from .renderers import UserRenderer
-# from rest_framework_simplejwt.tokens import RefreshToken
-# from rest_framework.permissions import IsAuthenticated
-
-# # Generate Token Manually
-# def get_tokens_for_user(user):
-#     refresh = RefreshToken.for_user(user)
-#     return {
-#         'refresh': str(refresh),
-#         'access': str(refresh.access_token),
-#     }
-
-# class UserRegistrationView(APIView):
-#     renderer_classes = [UserRenderer]
-#     def post(self, request, format=None):
-#         serializer = UserRegistrationSerializer(data=request.data)
-#         if serializer.is_valid(raise_exception=True):
-#             user = serializer.save()
-#             token = get_tokens_for_user(user)
-#             return Response({"token": token, "message": "User registered successfully"}, status=status.HTTP_201_CREATED)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-# class UserLoginView(APIView):
-#     def post(self, request, format=None):
-#         serializer = UserLoginSerializer(data=request.data)
-#         if serializer.is_valid(raise_exception=True):
-#             email = serializer.data.get('email')
-#             password = serializer.data.get('password')
-#             user = authenticate(email=email, password=password)
-#             if user is not None:
-#                 token = get_tokens_for_user(user)
-#                 return Response({"token": token, "message": "User login successful"}, status=status.HTTP_200_OK)
-#             else:
-#                 return Response({"errors": {"non_field_errors":["Invalid credentials"]}}, status=status.HTTP_404_NOT_FOUND)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-# class UserProfileView(APIView):
-#     renderer_classes = [UserRenderer]
-#     permission_classes = [IsAuthenticated]
-#     def get(self, request, format=None):
-#         serializer = UserProfileViewSerializer(request.user)
-#         return Response(serializer.data, status=status.HTTP_200_OK)
-    
-# class UserChangePasswordView(APIView):
-#     renderer_classes = [UserRenderer]
-#     permission_classes = [IsAuthenticated]
-#     def post(self, request, format=None):
-#         serializer = UserChangePasswordSerializer(data=request.data, context={'user': request.user})
-#         if serializer.is_valid(raise_exception=True):
-#             return Response({"message": "Password changed successfully"}, status=status.HTTP_200_OK)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-# class SendPasswordResetEmailView(APIView):
-#     renderer_classes = [UserRenderer]
-#     def post(self, request, format=None):
-#         serializer = SendPasswordResetEmailSerializer(data=request.data)
-#         if serializer.is_valid(raise_exception=True):
-#             return Response({"message": "Password reset email sent successfully. Please check your webmail."}, status=status.HTTP_200_OK)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-# class UserPasswordResetView(APIView):
-#     renderer_classes = [UserRenderer]
-#     def post(self, request, uid, token, format=None):
-#         serializer = UserPasswordResetSerializer(data=request.data, context={'uid':uid, 'token':token})
-#         if serializer.is_valid(raise_exception=True):
-#             return Response({"message": "Password reset successfully"}, status=status.HTTP_200_OK)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# in the above code, there was separate functions for each functionality. Now I have combined some of them into the same class.
-
-from rest_framework.views import APIView
+from django.shortcuts import render, redirect
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework import status
+from rest_framework.views import APIView
+from .serializers import *
 from django.contrib.auth import authenticate
-from .utils import Util
 from .renderers import UserRenderer
 from rest_framework_simplejwt.tokens import RefreshToken
-from .serializers import *
-from oauth2_provider.models import AccessToken
-from oauth2_provider.views import TokenView
+from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.decorators import permission_classes, api_view
 from rest_framework_simplejwt.authentication import JWTAuthentication
-from django.views.decorators.csrf import csrf_exempt
-from django.utils.decorators import method_decorator
-from django.template.loader import render_to_string
-from django.utils.html import strip_tags
-from django.conf import settings
-from django.shortcuts import render, redirect
-from django.utils.encoding import smart_str, force_bytes, DjangoUnicodeDecodeError
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import smart_str, force_bytes
+from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 
 # Generate Token Manually
@@ -163,9 +57,15 @@ class UserAuthView(APIView):
                 uid = urlsafe_base64_encode(force_bytes(user.id))
                 token = PasswordResetTokenGenerator().make_token(user)
                 
-                # Create verification link
+                # Create verification link - Fix the URL format
                 domain = request.get_host()
-                verification_link = f"https://{domain}/verify/{uid}/{token}"
+                api_url = "https://centralised.sarc-iitb.org" if domain.startswith("centralised") else f"http://{domain}"
+
+                # Make the link point directly to the API endpoint
+                verification_link = f"{api_url}/api/auth/verify/{uid}/{token}/"
+
+                # Print the link for debugging
+                print(f"DEBUG - Generated verification link: {verification_link}")
                 
                 # Send verification email
                 html_content = Util.get_verification_email_html(user.name, verification_link)
@@ -179,26 +79,6 @@ class UserAuthView(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
         return Response({"error": "Invalid action"}, status=status.HTTP_400_BAD_REQUEST)
-
-# Email verification endpoint
-@permission_classes([AllowAny])
-class VerifyEmailView(APIView):
-    def get(self, request, uid, token, format=None):
-        try:
-            id = smart_str(urlsafe_base64_decode(uid))
-            user = User.objects.get(id=id)
-            
-            if not PasswordResetTokenGenerator().check_token(user, token):
-                return Response({"error": "Token is invalid or expired"}, status=status.HTTP_400_BAD_REQUEST)
-            
-            user.is_verified = True
-            user.save()
-            
-            # Redirect to frontend verification success page
-            return redirect(f"https://{request.get_host().split(':')[0]}/login?verified=true")
-        except Exception as e:
-            print(f"Verification error: {e}")
-            return Response({"error": "Invalid verification link"}, status=status.HTTP_400_BAD_REQUEST)
 
 # for password change and password reset and sending password reset email
 class UserPasswordView(APIView):
@@ -291,15 +171,97 @@ class RegisterUserAPI(APIView):
 
         user = User.objects.create_user(
             email=data['email'],
-            username=data['name'],
-            phone_number=data['phone_number'],
-            roll_number=data['roll_number'],
-            hostel_number=data['hostel_number'],
+            name=data['name'],
+            phone_number=data.get('phone_number'),
+            roll_number=data.get('roll_number'),
+            hostel_number=data.get('hostel_number'),
             password=data['password']
         )
         return Response({"message": "User registered successfully"}, status=201)
 
-# OAuth Token View
-class CustomTokenView(TokenView):
-    def post(self, request, *args, **kwargs):
-        return super().post(request, *args, **kwargs)
+# Create a VerifyEmailView class
+class VerifyEmailView(APIView):
+    def get(self, request, uid, token, format=None):
+        try:
+            id = smart_str(urlsafe_base64_decode(uid))
+            user = User.objects.get(id=id)
+            
+            if not PasswordResetTokenGenerator().check_token(user, token):
+                # Redirect to frontend with error
+                return redirect('https://centralised.sarc-iitb.org/login?verification=failed')
+            
+            user.is_verified = True
+            user.save()
+            
+            # Redirect to frontend with success
+            return redirect('https://centralised.sarc-iitb.org/login?verified=true')
+        except Exception as e:
+            print(f"Email verification error: {e}")
+            # Redirect to frontend with error
+            return redirect('https://centralised.sarc-iitb.org/login?verification=failed')
+
+# Add this new view class
+class ResendVerificationView(APIView):
+    def post(self, request, format=None):
+        email = request.data.get('email')
+        if not email:
+            return Response({"error": "Email is required"}, status=status.HTTP_400_BAD_REQUEST)
+            
+        try:
+            user = User.objects.get(email=email)
+            
+            if user.is_verified:
+                return Response({"error": "Email is already verified"}, status=status.HTTP_400_BAD_REQUEST)
+                
+            # Generate verification token
+            uid = urlsafe_base64_encode(force_bytes(user.id))
+            token = PasswordResetTokenGenerator().make_token(user)
+            
+            # Create verification link
+            domain = request.get_host()
+            api_url = "https://centralised.sarc-iitb.org" if domain.startswith("centralised") else f"http://{domain}"
+
+            # Make the link point directly to the API endpoint
+            verification_link = f"{api_url}/api/auth/verify/{uid}/{token}/"
+
+            # Print the link for debugging
+            print(f"DEBUG - Generated verification link: {verification_link}")
+            
+            # Send verification email
+            html_content = Util.get_verification_email_html(user.name, verification_link)
+            Util.send_email(
+                to_email=user.email,
+                subject="Verify Your Email - SARC IIT Bombay",
+                html_content=html_content
+            )
+            
+            return Response({"message": "Verification email sent successfully"}, status=status.HTTP_200_OK)
+        except User.DoesNotExist:
+            return Response({"error": "User with this email does not exist"}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            print(f"Resend verification error: {e}")
+            return Response({"error": "Failed to send verification email"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+# Add this debug view to help diagnose verification issues
+class DebugVerifyView(APIView):
+    def get(self, request, uid, token, format=None):
+        try:
+            id = smart_str(urlsafe_base64_decode(uid))
+            user = User.objects.get(id=id)
+            
+            is_valid = PasswordResetTokenGenerator().check_token(user, token)
+            
+            return Response({
+                "uid": uid,
+                "token": token,
+                "user_id": id,
+                "user_email": user.email,
+                "is_verified": user.is_verified,
+                "token_valid": is_valid
+            }, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({
+                "error": str(e),
+                "uid": uid,
+                "token": token
+            }, status=status.HTTP_400_BAD_REQUEST)

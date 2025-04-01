@@ -1,7 +1,7 @@
 FROM python:3
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
-WORKDIR /Backend/
+WORKDIR /Centralised-Backend/
 RUN pip install --upgrade pip
 RUN pip install poetry
 RUN pip install python-dotenv django djangorestframework django-cors-headers django-oauth-toolkit django-filter

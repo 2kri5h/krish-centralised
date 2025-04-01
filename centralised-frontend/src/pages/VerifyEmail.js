@@ -1,78 +1,70 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { verifyEmail } from '../api/api';
-import { motion } from 'framer-motion';
+import axios from 'axios';
 import './VerifyEmail.css';
 
 const VerifyEmail = () => {
   const { uid, token } = useParams();
-  const navigate = useNavigate();
-  const [status, setStatus] = useState('verifying');
+  const [status, setStatus] = useState('loading');
   const [message, setMessage] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const confirmEmail = async () => {
+    const verifyEmail = async () => {
       try {
-        const response = await verifyEmail(uid, token);
+        console.log(`Verifying email with uid: ${uid}, token: ${token}`);
+        const response = await axios.get(`/api/auth/verify/${uid}/${token}/`);
+        
         setStatus('success');
-        setMessage(response.message || 'Your email has been verified successfully!');
+        setMessage(response.data.message);
+        
+        // Redirect to login page after 3 seconds
+        setTimeout(() => {
+          navigate('/login?verified=true');
+        }, 3000);
       } catch (error) {
+        console.error("Verification error:", error);
         setStatus('error');
-        setMessage(error.response?.data?.error || 'Verification failed. Please try again or contact support.');
+        setMessage(error.response?.data?.error || 'Verification failed');
       }
     };
 
-    confirmEmail();
-  }, [uid, token]);
+    verifyEmail();
+  }, [uid, token, navigate]);
 
   return (
-    <div className="verify-email-container">
-      <motion.div 
-        className="verify-email-card"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        {status === 'verifying' && (
-          <div className="verifying">
-            <div className="spinner"></div>
-            <h2>Verifying Your Email</h2>
-            <p>Please wait while we verify your email address...</p>
-          </div>
+    <div className="verify-container">
+      <div className="verify-card">
+        {status === 'loading' && (
+          <>
+            <div className="verify-spinner"></div>
+            <h2>Verifying your email...</h2>
+          </>
         )}
-
+        
         {status === 'success' && (
-          <div className="success">
-            <div className="success-icon">✓</div>
-            <h2>Email Verified</h2>
+          <>
+            <div className="verify-success">✓</div>
+            <h2>Email Verified!</h2>
             <p>{message}</p>
-            <motion.button 
-              className="login-btn"
-              onClick={() => navigate('/login')}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Go to Login
-            </motion.button>
-          </div>
+            <p>Redirecting to login page...</p>
+          </>
         )}
-
+        
         {status === 'error' && (
-          <div className="error">
-            <div className="error-icon">✗</div>
+          <>
+            <div className="verify-error">✗</div>
             <h2>Verification Failed</h2>
             <p>{message}</p>
-            <motion.button 
-              className="retry-btn"
+            <button 
+              className="verify-button"
               onClick={() => navigate('/login')}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
             >
-              Back to Login
-            </motion.button>
-          </div>
+              Go to Login
+            </button>
+          </>
         )}
-      </motion.div>
+      </div>
     </div>
   );
 };
