@@ -569,7 +569,7 @@ const restartAutoScroll = () => {
 
   
   return (
-    <div className="home-container">
+    <div className="bg-black min-h-screen">
       {/* Grid Layout Section */}
       <div className="max-w-7xl mx-auto p-4 md:p-6">
         <div className="grid grid-cols-1 md:grid-cols-6 gap-4 auto-rows-[180px]">
@@ -674,30 +674,18 @@ const restartAutoScroll = () => {
             scrollToId="testimonial"
             expandedContent={
               <div className="flex flex-wrap md:flex-nowrap justify-center gap-4 p-4">
-                {/* First Testimonial */}
-                <div 
-                  className="w-full sm:w-64 bg-[#F9F5DC]/90 backdrop-filter backdrop-blur-lg shadow-[0_8px_32px_0_rgba(31,38,135,0.37)] border border-opacity-20 border-white rounded-2xl p-4 flex flex-col justify-center items-center text-center transition-all duration-300 hover:transform hover:scale-105"
-                >
-                  <p className="text-md font-semibold">"SARC keeps the IIT Bombay spirit alive by connecting alumni with students in meaningful ways."</p>
-                  <p className="text-sm text-gray-600 mt-2">Sameer Saxena, Writer & Director</p>
-                </div>
+  {[1, 2, 3].map((i) => (
+    <div 
+      key={i} 
+      className="w-full sm:w-64 bg-[#F9F5DC] border border-black rounded-2xl p-4 flex flex-col justify-center items-center text-center shadow-md"
+    >
+      <p className="text-md font-semibold">SARC keeps the IIT Bombay spirit alive by connecting alumni with...</p>
+      <p className="text-sm text-gray-600">Sameer Saxena, Writer & Director</p>
+    </div>
+  ))}
+</div>
 
-                {/* Second Testimonial */}
-                <div 
-                  className="w-full sm:w-64 bg-[#F9F5DC]/90 backdrop-filter backdrop-blur-lg shadow-[0_8px_32px_0_rgba(31,38,135,0.37)] border border-opacity-20 border-white rounded-2xl p-4 flex flex-col justify-center items-center text-center transition-all duration-300 hover:transform hover:scale-105"
-                >
-                  <p className="text-md font-semibold">"The mentorship and guidance SARC facilitates are truly invaluable for students."</p>
-                  <p className="text-sm text-gray-600 mt-2">Ashima Mittal, IAS Officer</p>
-                </div>
-
-                {/* Third Testimonial */}
-                <div 
-                  className="w-full sm:w-64 bg-[#F9F5DC]/90 backdrop-filter backdrop-blur-lg shadow-[0_8px_32px_0_rgba(31,38,135,0.37)] border border-opacity-20 border-white rounded-2xl p-4 flex flex-col justify-center items-center text-center transition-all duration-300 hover:transform hover:scale-105"
-                >
-                  <p className="text-md font-semibold">"SARC brings together alumni stories that inspire and guide future generations."</p>
-                  <p className="text-sm text-gray-600 mt-2">Nandan Nilekani, Co-founder, Infosys</p>
-                </div>
-              </div>
+            
             }
           />
 
@@ -719,7 +707,7 @@ const restartAutoScroll = () => {
             
               {/* Third Row: Overall OC Contact */}
               <div className="flex justify-between items-center w-full p-3 rounded-lg bg-[#F9F5DC] shadow-md">
-                <span className="text-md font-medium text-gray-700">OVERALL OC</span>
+                <span className="text-md font-medium text-gray-700">Web Head</span>
                 <span className="text-lg font-bold text-black">6263173987</span>
               </div>
             </div>

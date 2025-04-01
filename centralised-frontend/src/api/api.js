@@ -4,10 +4,9 @@ const BASE_URL = "https://centralised.sarc-iitb.org/api/auth/";
 
 export const loginUser = async (email, password) => {
     try {
-        const response = await axios.post('/api/auth/', {
+        const response = await axios.post(`${BASE_URL}?action=login`, {
             email,
-            password,
-            action: 'login'
+            password
         });
         
         console.log('Login response from API:', response.data);
