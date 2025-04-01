@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import './Profile.css';
 
 const Profile = () => {
-  const { user, isAuthenticated, loading } = useAuth();
+  const { user, isAuthenticated, loading, logout } = useAuth();
   const navigate = useNavigate();
   const [profileData, setProfileData] = useState({
     name: '',
@@ -31,7 +31,8 @@ const Profile = () => {
   }, [user, isAuthenticated, loading, navigate]);
 
   const handleLogout = () => {
-    // Implement the logout logic here
+    logout();
+    navigate('/login');
   };
 
   if (loading) {

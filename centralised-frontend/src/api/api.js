@@ -4,13 +4,21 @@ const BASE_URL = "https://centralised.sarc-iitb.org/api/auth/";
 
 export const loginUser = async (email, password) => {
     try {
-        const response = await axios.post(`${BASE_URL}?action=login`, {
+        const response = await axios.post('/api/auth/', {
             email,
-            password
+            password,
+            action: 'login'
         });
-        return response.data;
+        
+        console.log('Login response from API:', response.data);
+        
+        return {
+            token: response.data.token,
+            user: response.data.user || { email }
+        };
     } catch (error) {
-        throw error.response?.data || { error: "Something went wrong" };
+        console.error('Login error from API:', error.response?.data || error);
+        throw error.response?.data || error;
     }
 };
 

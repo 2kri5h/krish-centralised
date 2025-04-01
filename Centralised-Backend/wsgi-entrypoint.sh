@@ -7,7 +7,12 @@ do
 done
 
 # Create SQLite directory if it doesn't exist
-mkdir -p /Centralised-Backend/sqlite
+mkdir -p /Centralised-Backend/Data/sqlite
+chmod -R 755 /Centralised-Backend/Data/sqlite
+
+# Create static directory if it doesn't exist
+mkdir -p /Centralised-Backend/static
+mkdir -p /Centralised-Backend/staticfiles
 
 # Make migrations for all apps
 python manage.py makemigrations

@@ -52,7 +52,7 @@ const Login = () => {
       console.log("Login response:", response);
       
       if (response.token) {
-        login(response.user, response.token);
+        login(response.user || { email: formData.email }, response.token);
         navigate("/profile");
       } else {
         setError("Login failed. Please try again.");

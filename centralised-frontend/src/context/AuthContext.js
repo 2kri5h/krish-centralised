@@ -1,68 +1,62 @@
-import React, { createContext, useState, useEffect, useContext } from 'react';
+import React, { createContext, useState, useContext, useEffect } from 'react';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
-  const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // Check for existing token on mount
   useEffect(() => {
-    // Check if user is logged in on page load
-    const storedToken = localStorage.getItem('token');
-    const storedUser = localStorage.getItem('user');
-    
-    if (storedToken && storedUser) {
-      setToken(storedToken);
-      try {
-        const parsedUser = JSON.parse(storedUser);
-        console.log("Retrieved user from localStorage:", parsedUser);
-        setUser(parsedUser);
-      } catch (e) {
-        console.error("Failed to parse user data:", e);
-        localStorage.removeItem('user');
+    const checkAuth = async () => {
+      const token = localStorage.getItem('token');
+      const userData = localStorage.getItem('user');
+      
+      if (token && userData) {
+        try {
+          const parsedUser = JSON.parse(userData);
+          console.log("Retrieved user from localStorage:", parsedUser);
+          setUser(parsedUser);
+          setIsAuthenticated(true);
+        } catch (e) {
+          console.error("Failed to parse user data:", e);
+          localStorage.removeItem('user');
+        }
       }
-    }
+      
+      setLoading(false);
+    };
     
-    setLoading(false);
+    checkAuth();
   }, []);
 
-  const login = (userData, tokenData) => {
-    // Store token as string, not object
-    const accessToken = tokenData.access;
-    
-    // Log the user data we're storing
-    console.log("Storing user data in login:", userData);
-    
-    // Make sure we're storing the complete user object
-    localStorage.setItem('token', accessToken);
-    localStorage.setItem('refreshToken', tokenData.refresh);
+  // Debug logging
+  useEffect(() => {
+    console.log('Auth state changed:', { isAuthenticated, user });
+  }, [isAuthenticated, user]);
+
+  const login = (userData, token) => {
+    console.log("Login called with:", { userData, token });
+    localStorage.setItem('token', token);
     localStorage.setItem('user', JSON.stringify(userData));
-    
-    setToken(accessToken);
     setUser(userData);
+    setIsAuthenticated(true);
   };
 
   const logout = () => {
+    console.log("Logout called");
     localStorage.removeItem('token');
-    localStorage.removeItem('refreshToken');
     localStorage.removeItem('user');
-    setToken(null);
     setUser(null);
-  };
-
-  // Add a function to update user data
-  const updateUser = (updatedUserData) => {
-    const updatedUser = { ...user, ...updatedUserData };
-    localStorage.setItem('user', JSON.stringify(updatedUser));
-    setUser(updatedUser);
+    setIsAuthenticated(false);
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, loading, login, logout, updateUser }}>
+    <AuthContext.Provider value={{ isAuthenticated, user, loading, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
-export const useAuth = () => useContext(AuthContext); 
+export const useAuth = () => useContext(AuthContext);

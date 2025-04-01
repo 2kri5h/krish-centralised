@@ -1,0 +1,14 @@
+# Stop the container
+docker-compose stop centralisedbackend
+
+# Remove the container
+docker-compose rm -f centralisedbackend
+
+# Rebuild the container
+docker-compose build centralisedbackend
+
+# Start the container
+docker-compose up -d centralisedbackend
+
+
+

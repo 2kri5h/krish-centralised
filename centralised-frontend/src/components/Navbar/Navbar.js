@@ -26,6 +26,10 @@ const Navbar = () => {
     };
   }, []);
 
+  useEffect(() => {
+    console.log("Navbar auth state:", { isAuthenticated });
+  }, [isAuthenticated]);
+
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
@@ -142,7 +146,14 @@ const Navbar = () => {
                 Profile
               </Link>
               <span className="auth-divider-navbar">|</span>
-              <button className="auth-button-navbar logout-btn" onClick={logout}>
+              <button 
+                className="auth-button-navbar logout-btn" 
+                onClick={() => {
+                  console.log("Logout button clicked");
+                  logout();
+                  window.location.href = '/login';
+                }}
+              >
                 Logout
               </button>
             </div>
