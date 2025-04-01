@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, Link, useLocation } from "react-router-dom";
-import { loginUser } from "../api/api";
 import { useAuth } from "../context/AuthContext";
 import { motion } from "framer-motion";
 import loginImage from "../assets/login.png";
@@ -8,11 +7,9 @@ import './Login.css';
 import axios from "axios";
 
 const Login = () => {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
-  const [error, setError] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const navigate = useNavigate();
@@ -35,48 +32,29 @@ const Login = () => {
     }
   }, [isAuthenticated, navigate]);
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
     setLoading(true);
-    setError("");
-
+    
     try {
-      const response = await loginUser(formData.email, formData.password);
-      console.log("Login response:", response);
+      const result = await login(email, password);
       
-      if (response.token) {
-        login(response.user || { email: formData.email }, response.token);
-        navigate("/profile");
+      if (result.success) {
+        navigate('/profile');
       } else {
-        setError("Login failed. Please try again.");
+        setError(result.error || 'Login failed. Please check your credentials.');
       }
     } catch (err) {
-      console.error("Login error:", err);
-      
-      // Handle specific error messages from backend
-      if (err.error === "Email not verified. Please check your email for verification link.") {
-        setError("Your email is not verified. Please check your webmail for the verification link.");
-      } else if (err.errors?.non_field_errors) {
-        setError(err.errors.non_field_errors[0]);
-      } else if (err.error) {
-        setError(err.error);
-      } else {
-        setError("Login failed. Please check your credentials.");
-      }
+      setError('An unexpected error occurred. Please try again.');
+      console.error('Login error:', err);
     } finally {
       setLoading(false);
     }
   };
 
   const handleResendVerification = async () => {
-    if (!formData.email) {
+    if (!email) {
       setError("Please enter your email address to resend verification");
       return;
     }
@@ -85,7 +63,7 @@ const Login = () => {
     try {
       // Call the resend verification API with the correct endpoint
       const response = await axios.post("/api/auth/resend-verification/", {
-        email: formData.email
+        email
       });
       
       if (response.status === 200) {
@@ -171,8 +149,8 @@ const Login = () => {
                 name="email"
                 placeholder="Email Address"
                 className="w-full px-4 py-3 bg-white/5 border border-gray-700 rounded-lg focus:outline-none focus:border-orange-500 text-white"
-                value={formData.email}
-                onChange={handleChange}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 required
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -186,8 +164,8 @@ const Login = () => {
                 name="password"
                 placeholder="Password"
                 className="w-full px-4 py-3 bg-white/5 border border-gray-700 rounded-lg focus:outline-none focus:border-orange-500 text-white"
-                value={formData.password}
-                onChange={handleChange}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 required
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
