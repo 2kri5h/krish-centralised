@@ -32,7 +32,6 @@ const Profile = () => {
 
   const handleLogout = () => {
     logout();
-    navigate('/login');
   };
 
   if (loading) {

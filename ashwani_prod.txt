@@ -1,14 +1,20 @@
 # Stop the container
-docker-compose stop centralisedbackend
+docker-compose stop centralisedfrontend
 
 # Remove the container
-docker-compose rm -f centralisedbackend
+docker-compose rm -f centralisedfrontend
 
 # Rebuild the container
-docker-compose build centralisedbackend
+docker-compose build centralisedfrontend
 
 # Start the container
-docker-compose up -d centralisedbackend
+docker-compose up -d centralisedfrontend
+
+# Check if the container is running
+docker-compose ps centralisedfrontend
+
+# Check the logs
+docker-compose logs -f centralisedfrontend
 
 
 

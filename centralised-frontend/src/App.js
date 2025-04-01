@@ -12,7 +12,6 @@ import JoinUs from './pages/JoinUs';
 import UpcomingEvents from './pages/UpcomingEvents';
 import Navbar from './components/Navbar/Navbar';
 import Login from './pages/Login';
-import VerifyPage from './pages/VerifyPage';
 import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
 import ResetPassword from './pages/ForgotPassword/ResetPassword';
 import Profile from './pages/Profile';
@@ -35,8 +34,8 @@ const App = () => {
   }, []);
 
   return (
-    <AuthProvider>
-      <Router>
+    <Router>
+      <AuthProvider>
         {loading ? (
           <Loading />
         ) : (
@@ -63,8 +62,8 @@ const App = () => {
             </Routes>
           </>
         )}
-      </Router>
-    </AuthProvider>
+      </AuthProvider>
+    </Router>
   );
 };
 

@@ -1,6 +1,5 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { loginUser, logoutUser as apiLogoutUser } from '../api/api';
-import { useNavigate } from 'react-router-dom';
 
 const AuthContext = createContext();
 
@@ -10,7 +9,6 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
 
   useEffect(() => {
     // Check if user is logged in on page load
@@ -18,8 +16,13 @@ export const AuthProvider = ({ children }) => {
     const storedUser = localStorage.getItem('user');
     
     if (token && storedUser) {
-      setUser(JSON.parse(storedUser));
-      setIsAuthenticated(true);
+      try {
+        setUser(JSON.parse(storedUser));
+        setIsAuthenticated(true);
+      } catch (e) {
+        console.error("Failed to parse user data:", e);
+        localStorage.removeItem('user');
+      }
     }
     
     setLoading(false);
@@ -54,7 +57,8 @@ export const AuthProvider = ({ children }) => {
     apiLogoutUser();
     setUser(null);
     setIsAuthenticated(false);
-    navigate('/login');
+    // Instead of using navigate, we'll use window.location
+    window.location.href = '/login';
   };
 
   return (
