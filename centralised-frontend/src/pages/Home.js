@@ -738,6 +738,24 @@ const Home = () => {
     }
   };
 
+  // Fix the navbar z-index issue
+  useEffect(() => {
+    // Ensure navbar has the highest z-index
+    const navbar = document.querySelector('nav'); // Or use the specific selector for your navbar
+    if (navbar) {
+      navbar.style.zIndex = '9999'; // Set a very high z-index
+      navbar.style.position = 'relative'; // Ensure it has a position context
+    }
+    
+    return () => {
+      // Reset when component unmounts
+      if (navbar) {
+        navbar.style.zIndex = '';
+        navbar.style.position = '';
+      }
+    };
+  }, []);
+
   return (
     <div className="bg-black text-white">
       {/* Hero Section with Scroll-Based Text Animation */}
@@ -869,7 +887,7 @@ const Home = () => {
       <section 
         ref={horizontalScrollRef}
         className="relative h-[600vh] bg-black"
-        style={{ zIndex: 5 }}
+        style={{ zIndex: 1 }}
       >
         <div className="sticky top-0 h-screen flex items-center overflow-hidden">
           <motion.div 
@@ -958,7 +976,7 @@ const Home = () => {
         ref={aboutSectionRef}
         className="relative min-h-[400vh] bg-gradient-to-b from-black to-gray-900 py-20"
         style={{ 
-          zIndex: 5,
+          zIndex: 1,
           opacity: showAboutSection ? 1 : 0,
           transition: 'opacity 1s',
           pointerEvents: showAboutSection ? 'auto' : 'none'
@@ -1019,7 +1037,7 @@ const Home = () => {
         ref={aboutAlumniRef}
         className="relative h-[500vh] bg-black"
         style={{ 
-          zIndex: 5,
+          zIndex: 1,
           opacity: showAlumniSection ? 1 : 0,
           transition: 'opacity 1s'
         }}
