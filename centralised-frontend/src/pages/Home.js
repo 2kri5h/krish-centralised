@@ -552,16 +552,20 @@ const Home = () => {
             
             // Calculate progress based directly on scroll position
             const scrollPosition = window.scrollY - (aboutSectionRef.current.offsetTop - viewportHeight);
-            const totalScrollDistance = aboutSectionRef.current.offsetHeight * 0.5; // Reduced to make typing complete faster
+            const totalScrollDistance = aboutSectionRef.current.offsetHeight * 0.25; // Reduced to make typing complete faster
             const progress = Math.min(1, Math.max(0, scrollPosition / totalScrollDistance));
             
             setAboutScrollProgress(progress);
             
-            // Only show alumni section when about section is fully typed and user has scrolled past it
-            if (progress >= 1 && aboutRect.top < -300) {
-              setShowAlumniSection(true);
-            } else {
-              setShowAlumniSection(false);
+            // Only show alumni section when about section is fully typed and user has scrolled past the stats
+            const statsSection = aboutSectionRef.current.querySelector('.grid');
+            if (statsSection) {
+              const statsSectionRect = statsSection.getBoundingClientRect();
+              if (progress >= 1 && statsSectionRect.bottom < viewportHeight) {
+                setShowAlumniSection(true);
+              } else {
+                setShowAlumniSection(false);
+              }
             }
           }
         } else {
@@ -841,9 +845,12 @@ const Home = () => {
               >
                 Explore Initiatives
               </button>
-              <button className="px-8 py-3 bg-transparent hover:bg-white/10 text-white border-2 border-white rounded-full font-medium transition-colors">
+              <a 
+                href="https://centralised.sarc-iitb.org/initiatives"
+                className="px-8 py-3 bg-transparent hover:bg-white/10 text-white border-2 border-white rounded-full font-medium transition-colors inline-block text-center"
+              >
                 Learn More
-              </button>
+              </a>
           </motion.div>
         </motion.div>
               )}
@@ -949,7 +956,7 @@ const Home = () => {
       {/* About SARC Section with Typewriter Effect */}
       <section 
         ref={aboutSectionRef}
-        className="relative min-h-[250vh] bg-gradient-to-b from-black to-gray-900 py-20"
+        className="relative min-h-[400vh] bg-gradient-to-b from-black to-gray-900 py-20"
         style={{ 
           zIndex: 5,
           opacity: showAboutSection ? 1 : 0,
@@ -962,9 +969,10 @@ const Home = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: showAboutSection ? 1 : 0 }}
             transition={{ duration: 1 }}
-            className="space-y-60"
+            className="flex flex-col"
           >
-            <div className="sticky top-20 pt-10 pb-20">
+            {/* About text section */}
+            <div className="sticky top-20 pt-10 pb-20 mb-[80vh]">
               <h2 className="text-5xl font-bold text-orange-500 mb-12 text-center">ABOUT SARC</h2>
               
               {/* Main about text - all capital letters that type as you scroll */}
@@ -974,18 +982,6 @@ const Home = () => {
                   {aboutText.substring(0, Math.floor(aboutScrollProgress * 2 * aboutText.length))}
                   <span className="inline-block w-2 h-8 bg-orange-500 ml-1 animate-pulse"></span>
                 </p>
-                
-                <div className="mt-8 flex justify-center">
-                  <a 
-                    href="https://centralised.sarc-iitb.org/about" 
-                    className="bvg-orange-500 hover:bg-orange-600 text-white py-3 px-6 roufnded-lg transition-colors inline-flex items-center gap-2"
-                  >
-                    
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="roudnd" strokeLinejoin="rfound" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                    </svg>
-                  </a>
-                </div>
               </div>
             </div>
             
@@ -997,21 +993,21 @@ const Home = () => {
                 y: aboutScrollProgress > 0.7 ? 0 : 50
               }}
               transition={{ duration: 0.8 }}
-              className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-[150vh] md:mt-[100vh]"
+              className="grid grid-cols-3 gap-2 md:gap-8 mt-[150vh] mb-[50vh]"
             >
-              <div className="bg-black/50 border border-gray-800 rounded-lg shadow-lg p-8 text-center transform hover:scale-105 transition-transform">
-                <h4 className="text-6xl font-bold text-orange-500 mb-4">14,000+</h4>
-                <p className="text-gray-300 text-2xl">STUDENTS</p>
+              <div className="bg-black/50 border border-gray-800 rounded-lg shadow-lg p-2 md:p-8 text-center transform hover:scale-105 transition-transform">
+                <h4 className="text-3xl md:text-6xl font-bold text-orange-500 mb-1 md:mb-4">14,000+</h4>
+                <p className="text-gray-300 text-sm md:text-2xl">STUDENTS</p>
               </div>
               
-              <div className="bg-black/50 border border-gray-800 rounded-lg shadow-lg p-8 text-center transform hover:scale-105 transition-transform">
-                <h4 className="text-6xl font-bold text-orange-500 mb-4">70,000+</h4>
-                <p className="text-gray-300 text-2xl">ALUMNI</p>
+              <div className="bg-black/50 border border-gray-800 rounded-lg shadow-lg p-2 md:p-8 text-center transform hover:scale-105 transition-transform">
+                <h4 className="text-3xl md:text-6xl font-bold text-orange-500 mb-1 md:mb-4">70,000+</h4>
+                <p className="text-gray-300 text-sm md:text-2xl">ALUMNI</p>
               </div>
 
-              <div className="bg-black/50 border border-gray-800 rounded-lg shadow-lg p-8 text-center transform hover:scale-105 transition-transform">
-                <h4 className="text-6xl font-bold text-orange-500 mb-4">30+</h4>
-                <p className="text-gray-300 text-2xl">EVENTS</p>
+              <div className="bg-black/50 border border-gray-800 rounded-lg shadow-lg p-2 md:p-8 text-center transform hover:scale-105 transition-transform">
+                <h4 className="text-3xl md:text-6xl font-bold text-orange-500 mb-1 md:mb-4">30+</h4>
+                <p className="text-gray-300 text-sm md:text-2xl">EVENTS</p>
               </div>
             </motion.div>
           </motion.div>
