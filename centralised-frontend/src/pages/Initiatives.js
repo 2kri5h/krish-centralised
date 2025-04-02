@@ -370,7 +370,7 @@ const Initiatives = () => {
           <p className="hero-subtitle">Building bridges between students and alumni through impactful programs</p>
         </div>
       </div>
-      
+
       <div className="initiative-content">
         {/* For mobile: Show either list or detail */}
         {isMobile ? (
@@ -440,7 +440,7 @@ const Initiatives = () => {
               >
                 <h3>{initiative.title}</h3>
                 <p>{initiative.subtitle}</p>
-              </div>
+                </div>
             ))}
             
             {/* Desktop initiative detail modal */}
@@ -471,7 +471,7 @@ const Initiatives = () => {
                           <li key={idx}>{point}</li>
                         ))}
                       </ul>
-                    </div>
+                </div>
                   )}
                 </div>
               </div>

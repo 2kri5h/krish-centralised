@@ -21,4 +21,72 @@
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: rgba(249, 115, 22, 0.7);
+}
+
+/* Add these styles to improve horizontal scrolling */
+.flex {
+  transition: transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+/* Ensure first and last items are fully visible */
+.sticky {
+  overflow: visible !important;
+}
+
+/* Add smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Optimize transitions between sections */
+section {
+  transition: opacity 0.8s ease-in-out;
+}
+
+/* Make typing effect more fluid */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.typing-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  background-color: #f97316;
+  margin-left: 2px;
+  animation: blink 0.7s infinite;
+}
+
+/* Reduce scroll resistance */
+body {
+  overflow-x: hidden;
+}
+
+/* Add these styles to fix spacing and overlapping issues */
+@media (max-width: 768px) {
+  .sticky {
+    position: sticky;
+    top: 20px;
+    z-index: 20;
+  }
+  
+  .about-stats {
+    margin-top: -200vh !important;
+  }
+  
+  .alumni-section {
+    margin-top: 0 !important;
+  }
+}
+
+/* Remove section spacer heights */
+.section-spacer {
+  height: 0;
+}
+
+@media (min-width: 769px) {
+  .section-spacer {
+    height: 0;
+  }
 } 

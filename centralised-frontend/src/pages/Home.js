@@ -35,29 +35,14 @@ const welcomeTexts = [
   { text: "안녕하세요", language: "Korean" },
   { text: "Hola", language: "Spanish" },
   { text: "Hallo", language: "German" },
-  { text: "Labas", language: "Lithuanian" },
-  { text: "Witaj", language: "Polish" },
-  { text: "Ahoj", language: "Czech" },
-  { text: "Xin chào", language: "Vietnamese" },
-  { text: "สวัสดี", language: "Thai" }, // Thai script
-  { text: "नमस्कार", language: "Nepali" }, // Devanagari script
-  { text: "Selamat datang", language: "Malay" },
-  // { text: "မင်္ဂလာပါ", language: "Burmese" }, // Burmese script
-  { text: "Sannu", language: "Hausa" },
-  // { text: "გამარჯობა", language: "Georgian" }, // Georgian script
-  { text: "Բարեւ", language: "Armenian" }, // Armenian script
-  // { text: "សួស្តី", language: "Khmer" }, // Khmer script
-  { text: "ສະບາຍດີ", language: "Lao" }, // Lao script
-  { text: "ಹಲೋ", language: "Kannada" }, // Kannada script
-  { text: "హలో", language: "Telugu" }, // Telugu script
-  { text: "ਸਤ ਸ੍ਰੀ ਅਕਾਲ", language: "Punjabi (Gurmukhi)" }, // Gurmukhi script
-  { text: "سلام", language: "Persian" }, // Persian script
-  { text: "हॅलो", language: "Marathi" }, // Devanagari script
-  { text: "হ্যালো", language: "Bengali" }, // Bengali script
-  { text: "ନମସ୍କାର", language: "Odia" }, // Odia script
-  { text: "ਸਤ ਸ੍ਰੀ ਅਕਾਲ", language: "Punjabi (Gurmukhi)" }, // Gurmukhi script
-  { text: "नमस्कार", language: "Konkani" }, // Devanagari script
-  { text: "ନମସ୍କାର", language: "Assamese" }, // Assamese script
+  { text: "Olá", language: "Portuguese" },
+  { text: "Привет", language: "Russian" },
+  { text: "Merhaba", language: "Turkish" },
+  { text: "Ciao", language: "Italian" },
+  { text: "你好", language: "Chinese" },
+  { text: "Sawubona", language: "Zulu" },
+  { text: "Jambo", language: "Swahili" },
+  { text: "Salam", language: "Arabic" },
 ];
 
 // Add this initiativesData array after the welcomeTexts array
@@ -113,7 +98,7 @@ const initiativesData = [
   }
 ];
 
-// Update the testimonials array with alumni quotes
+// Update the testimonials array with the new content
 const testimonials = [
   {
     text: "SARC keeps the IIT Bombay spirit alive by connecting alumni with students in meaningful ways. It's a fantastic initiative that encourages learning, growth and exploration.",
@@ -531,7 +516,7 @@ const Home = () => {
       "STUDENT ALUMNI RELATIONS CELL (SARC) IS A STUDENT BODY UNDER THE DEAN ACR OFFICE THAT AIMS AT STRENGTHENING THE BOND BETWEEN STUDENTS AND ALUMNI OF IIT BOMBAY. SARC CONDUCTS VARIOUS EVENTS THROUGHOUT THE YEAR TO FACILITATE INTERACTION BETWEEN ALUMNI AND STUDENTS. OUR MISSION IS TO FOSTER A STRONG AND MUTUALLY BENEFICIAL RELATIONSHIP BETWEEN THE INSTITUTE AND ITS ALUMNI COMMUNITY, CREATING OPPORTUNITIES FOR MENTORSHIP, KNOWLEDGE SHARING, AND COLLABORATIVE GROWTH."
     ],
     loop: 1,
-    typeSpeed: 50,
+    typeSpeed: 30,
     deleteSpeed: 10,
     delaySpeed: 1000,
   });
@@ -567,32 +552,31 @@ const Home = () => {
       if (horizontalScrollRef.current) {
         const rect = horizontalScrollRef.current.getBoundingClientRect();
         // Only show about section when initiatives section is completely done
-        if (scrollYProgress.get() > 0.99) { // Increased to 0.99 to ensure initiatives are fully complete
+        if (scrollYProgress.get() > 0.99) {
           setShowAboutSection(true);
           
           // Calculate scroll progress for the about section
           if (aboutSectionRef.current) {
             const aboutRect = aboutSectionRef.current.getBoundingClientRect();
             const viewportHeight = window.innerHeight;
-            const elementTop = aboutRect.top;
-            const elementHeight = aboutRect.height;
             
             // Calculate progress based directly on scroll position
             const scrollPosition = window.scrollY - (aboutSectionRef.current.offsetTop - viewportHeight);
-            const totalScrollDistance = aboutSectionRef.current.offsetHeight * 0.25; // Reduced to make typing complete faster
+            // Use different scroll distances for mobile vs desktop
+            const totalScrollDistance = window.innerWidth < 768 
+              ? aboutSectionRef.current.offsetHeight * 0.15  // Even faster typing on mobile
+              : aboutSectionRef.current.offsetHeight * 0.25;
             const progress = Math.min(1, Math.max(0, scrollPosition / totalScrollDistance));
             
             setAboutScrollProgress(progress);
             
-            // Only show alumni section when about section is fully typed and user has scrolled past the stats
-            const statsSection = aboutSectionRef.current.querySelector('.grid');
-            if (statsSection) {
-              const statsSectionRect = statsSection.getBoundingClientRect();
-              if (progress >= 1 && statsSectionRect.bottom < viewportHeight) {
-                setShowAlumniSection(true);
-              } else {
-                setShowAlumniSection(false);
-              }
+            // Only show alumni section when about section is fully typed and user has scrolled past it
+            // Use different thresholds for mobile vs desktop
+            const scrollThreshold = window.innerWidth < 768 ? -800 : -500;
+            if (progress >= 1 && aboutRect.top < scrollThreshold) {
+              setShowAlumniSection(true);
+            } else {
+              setShowAlumniSection(false);
             }
           }
         } else {
@@ -620,108 +604,81 @@ const Home = () => {
     return () => clearInterval(welcomeInterval);
   }, []);
   
-  // First, add these states at the beginning of your component
-  const [visibleTestimonials, setVisibleTestimonials] = useState(3);
-  const [duplicatedTestimonials, setDuplicatedTestimonials] = useState([]);
-
-  // Create a simple array of duplicated testimonials for infinite scroll
+  // Auto-scroll interval for testimonials
   useEffect(() => {
-    // Create duplicated testimonials for infinite scroll
-    const duplicated = [...testimonials, ...testimonials, ...testimonials];
-    setDuplicatedTestimonials(duplicated);
-  }, [testimonials]);
-
-  // Add this useEffect to handle responsive testimonial display
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 640) {
-        setVisibleTestimonials(1);
-      } else if (window.innerWidth < 1024) {
-        setVisibleTestimonials(2);
-      } else {
-        setVisibleTestimonials(3);
-      }
-    };
+    const autoScrollInterval = setInterval(() => {
+      setCurrentTestimonialIndex(prev => {
+        if (prev === testimonials.length - 1) {
+          return 0;
+        }
+        return (prev + 1) % testimonials.length;
+      });
+    }, 5000); // Change testimonial every 5 seconds
     
-    handleResize(); // Set initial value
-    window.addEventListener('resize', handleResize);
-    
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+    return () => clearInterval(autoScrollInterval);
+  }, [testimonials.length]);
 
-  // Updated alumni data with personalized bios
+  // Updated alumni data with exact image paths
   const alumniData = [
     { 
-      name: "Nandan Nilekani",
-      title: "Co-founder of Infosys, Former Chairman of UIDAI",
-      image: nandanImage,
-      bio: "IIT Bombay EE 1973 graduate who co-founded Infosys, led India's ambitious Aadhaar project, and is known for his philanthropy and contributions to India's digital transformation."
+      name: "Deepak Satwalekar", 
+      title: "Former MD & CEO, HDFC Standard Life Insurance", 
+      image: deepakImage 
     },
-    {
-      name: "Deepak Parekh",
-      title: "Chairman of HDFC",
-      image: deepakImage,
-      bio: "A distinguished IIT Bombay alumnus who transformed HDFC into one of India's largest financial conglomerates. Known for his integrity and leadership in the banking and finance sector."
+    { 
+      name: "Nitesh Tiwari", 
+      title: "Director", 
+      image: downloadImage 
     },
     { 
       name: "Falguni Nayar", 
-      title: "Founder & CEO of Nykaa",
-      image: falguniImage,
-      bio: "IIT Bombay graduate who left a successful banking career to found Nykaa at age 50, becoming one of India's most successful self-made female billionaires and e-commerce pioneers."
+      title: "Founder & CEO, Nykaa", 
+      image: falguniImage 
     },
-    {
-      name: "K. Sivan",
-      title: "Former Chairman of ISRO",
-      image: sivanImage,
-      bio: "IIT Bombay alumnus who served as the chairman of ISRO and was instrumental in leading India's space missions including Chandrayaan-2. Known as the 'Rocket Man of India'."
+    { 
+      name: "Ashima Mittal", 
+      title: "IAS Officer, CEO Zilla Parishad of Nashik", 
+      image: ashimaImage 
     },
-    {
-      name: "Ashima Mittal",
-      title: "IAS Officer",
-      image: ashimaImage,
-      bio: "IIT Bombay graduate who secured AIR 12 in the UPSC Civil Services Examination. Currently serving as CEO Zilla Parishad of Nashik, Maharashtra, making significant contributions to public administration."
+    { 
+      name: "Ashishkumar Chauhan", 
+      title: "MD & CEO, Bombay Stock Exchange", 
+      image: imagesImage 
+    },
+    { 
+      name: "K. Sivan", 
+      title: "Former Chairman, ISRO", 
+      image: sivanImage 
     },
     { 
       name: "Sameer Saxena", 
-      title: "Co-founder of TVF",
-      image: sameerImage,
-      bio: "IIT Bombay alumnus who co-founded The Viral Fever (TVF), revolutionizing India's digital entertainment landscape with original content that resonates with the youth."
+      title: "Co-founder, TVF", 
+      image: sameerImage 
     },
     { 
       name: "Shubham Kumar", 
-      title: "IAS Officer, UPSC AIR 1",
-      image: shubhamImage,
-      bio: "IIT Bombay Civil Engineering 2018 graduate who topped the UPSC Civil Services Examination in 2020, inspiring many engineering students to pursue careers in public service."
+      title: "IITB CE 2018", 
+      image: shubhamImage 
+    },
+    { 
+      name: "Bhavish Aggarwal", 
+      title: "Founder & CEO, Ola", 
+      image: uaxcImage 
     },
     { 
       name: "Vipul Goyal", 
-      title: "Stand-up Comedian & Actor",
-      image: unnamedImage,
-      bio: "IIT Bombay alumnus who became one of India's most popular stand-up comedians. Known for his show 'Humorously Yours' and comedy that draws from his engineering background and campus experiences."
+      title: "Comedian", 
+      image: unnamedImage 
     },
-    {
-      name: "Bhavish Aggarwal",
-      title: "Co-founder & CEO of Ola Cabs",
-      image: uaxcImage,
-      bio: "IIT Bombay Computer Science graduate who revolutionized India's transportation sector by founding Ola Cabs, and is now pioneering electric mobility through Ola Electric."
+    { 
+      name: "Ahana Gautam", 
+      title: "CEO, Open Secret", 
+      image: wnqaemozImage 
     },
-    {
-      name: "Pranav Mistry",
-      title: "Former CEO of Samsung STAR Labs",
-      image: wnqaemozImage,
-      bio: "IIT Bombay alumnus who invented SixthSense, a wearable gestural interface. Former CEO of Samsung STAR Labs and recognized as one of the young innovators under 35 by MIT."
-    },
-    {
-      name: "Parag Agrawal",
-      title: "Former CEO of Twitter",
-      image: uaxcImage,
-      bio: "IIT Bombay Computer Science graduate who served as the CEO of Twitter. Previously as CTO, he led the company's technical strategy and oversaw machine learning and AI advancements."
-    },
-    {
-      name: "Nitin Nohria",
-      title: "Former Dean of Harvard Business School",
-      image: imagesImage,
-      bio: "IIT Bombay Chemical Engineering graduate who served as the 10th Dean of Harvard Business School from 2010-2020, the first Indian-American to hold this prestigious position."
+    { 
+      name: "Nandan Nilekani", 
+      title: "Co-founder & Chairman, Infosys", 
+      image: nandanImage 
     }
   ];
 
@@ -797,22 +754,41 @@ const Home = () => {
     }
   };
 
-  // Fix the navbar z-index issue
+  // Add this useEffect to handle window resizing
   useEffect(() => {
-    // Ensure navbar has the highest z-index
-    const navbar = document.querySelector('nav'); // Or use the specific selector for your navbar
-    if (navbar) {
-      navbar.style.zIndex = '9999'; // Set a very high z-index
-      navbar.style.position = 'relative'; // Ensure it has a position context
-    }
-    
-    return () => {
-      // Reset when component unmounts
-      if (navbar) {
-        navbar.style.zIndex = '';
-        navbar.style.position = '';
+    // Function to update layout based on screen size
+    const updateLayout = () => {
+      const isMobile = window.innerWidth < 768;
+      
+      // Update stats container positioning
+      if (aboutSectionRef.current) {
+        const statsContainer = aboutSectionRef.current.querySelector('.relative.mt-8');
+        if (statsContainer) {
+          statsContainer.style.top = isMobile ? '10vh' : '20vh';
+          statsContainer.style.marginBottom = isMobile ? '20vh' : '30vh';
+        }
       }
+      
+      // Update alumni section margin
+      if (aboutAlumniRef.current) {
+        aboutAlumniRef.current.style.marginTop = isMobile ? '0' : '0';
+      }
+      
+      // Update spacer heights
+      const spacers = document.querySelectorAll('.spacer');
+      spacers.forEach(spacer => {
+        spacer.className = `spacer ${isMobile ? 'h-10' : 'h-5'} bg-black`;
+      });
     };
+    
+    // Initial update
+    updateLayout();
+    
+    // Add event listener for window resize
+    window.addEventListener('resize', updateLayout);
+    
+    // Cleanup
+    return () => window.removeEventListener('resize', updateLayout);
   }, []);
 
   return (
@@ -887,14 +863,14 @@ const Home = () => {
                 >
                   {typingText}
                   <span className="inline-block w-1 h-8 bg-white/80 ml-1 animate-pulse"></span>
-          </motion.div>
+                </motion.div>
               )}
-        
+              
               {scrollPhase === 4 && (
-        <motion.div 
+                <motion.div
                   key="full-title"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   className="space-y-6"
                 >
@@ -922,12 +898,9 @@ const Home = () => {
               >
                 Explore Initiatives
               </button>
-              <a 
-                href="https://centralised.sarc-iitb.org/initiatives"
-                className="px-8 py-3 bg-transparent hover:bg-white/10 text-white border-2 border-white rounded-full font-medium transition-colors inline-block text-center"
-              >
+              <button className="px-8 py-3 bg-transparent hover:bg-white/10 text-white border-2 border-white rounded-full font-medium transition-colors">
                 Learn More
-              </a>
+              </button>
           </motion.div>
         </motion.div>
               )}
@@ -946,7 +919,7 @@ const Home = () => {
       <section 
         ref={horizontalScrollRef}
         className="relative h-[600vh] bg-black"
-        style={{ zIndex: 1 }}
+        style={{ zIndex: 5 }}
       >
         <div className="sticky top-0 h-screen flex items-center overflow-hidden">
           <motion.div 
@@ -966,9 +939,9 @@ const Home = () => {
                   <h3 className="text-3xl font-bold text-white mb-4">{initiative.name}</h3>
                   <p className="text-white/80 text-lg leading-relaxed">
                     {initiative.description}
-                </p>
-              </div>
-              
+                  </p>
+                </div>
+                
                 <div className="mt-8">
                   <a 
                     href="https://centralised.sarc-iitb.org/initiatives" 
@@ -979,8 +952,8 @@ const Home = () => {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                     </svg>
                   </a>
+                </div>
               </div>
-            </div>
             ))}
             
             {/* More Initiatives Card */}
@@ -1033,9 +1006,9 @@ const Home = () => {
       {/* About SARC Section with Typewriter Effect */}
       <section 
         ref={aboutSectionRef}
-        className="relative min-h-[400vh] bg-gradient-to-b from-black to-gray-900 py-20"
+        className="relative min-h-[200vh] bg-gradient-to-b from-black to-gray-900 py-5"
         style={{ 
-          zIndex: 1,
+          zIndex: 5,
           opacity: showAboutSection ? 1 : 0,
           transition: 'opacity 1s',
           pointerEvents: showAboutSection ? 'auto' : 'none'
@@ -1046,73 +1019,88 @@ const Home = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: showAboutSection ? 1 : 0 }}
             transition={{ duration: 1 }}
-            className="flex flex-col"
+            className="space-y-4"
           >
-            {/* About text section */}
-            <div className="sticky top-20 pt-10 pb-20 mb-[80vh]">
-              <h2 className="text-5xl font-bold text-orange-500 mb-12 text-center">ABOUT SARC</h2>
+            {/* First div for the about text - fixed until typing is complete */}
+            <div className="sticky top-20 pt-5 pb-5">
+              <h2 className="text-4xl md:text-5xl font-bold text-orange-500 mb-4 md:mb-6 text-center">ABOUT SARC</h2>
               
               {/* Main about text - all capital letters that type as you scroll */}
-              <div className="bg-black/50 border border-gray-800 rounded-lg shadow-lg p-8 mb-16">
-                <p className="text-white text-2xl md:text-3xl font-bold leading-relaxed">
+              <div className="bg-black/50 border border-gray-800 rounded-lg shadow-lg p-4 md:p-6">
+                <p className="text-xl md:text-2xl lg:text-3xl font-bold leading-relaxed">
                   {/* Calculate how much text to show based on scroll progress */}
                   {aboutText.substring(0, Math.floor(aboutScrollProgress * 2 * aboutText.length))}
                   <span className="inline-block w-2 h-8 bg-orange-500 ml-1 animate-pulse"></span>
                 </p>
               </div>
-              </div>
-            
-            {/* Stats section - appears at the end of typing but with more space */}
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ 
-                opacity: aboutScrollProgress > 0.7 ? 1 : 0,
-                y: aboutScrollProgress > 0.7 ? 0 : 50
-              }}
-              transition={{ duration: 0.8 }}
-              className="grid grid-cols-3 gap-2 md:gap-8 mt-[150vh] mb-[50vh]"
-            >
-              <div className="bg-black/50 border border-gray-800 rounded-lg shadow-lg p-2 md:p-8 text-center transform hover:scale-105 transition-transform">
-                <h4 className="text-3xl md:text-6xl font-bold text-orange-500 mb-1 md:mb-4">14,000+</h4>
-                <p className="text-gray-300 text-sm md:text-2xl">STUDENTS</p>
-              </div>
-              
-              <div className="bg-black/50 border border-gray-800 rounded-lg shadow-lg p-2 md:p-8 text-center transform hover:scale-105 transition-transform">
-                <h4 className="text-3xl md:text-6xl font-bold text-orange-500 mb-1 md:mb-4">70,000+</h4>
-                <p className="text-gray-300 text-sm md:text-2xl">ALUMNI</p>
-        </div>
-
-              <div className="bg-black/50 border border-gray-800 rounded-lg shadow-lg p-2 md:p-8 text-center transform hover:scale-105 transition-transform">
-                <h4 className="text-3xl md:text-6xl font-bold text-orange-500 mb-1 md:mb-4">30+</h4>
-                <p className="text-gray-300 text-sm md:text-2xl">EVENTS</p>
-                  </div>
-            </motion.div>
+            </div>
           </motion.div>
-                </div>
+        </div>
       </section>
+      
+      {/* Stats section - moved up to be closer to the about text */}
+      <div 
+        className="w-full px-4 py-1 mt-0"
+        style={{ 
+          opacity: aboutScrollProgress >= 1 ? 1 : 0,
+          transition: 'opacity 0.5s',
+          position: 'relative',
+          marginTop: '-80vh',
+          zIndex: 10
+        }}
+      >
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ 
+            opacity: aboutScrollProgress >= 1 ? 1 : 0,
+            y: aboutScrollProgress >= 1 ? 0 : 50
+          }}
+          transition={{ duration: 0.8 }}
+          className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-3"
+        >
+          <div className="bg-black/50 border border-gray-800 rounded-lg shadow-lg p-2 md:p-3 text-center transform hover:scale-105 transition-transform">
+            <h4 className="text-2xl md:text-3xl font-bold text-orange-500 mb-0">14,000+</h4>
+            <p className="text-sm md:text-base text-gray-300">STUDENTS</p>
+          </div>
+          
+          <div className="bg-black/50 border border-gray-800 rounded-lg shadow-lg p-2 md:p-3 text-center transform hover:scale-105 transition-transform">
+            <h4 className="text-2xl md:text-3xl font-bold text-orange-500 mb-0">70,000+</h4>
+            <p className="text-sm md:text-base text-gray-300">ALUMNI</p>
+          </div>
+
+          <div className="bg-black/50 border border-gray-800 rounded-lg shadow-lg p-2 md:p-3 text-center transform hover:scale-105 transition-transform">
+            <h4 className="text-2xl md:text-3xl font-bold text-orange-500 mb-0">30+</h4>
+            <p className="text-sm md:text-base text-gray-300">EVENTS</p>
+          </div>
+        </motion.div>
+      </div>
+      
+      {/* Minimal spacer */}
+      {/* <div className="h-[1vh]"></div> */}
       
       {/* Esteemed Alumni Section with Horizontal Scroll - appears immediately after About section */}
       <section 
         ref={aboutAlumniRef}
-        className="relative h-[500vh] bg-black"
+        className="relative h-[400vh] bg-black"
         style={{ 
-          zIndex: 1,
+          zIndex: 5,
           opacity: showAlumniSection ? 1 : 0,
-          transition: 'opacity 1s'
+          transition: 'opacity 1s',
+          pointerEvents: showAlumniSection ? 'auto' : 'none'
         }}
       >
         <div className="sticky top-0 h-screen flex items-center overflow-hidden">
-          <h2 className="absolute top-10 left-1/2 transform -translate-x-1/2 text-5xl font-bold text-orange-500 z-10">
-            ESTEEMED ALUMNI
+          <h2 className="absolute top-10 left-1/2 transform -translate-x-1/2 text-3xl md:text-5xl font-bold text-orange-500 z-10">
+            PAST SPEAKERS
           </h2>
           <motion.div 
-            className="flex gap-8 pl-[10vw] pr-[20vw] pt-16"
+            className="flex gap-4 md:gap-8 pl-[5vw] md:pl-[10vw] pr-[10vw] md:pr-[20vw] pt-16"
             style={{ x: aboutAlumniScrollX }}
           >
               {alumniData.map((alumni, index) => (
               <div 
                 key={index}
-                className="flex-shrink-0 w-[80vw] md:w-[40vw] h-[70vh] bg-gradient-to-br from-gray-900 to-black rounded-3xl overflow-hidden border border-gray-800 relative"
+                className="flex-shrink-0 w-[85vw] md:w-[40vw] h-[60vh] md:h-[70vh] bg-gradient-to-br from-gray-900 to-black rounded-3xl overflow-hidden border border-gray-800 relative"
               >
                 <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-orange-500/10 rounded-full"></div>
                 <div className="h-1/2 overflow-hidden">
@@ -1136,62 +1124,68 @@ const Home = () => {
       </section>
       
       {/* Add another clear spacer before testimonials */}
-      <div className="h-40 bg-black"></div>
+      <div className="h-10 bg-black"></div>
 
-        {/* Testimonials Section with Infinite Scroll */}
-      <div className="mt-8 bg-gray-900 rounded-2xl p-6 mb-12 mx-4 md:mx-auto max-w-7xl" id="testimonial">
-          <h2 className="text-2xl font-semibold text-orange-500 mb-6">Testimonials</h2>
-          <div className="relative">
-            <div className="overflow-hidden">
-              <div 
-                className="flex transition-transform duration-500 ease-in-out"
-                style={{
-                  transform: `translateX(-${currentTestimonialIndex * (100 / visibleTestimonials)}%)`,
-                  width: `${duplicatedTestimonials.length * (100 / visibleTestimonials)}%`
-                }}
-              >
-                {duplicatedTestimonials.map((testimonial, index) => (
-                  <div 
-                    key={index} 
-                    className="px-2"
-                    style={{ width: `${100 / visibleTestimonials}%` }}
-                  >
-                    <div className="bg-black/50 border border-gray-800 p-6 rounded-xl shadow-md h-full">
-                      <p className="text-gray-300 mb-4 text-sm md:text-base">"{testimonial.text}"</p>
-                      <p className="text-orange-500 font-medium text-sm md:text-base">{testimonial.author}</p>
-                    </div>
+        {/* Testimonials Section with improved z-index and infinite scrolling */}
+      <div className="mt-8 bg-gray-900 rounded-2xl p-6 mb-12 mx-4 md:mx-auto max-w-7xl" id="testimonial" style={{ position: 'relative', zIndex: 50 }}>
+        <h2 className="text-2xl font-semibold text-orange-500 mb-6">Testimonials</h2>
+        <div className="relative">
+          <div className="overflow-hidden">
+            <div 
+              className="flex transition-transform duration-500 ease-in-out"
+              style={{
+                transform: `translateX(-${currentTestimonialIndex * (window.innerWidth < 768 ? 100 : 25)}%)`,
+              }}
+            >
+              {/* Double the testimonials array for infinite scrolling effect */}
+              {[...testimonials, ...testimonials].map((testimonial, index) => (
+                <div 
+                  key={index} 
+                  className="flex-none w-full md:w-1/4 px-4"
+                >
+                  <div className="bg-black/50 border border-gray-800 p-6 rounded-xl shadow-md h-full">
+                    <p className="text-gray-300 mb-4">"{testimonial.text}"</p>
+                    <p className="text-orange-500 font-medium">{testimonial.author}</p>
                   </div>
-                ))}
-              </div>
+                </div>
+              ))}
             </div>
+          </div>
 
-            {/* Navigation Arrows - Fixed z-index and event handling */}
-            <div className="flex justify-center mt-8 gap-8 relative z-50">
-              <button 
-                onClick={(e) => {
-                  e.stopPropagation();
-                  const newIndex = currentTestimonialIndex - 1;
-                  setCurrentTestimonialIndex(newIndex < 0 ? 0 : newIndex);
-                }}
-                className="bg-orange-500 hover:bg-orange-600 text-white w-12 h-12 rounded-full flex items-center justify-center transition-colors relative z-50"
-              >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
-                </svg>
-              </button>
-              <button 
-                onClick={(e) => {
-                  e.stopPropagation();
-                  const newIndex = currentTestimonialIndex + 1;
-                  const maxIndex = duplicatedTestimonials.length - visibleTestimonials;
-                  setCurrentTestimonialIndex(newIndex > maxIndex ? maxIndex : newIndex);
-                }}
-                className="bg-orange-500 hover:bg-orange-600 text-white w-12 h-12 rounded-full flex items-center justify-center transition-colors relative z-50"
-              >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-                </svg>
-              </button>
+          {/* Navigation Arrows with higher z-index */}
+          <div className="flex justify-center mt-8 gap-8" style={{ position: 'relative', zIndex: 60 }}>
+            <button 
+              onClick={() => {
+                setCurrentTestimonialIndex(prev => {
+                  if (prev === 0) {
+                    return testimonials.length - 1;
+                  }
+                  return prev - 1;
+                });
+              }}
+              className="bg-orange-500 hover:bg-orange-600 text-white w-12 h-12 rounded-full flex items-center justify-center transition-colors"
+              style={{ zIndex: 60 }}
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+            <button 
+              onClick={() => {
+                setCurrentTestimonialIndex(prev => {
+                  if (prev === testimonials.length - 1) {
+                    return 0;
+                  }
+                  return (prev + 1) % testimonials.length;
+                });
+              }}
+              className="bg-orange-500 hover:bg-orange-600 text-white w-12 h-12 rounded-full flex items-center justify-center transition-colors"
+              style={{ zIndex: 60 }}
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
           </div>
         </div>
       </div>
