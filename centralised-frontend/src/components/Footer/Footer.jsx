@@ -14,9 +14,9 @@ const Footer = () => {
           <div className="footer-section">
             <h3>Contact Us</h3>
             <div className="contacts">
-              <a href="tel:+918813823833" className="contact-item" onClick={(e) => e.stopPropagation()}>
+              <a href="tel:+91 88157 26072" className="contact-item" onClick={(e) => e.stopPropagation()}>
                 <MdPhone className="icon" />
-                <span>+91 8813823833</span>
+                <span>+91 88157 26072</span>
               </a>
               <a href="mailto:sarc@iitb.ac.in" className="contact-item" onClick={(e) => e.stopPropagation()}>
                 <MdEmail className="icon" />

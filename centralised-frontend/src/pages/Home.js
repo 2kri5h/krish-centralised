@@ -1045,7 +1045,7 @@ const Home = () => {
           opacity: aboutScrollProgress >= 1 ? 1 : 0,
           transition: 'opacity 0.5s',
           position: 'relative',
-          marginTop: '-80vh',
+          marginTop: window.innerWidth >= 768 ? '-100vh' : '-80vh',
           zIndex: 10
         }}
       >
