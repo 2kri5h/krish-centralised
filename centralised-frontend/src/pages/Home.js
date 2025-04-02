@@ -35,14 +35,29 @@ const welcomeTexts = [
   { text: "안녕하세요", language: "Korean" },
   { text: "Hola", language: "Spanish" },
   { text: "Hallo", language: "German" },
-  { text: "Olá", language: "Portuguese" },
-  { text: "Привет", language: "Russian" },
-  { text: "Merhaba", language: "Turkish" },
-  { text: "Ciao", language: "Italian" },
-  { text: "你好", language: "Chinese" },
-  { text: "Sawubona", language: "Zulu" },
-  { text: "Jambo", language: "Swahili" },
-  { text: "Salam", language: "Arabic" },
+  { text: "Labas", language: "Lithuanian" },
+  { text: "Witaj", language: "Polish" },
+  { text: "Ahoj", language: "Czech" },
+  { text: "Xin chào", language: "Vietnamese" },
+  { text: "สวัสดี", language: "Thai" }, // Thai script
+  { text: "नमस्कार", language: "Nepali" }, // Devanagari script
+  { text: "Selamat datang", language: "Malay" },
+  // { text: "မင်္ဂလာပါ", language: "Burmese" }, // Burmese script
+  { text: "Sannu", language: "Hausa" },
+  // { text: "გამარჯობა", language: "Georgian" }, // Georgian script
+  { text: "Բարեւ", language: "Armenian" }, // Armenian script
+  // { text: "សួស្តី", language: "Khmer" }, // Khmer script
+  { text: "ສະບາຍດີ", language: "Lao" }, // Lao script
+  { text: "ಹಲೋ", language: "Kannada" }, // Kannada script
+  { text: "హలో", language: "Telugu" }, // Telugu script
+  { text: "ਸਤ ਸ੍ਰੀ ਅਕਾਲ", language: "Punjabi (Gurmukhi)" }, // Gurmukhi script
+  { text: "سلام", language: "Persian" }, // Persian script
+  { text: "हॅलो", language: "Marathi" }, // Devanagari script
+  { text: "হ্যালো", language: "Bengali" }, // Bengali script
+  { text: "ନମସ୍କାର", language: "Odia" }, // Odia script
+  { text: "ਸਤ ਸ੍ਰੀ ਅਕਾਲ", language: "Punjabi (Gurmukhi)" }, // Gurmukhi script
+  { text: "नमस्कार", language: "Konkani" }, // Devanagari script
+  { text: "ନମସ୍କାର", language: "Assamese" }, // Assamese script
 ];
 
 // Add this initiativesData array after the welcomeTexts array
