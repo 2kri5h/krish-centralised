@@ -651,7 +651,7 @@ const Home = () => {
 
   // Updated alumni data with personalized bios
   const alumniData = [
-    {
+    { 
       name: "Nandan Nilekani",
       title: "Co-founder of Infosys, Former Chairman of UIDAI",
       image: nandanImage,
@@ -663,8 +663,8 @@ const Home = () => {
       image: deepakImage,
       bio: "A distinguished IIT Bombay alumnus who transformed HDFC into one of India's largest financial conglomerates. Known for his integrity and leadership in the banking and finance sector."
     },
-    {
-      name: "Falguni Nayar",
+    { 
+      name: "Falguni Nayar", 
       title: "Founder & CEO of Nykaa",
       image: falguniImage,
       bio: "IIT Bombay graduate who left a successful banking career to found Nykaa at age 50, becoming one of India's most successful self-made female billionaires and e-commerce pioneers."
@@ -681,20 +681,20 @@ const Home = () => {
       image: ashimaImage,
       bio: "IIT Bombay graduate who secured AIR 12 in the UPSC Civil Services Examination. Currently serving as CEO Zilla Parishad of Nashik, Maharashtra, making significant contributions to public administration."
     },
-    {
-      name: "Sameer Saxena",
+    { 
+      name: "Sameer Saxena", 
       title: "Co-founder of TVF",
       image: sameerImage,
       bio: "IIT Bombay alumnus who co-founded The Viral Fever (TVF), revolutionizing India's digital entertainment landscape with original content that resonates with the youth."
     },
-    {
-      name: "Shubham Kumar",
+    { 
+      name: "Shubham Kumar", 
       title: "IAS Officer, UPSC AIR 1",
       image: shubhamImage,
       bio: "IIT Bombay Civil Engineering 2018 graduate who topped the UPSC Civil Services Examination in 2020, inspiring many engineering students to pursue careers in public service."
     },
-    {
-      name: "Vipul Goyal",
+    { 
+      name: "Vipul Goyal", 
       title: "Stand-up Comedian & Actor",
       image: unnamedImage,
       bio: "IIT Bombay alumnus who became one of India's most popular stand-up comedians. Known for his show 'Humorously Yours' and comedy that draws from his engineering background and campus experiences."
@@ -887,14 +887,14 @@ const Home = () => {
                 >
                   {typingText}
                   <span className="inline-block w-1 h-8 bg-white/80 ml-1 animate-pulse"></span>
-                </motion.div>
+          </motion.div>
               )}
-              
+        
               {scrollPhase === 4 && (
-                <motion.div
+        <motion.div 
                   key="full-title"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   className="space-y-6"
                 >
@@ -966,9 +966,9 @@ const Home = () => {
                   <h3 className="text-3xl font-bold text-white mb-4">{initiative.name}</h3>
                   <p className="text-white/80 text-lg leading-relaxed">
                     {initiative.description}
-                  </p>
-                </div>
-                
+                </p>
+              </div>
+              
                 <div className="mt-8">
                   <a 
                     href="https://centralised.sarc-iitb.org/initiatives" 
@@ -979,8 +979,8 @@ const Home = () => {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                     </svg>
                   </a>
-                </div>
               </div>
+            </div>
             ))}
             
             {/* More Initiatives Card */}
@@ -1060,7 +1060,7 @@ const Home = () => {
                   <span className="inline-block w-2 h-8 bg-orange-500 ml-1 animate-pulse"></span>
                 </p>
               </div>
-            </div>
+              </div>
             
             {/* Stats section - appears at the end of typing but with more space */}
             <motion.div
@@ -1080,15 +1080,15 @@ const Home = () => {
               <div className="bg-black/50 border border-gray-800 rounded-lg shadow-lg p-2 md:p-8 text-center transform hover:scale-105 transition-transform">
                 <h4 className="text-3xl md:text-6xl font-bold text-orange-500 mb-1 md:mb-4">70,000+</h4>
                 <p className="text-gray-300 text-sm md:text-2xl">ALUMNI</p>
-              </div>
+        </div>
 
               <div className="bg-black/50 border border-gray-800 rounded-lg shadow-lg p-2 md:p-8 text-center transform hover:scale-105 transition-transform">
                 <h4 className="text-3xl md:text-6xl font-bold text-orange-500 mb-1 md:mb-4">30+</h4>
                 <p className="text-gray-300 text-sm md:text-2xl">EVENTS</p>
-              </div>
+                  </div>
             </motion.div>
           </motion.div>
-        </div>
+                </div>
       </section>
       
       {/* Esteemed Alumni Section with Horizontal Scroll - appears immediately after About section */}
@@ -1192,9 +1192,9 @@ const Home = () => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
                 </svg>
               </button>
-            </div>
           </div>
         </div>
+      </div>
       
       <Footer />
     </div>

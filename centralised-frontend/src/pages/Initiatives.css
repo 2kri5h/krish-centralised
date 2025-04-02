@@ -33,28 +33,36 @@
 }
 
 .hero-content {
-  max-width: 800px;
-  padding: 0 20px;
+  max-width: 1000px;
   z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 20px;
 }
 
 .initiatives-hero h1 {
-  font-size: 5rem;
-  font-weight: 800;
+  font-size: 3.8rem;
+  font-weight: 700;
   margin-bottom: 1.5rem;
   background: linear-gradient(to right, #ff6b2b, #ffb347);
   -webkit-background-clip: text;
   background-clip: text;
-  color: transparent;
-  position: relative;
-  display: inline-block;
+  -webkit-text-fill-color: transparent;
+  text-align: center;
+  width: 100%;
+  padding: 0 15px;
 }
 
 .hero-subtitle {
-  font-size: 1.5rem;
-  color: rgba(255, 255, 255, 0.8);
-  max-width: 600px;
-  margin: 0 auto;
+  font-size: 1.3rem;
+  color: rgba(255, 255, 255, 0.9);
+  max-width: 800px;
+  text-align: center;
+  margin-top: 0;
+  line-height: 1.4;
 }
 
 /* Initiatives Grid */
@@ -67,92 +75,90 @@
 
 .initiatives-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 40px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 30px;
+  padding: 20px;
 }
 
 .initiative-card {
   position: relative;
-  height: 280px;
-  border-radius: 15px;
+  border-radius: 12px;
+  padding: 25px;
   overflow: hidden;
   cursor: pointer;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.card-background {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-size: cover;
-  background-position: center;
-  transition: transform 0.8s ease;
+  height: 220px;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
   z-index: 1;
-}
-
-.initiative-card:hover .card-background {
-  transform: scale(1.1);
-}
-
-.card-content {
-  position: relative;
-  z-index: 2;
-  padding: 30px;
-  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
 }
 
-.card-overlay {
+.initiative-card:before {
+  content: '';
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.3) 60%, transparent 100%);
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.1) 0%,
+    rgba(0, 0, 0, 0.5) 70%,
+    rgba(0, 0, 0, 0.8) 100%
+  );
   z-index: -1;
 }
 
-.initiative-card h2 {
-  font-size: 2rem;
-  font-weight: 700;
-  margin-bottom: 10px;
+.initiative-content {
   position: relative;
+  z-index: 2;
   color: white;
+  text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+.initiative-content h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  line-height: 1.2;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
   transition: transform 0.3s ease;
 }
 
-.initiative-card:hover h2 {
+.initiative-content p {
+  font-size: 1rem;
+  font-weight: 400;
+  opacity: 0.9;
+  margin: 0;
+  transition: transform 0.3s ease;
+}
+
+/* Card hover effects */
+.initiative-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 30px rgba(0, 0, 0, 0.3);
+}
+
+.initiative-card:hover .initiative-content h3 {
   transform: translateY(-5px);
 }
 
-.initiative-subtitle {
-  font-size: 1.1rem;
-  color: var(--initiative-color, #ff6b2b);
-  opacity: 0.9;
-  font-weight: 500;
+.initiative-card:hover .initiative-content p {
+  transform: translateY(-3px);
 }
 
-.initiative-card::after {
+.initiative-card:after {
   content: '';
   position: absolute;
-  bottom: 0;
+  top: 0;
   left: 0;
   width: 100%;
   height: 5px;
-  background: var(--initiative-color, #ff6b2b);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.4s ease;
-}
-
-.initiative-card:hover::after,
-.initiative-card.hovered::after {
-  transform: scaleX(1);
+  background: currentColor;
+  opacity: 0.8;
 }
 
 /* Initiative Detail View */
@@ -427,11 +433,11 @@
 
 @media (max-width: 768px) {
   .initiatives-hero h1 {
-    font-size: 3rem;
+    font-size: 2.8rem;
   }
   
   .hero-subtitle {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
   }
   
   .initiatives-grid {
@@ -442,6 +448,10 @@
   
   .initiative-stats {
     justify-content: center;
+  }
+  
+  .initiative-hero {
+    height: 50vh;
   }
 }
 
@@ -469,4 +479,540 @@
   .initiatives-footer h2 {
     font-size: 2rem;
   }
-} 
+}
+
+/* Additional CSS for mobile optimization */
+.mobile-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 100%;
+}
+
+.mobile-grid .initiative-card {
+  width: 100%;
+  height: 200px;
+}
+
+.mobile-detail-title {
+  font-size: 2rem !important;
+  word-break: break-word;
+  hyphens: auto;
+}
+
+@media (max-width: 480px) {
+  .initiatives-hero {
+    height: 60vh;
+  }
+  
+  .detail-text h1 {
+    font-size: 1.8rem;
+  }
+  
+  .detail-subtitle {
+    font-size: 1.1rem;
+  }
+  
+  .detail-description {
+    font-size: 1rem;
+  }
+  
+  .initiatives-footer h2 {
+    font-size: 1.8rem;
+  }
+  
+  .initiatives-footer p {
+    font-size: 1rem;
+  }
+}
+
+/* Add these mobile-specific styles to your existing Initiatives.css */
+
+.initiatives-mobile-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.initiatives-mobile-list .initiative-card {
+  height: 130px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.initiatives-mobile-list .initiative-card:before {
+  background: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0.7) 0%,
+    rgba(0, 0, 0, 0.4) 100%
+  );
+}
+
+.initiatives-mobile-list .initiative-content h3 {
+  font-size: 1.3rem;
+  margin-bottom: 6px;
+}
+
+.initiatives-mobile-list .initiative-content p {
+  font-size: 0.9rem;
+  opacity: 0.9;
+  line-height: 1.3;
+}
+
+@media (max-width: 480px) {
+  .initiatives-hero {
+    height: 50vh;
+  }
+  
+  .initiatives-hero h1 {
+    font-size: 2.2rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1rem;
+    padding: 0 15px;
+  }
+  
+  .initiatives-section {
+    padding: 20px 0;
+  }
+  
+  .back-button {
+    margin-left: 20px;
+    font-size: 0.9rem;
+  }
+  
+  .detail-content {
+    flex-direction: column;
+    padding: 20px;
+  }
+  
+  .detail-text {
+    padding: 0;
+    width: 100%;
+  }
+  
+  .detail-text h1 {
+    font-size: 1.8rem !important;
+  }
+  
+  .detail-subtitle {
+    font-size: 1rem;
+  }
+  
+  .detail-description {
+    font-size: 0.9rem;
+  }
+  
+  .key-points h3 {
+    font-size: 1.1rem;
+  }
+  
+  .key-points li {
+    font-size: 0.9rem;
+  }
+}
+
+/* Custom gradient backgrounds based on color */
+.initiative-card[style*="#FF6B2B"] {
+  background: linear-gradient(135deg, #FF6B2B 0%, #FF8E53 100%);
+}
+
+.initiative-card[style*="#4A7CFF"] {
+  background: linear-gradient(135deg, #4A7CFF 0%, #7BA2FF 100%);
+}
+
+.initiative-card[style*="#9D4EDD"] {
+  background: linear-gradient(135deg, #9D4EDD 0%, #C77DFF 100%);
+}
+
+.initiative-card[style*="#FFD166"] {
+  background: linear-gradient(135deg, #FFD166 0%, #FFDF92 100%);
+}
+
+.initiative-card[style*="#EF476F"] {
+  background: linear-gradient(135deg, #EF476F 0%, #FF7A9D 100%);
+}
+
+.initiative-card[style*="#06D6A0"] {
+  background: linear-gradient(135deg, #06D6A0 0%, #39E5BE 100%);
+}
+
+.initiative-card[style*="#118AB2"] {
+  background: linear-gradient(135deg, #118AB2 0%, #47B4D6 100%);
+}
+
+.initiative-card[style*="#073B4C"] {
+  background: linear-gradient(135deg, #073B4C 0%, #1A6785 100%);
+}
+
+/* Add a subtle pattern overlay */
+.initiative-card:before {
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* Mobile-first approach */
+.initiative-page {
+  background-color: #121212;
+  color: white;
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Hero section */
+.initiative-hero {
+  height: 60vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('../assets/pattern.svg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  overflow: hidden;
+  padding: 0 20px;
+}
+
+.hero-content {
+  max-width: 800px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.initiative-hero h1 {
+  font-size: 3.8rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(to right, #ff6b2b, #ffb347);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-align: center;
+  width: 100%;
+}
+
+.hero-subtitle {
+  font-size: 1.3rem;
+  color: rgba(255, 255, 255, 0.9);
+  max-width: 800px;
+  text-align: center;
+  margin-top: 0;
+  line-height: 1.4;
+}
+
+.initiative-content {
+  padding: 30px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Mobile styles */
+.mobile-initiative-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.mobile-initiative-card {
+  background: #2a2a2a;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.mobile-initiative-card:active {
+  transform: scale(0.98);
+}
+
+.mobile-initiative-card h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.mobile-initiative-card p {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.mobile-initiative-detail {
+  padding: 10px 0;
+}
+
+.mobile-back-button {
+  background: none;
+  border: none;
+  color: #ff6b2b;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+  cursor: pointer;
+}
+
+.mobile-initiative-detail h2 {
+  font-size: 1.8rem;
+  margin-top: 15px;
+  margin-bottom: 10px;
+  word-break: break-word;
+}
+
+.mobile-initiative-detail h3 {
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 20px;
+}
+
+.mobile-initiative-description {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 25px;
+}
+
+.mobile-key-points h4 {
+  font-size: 1.1rem;
+  margin-bottom: 15px;
+  color: #ff6b2b;
+}
+
+.mobile-key-points ul {
+  padding-left: 20px;
+}
+
+.mobile-key-points li {
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+
+/* Desktop styles */
+@media (min-width: 769px) {
+  .initiative-page {
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+  }
+  
+  .initiative-hero {
+    height: 70vh;
+    background-attachment: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .initiative-hero h1 {
+    font-size: 5rem;
+    font-weight: 800;
+  }
+  
+  .initiative-hero p {
+    font-size: 1.5rem;
+    max-width: 700px;
+  }
+  
+  .initiative-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, rgba(255, 107, 43, 0.3) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  /* Restore grid layout for desktop */
+  .desktop-wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 30px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px 20px;
+  }
+  
+  .initiative-list {
+    width: 100%;
+    border-right: none;
+    display: contents;
+  }
+  
+  .initiative-item {
+    height: 220px;
+    border-radius: 12px;
+    border: none;
+    padding: 25px;
+    margin-bottom: 0;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  
+  .initiative-item:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.1) 0%,
+      rgba(0, 0, 0, 0.5) 70%,
+      rgba(0, 0, 0, 0.8) 100%
+    );
+    z-index: 0;
+  }
+  
+  .initiative-item:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: currentColor;
+    opacity: 0.8;
+  }
+  
+  .initiative-item h3 {
+    position: relative;
+    z-index: 2;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    line-height: 1.2;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    transition: transform 0.3s ease;
+    color: white;
+    text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.6);
+  }
+  
+  .initiative-item p {
+    position: relative;
+    z-index: 2;
+    font-size: 1rem;
+    font-weight: 400;
+    opacity: 0.9;
+    margin: 0;
+    transition: transform 0.3s ease;
+    color: white;
+    text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.6);
+  }
+  
+  .initiative-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 30px rgba(0, 0, 0, 0.3);
+  }
+  
+  .initiative-item:hover h3 {
+    transform: translateY(-5px);
+  }
+  
+  .initiative-item:hover p {
+    transform: translateY(-3px);
+  }
+  
+  /* Initiative detail modal for desktop */
+  .initiative-display {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 9000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .initiative-details {
+    background: #121212;
+    width: 80%;
+    max-width: 1000px;
+    max-height: 80vh;
+    border-radius: 15px;
+    padding: 40px;
+    position: relative;
+    overflow-y: auto;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+  }
+  
+  .initiative-details h2 {
+    font-size: 3rem;
+    margin-bottom: 15px;
+  }
+  
+  .initiative-details h3 {
+    font-size: 1.6rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 30px;
+  }
+  
+  .initiative-details p {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    margin-bottom: 30px;
+    color: rgba(255, 255, 255, 0.8);
+  }
+  
+  .initiative-key-points h4 {
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+    color: #ff6b2b;
+  }
+  
+  .initiative-key-points ul {
+    padding-left: 25px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 15px;
+  }
+  
+  .initiative-key-points li {
+    font-size: 1.1rem;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 10px;
+  }
+  
+  .desktop-back-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background 0.3s;
+  }
+  
+  .desktop-back-button:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+}

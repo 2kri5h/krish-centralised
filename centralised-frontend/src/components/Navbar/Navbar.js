@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { FiMenu, FiX } from "react-icons/fi";
 import logo from "../../assets/logo.png";
 import "./Navbar.css";
@@ -7,15 +7,34 @@ import "./Navbar.css";
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [showWebsites, setShowWebsites] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const location = useLocation();
+
+  // Check authentication status whenever location changes or component mounts
+  useEffect(() => {
+    const checkAuthStatus = () => {
+      const token = localStorage.getItem("access_token");
+      setIsLoggedIn(!!token);
+    };
+    
+    checkAuthStatus();
+    
+    // Add event listener for storage changes (in case logout happens in another tab)
+    window.addEventListener('storage', checkAuthStatus);
+    
+    return () => {
+      window.removeEventListener('storage', checkAuthStatus);
+    };
+  }, [location]);
 
   // Website data with their URLs
   const websiteLinks = [
-    { name: "ILP", url: "https://ilp.sarc-iitb.org" },
+    { name: "ILP", url: "https://ilpsummer.sarc-iitb.org" },
     { name: "PMP", url: "https://pmp.sarc-iitb.org" },
     { name: "ASMP", url: "https://asmp.sarc-iitb.org" },
     { name: "NTP", url: "https://ntp.sarc-iitb.org" },
-    { name: "PHONATHON ANDROID APP", url: null }, // null means not available
-    { name: "SARC CENTRALIZED WEBSITE", url: window.location.origin }, // current website
+    // { name: "PHONATHON ANDROID APP", url: null },
+    { name: "SARC CENTRALIZED WEBSITE", url: window.location.origin },
     { name: "ALUMINATION", url: "https://alumination.sarc-iitb.org" },
     { name: "SARCASM", url: "https://sarcasm.sarc-iitb.org" },
     { name: "YEARBOOK", url: "https://yearbook.sarc-iitb.org" },
@@ -31,7 +50,11 @@ const Navbar = () => {
     window.open(url, "_blank");
   };
 
-  const isLoggedIn = localStorage.getItem("access_token");
+  const handleLogout = () => {
+    localStorage.removeItem("access_token");
+    setIsLoggedIn(false);
+    window.location.href = "/";
+  };
 
   return (
     <nav className="bg-black py-4">
@@ -68,31 +91,31 @@ const Navbar = () => {
             </li>
 
             {showWebsites && (
-  <div className="fixed inset-0 w-full h-full bg-black bg-opacity-60 backdrop-blur-md flex mt-12 justify-center items-center z-50">
-    <div className="w-full max-w-6xl p-8">
-      <h2 className="text-white font-bold text-5xl mb-8 text-left">WEBSITES</h2>
-      <div className="grid grid-cols-2 gap-4">
-        {websiteLinks.map((site, index) => (
-          <div
-            key={index}
-            onClick={() => handleWebsiteClick(site.url)}
-            className={`p-6 rounded-lg cursor-pointer transition-colors
-                        ${site.url ? 'hover:bg-gray-700' : 'opacity-60 cursor-not-allowed'}
-                         text-white text-3xl font-bold flex justify-between items-center`}
-          >
-            <span>{site.name}</span>
-            {site.url && site.url !== window.location.origin && (
-              <span>↗</span>
+              <div className="fixed inset-0 w-full h-full bg-black bg-opacity-60 backdrop-blur-md flex mt-12 justify-center items-center z-50">
+                <div className="w-full max-w-6xl p-8">
+                  <h2 className="text-white font-bold text-5xl mb-8 text-left">WEBSITES</h2>
+                  <div className="grid grid-cols-2 gap-4">
+                    {websiteLinks.map((site, index) => (
+                      <div
+                        key={index}
+                        onClick={() => handleWebsiteClick(site.url)}
+                        className={`p-6 rounded-lg cursor-pointer transition-colors
+                                    ${site.url ? 'hover:bg-gray-700' : 'opacity-60 cursor-not-allowed'}
+                                     text-white text-3xl font-bold flex justify-between items-center`}
+                      >
+                        <span>{site.name}</span>
+                        {site.url && site.url !== window.location.origin && (
+                          <span>↗</span>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                  <p className="text-gray-400 text-right mt-8 text-sm">
+                    click name to redirect to websites
+                  </p>
+                </div>
+              </div>
             )}
-          </div>
-        ))}
-      </div>
-      <p className="text-gray-400 text-right mt-8 text-sm">
-        click name to redirect to websites
-      </p>
-    </div>
-  </div>
-)}
           </div>
 
           <Link
@@ -107,14 +130,6 @@ const Navbar = () => {
           >
             Blogs
           </Link> */}
-          {isLoggedIn && (
-            <Link
-              to="/profile"
-              className="text-[#e2e2b6] text-md hover:text-[#6EACDA] transition-colors"
-            >
-              Profile
-            </Link>
-          )}
           <Link
             to="/contact"
             className="text-[#e2e2b6] text-md hover:text-[#6EACDA] transition-colors"
@@ -142,10 +157,7 @@ const Navbar = () => {
                 Profile
               </Link>
               <button
-                onClick={() => {
-                  localStorage.removeItem("access_token");
-                  window.location.href = "/";
-                }}
+                onClick={handleLogout}
                 className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-4 py-2 rounded-lg font-semibold transition-all duration-300 flex items-center space-x-2"
               >
                 <span>Logout</span>
@@ -237,8 +249,7 @@ const Navbar = () => {
                 </Link>
                 <button
                   onClick={() => {
-                    localStorage.removeItem("access_token");
-                    window.location.href = "/";
+                    handleLogout();
                     setMenuOpen(false);
                   }}
                   className="w-full bg-gradient-to-r from-red-500 to-red-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:from-red-600 hover:to-red-700 transition-all duration-300 flex items-center justify-center space-x-2"

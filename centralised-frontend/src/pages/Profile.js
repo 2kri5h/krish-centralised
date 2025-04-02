@@ -65,10 +65,11 @@ const Profile = () => {
                 Change Password
               </button>
               <button 
+                className="logout-button-large"
                 onClick={handleLogout}
-                className="logout-button"
               >
-                Logout
+                <span className="sign"><svg>...</svg></span>
+                <span className="text">LOGOUT</span>
               </button>
             </div>
           </div>

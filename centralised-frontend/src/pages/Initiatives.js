@@ -322,10 +322,22 @@ const Initiatives = () => {
   const [activeInitiative, setActiveInitiative] = useState(null);
   const [hoveredInitiative, setHoveredInitiative] = useState(null);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
   
-  // Set first initiative as active by default
+  // Detect mobile on mount and resize
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+  
+  // Set default active initiative
   useEffect(() => {
     if (!activeInitiative && initiatives.length > 0) {
       setActiveInitiative(initiatives[0].id);
@@ -335,6 +347,11 @@ const Initiatives = () => {
   const handleInitiativeClick = (id) => {
     setActiveInitiative(id);
     setIsExpanded(true);
+    
+    // Scroll to top on mobile
+    if (isMobile) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   };
   
   const handleBackClick = () => {
@@ -342,188 +359,150 @@ const Initiatives = () => {
   };
   
   const getActiveInitiative = () => {
-    return initiatives.find(initiative => initiative.id === activeInitiative);
+    return initiatives.find(item => item.id === activeInitiative);
   };
 
   return (
-    <div className="initiatives-container">
-      <motion.div 
-        className="initiatives-hero"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1 }}
-      >
+    <div className="initiative-page">
+      <div className="initiative-hero">
         <div className="hero-content">
-          <motion.h1 
-            initial={{ y: -50, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            Our Initiatives
-          </motion.h1>
-          <motion.p 
-            className="hero-subtitle"
-            initial={{ y: 50, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-          >
-            Building bridges between students and alumni through impactful programs
-          </motion.p>
+          <h1>Our Initiatives</h1>
+          <p className="hero-subtitle">Building bridges between students and alumni through impactful programs</p>
         </div>
-      </motion.div>
-      
-      <div className="initiatives-content" ref={sectionRef}>
-        <AnimatePresence mode="wait">
-          {!isExpanded ? (
-            <motion.div 
-              className="initiatives-grid"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              {initiatives.map((initiative, index) => (
-                <motion.div
-                  key={initiative.id}
-                  className={`initiative-card ${hoveredInitiative === initiative.id ? 'hovered' : ''}`}
-                  style={{
-                    '--initiative-color': initiative.color,
-                  }}
-                  initial={{ opacity: 0, y: 50 }}
-                  animate={isInView ? { 
-                    opacity: 1, 
-                    y: 0,
-                    transition: { duration: 0.6, delay: index * 0.1 + 0.2 }
-                  } : {}}
-                  whileHover={{ 
-                    y: -10,
-                    boxShadow: `0 20px 40px rgba(0, 0, 0, 0.2), 0 0 30px ${initiative.color}30`
-                  }}
-                  onClick={() => handleInitiativeClick(initiative.id)}
-                  onMouseEnter={() => setHoveredInitiative(initiative.id)}
-                  onMouseLeave={() => setHoveredInitiative(null)}
-                >
-                  <div className="card-content">
-                    <h2>{initiative.title}</h2>
-                    <p className="initiative-subtitle">{initiative.subtitle}</p>
-                    <div className="card-overlay"></div>
-                  </div>
-                  <div 
-                    className="card-background"
-                    style={{ 
-                      backgroundColor: `${initiative.color}20`,
-                      backgroundImage: 'none'
-                    }}
-                  ></div>
-                </motion.div>
-              ))}
-            </motion.div>
-          ) : (
-            <motion.div 
-              className="initiative-detail"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.5 }}
-              style={{
-                '--initiative-color': getActiveInitiative()?.color,
-              }}
-            >
-              <motion.button 
-                className="back-button"
-                onClick={handleBackClick}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <svg viewBox="0 0 24 24" width="24" height="24">
-                  <path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-                Back to all initiatives
-              </motion.button>
-              
-              <div className="detail-content">
-                <div className="detail-text">
-                  <motion.h1 
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
-                  >
-                    {getActiveInitiative()?.title}
-                  </motion.h1>
-                  
-                  <motion.p 
-                    className="detail-subtitle"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.1 }}
-                  >
-                    {getActiveInitiative()?.subtitle}
-                  </motion.p>
-                  
-                  <motion.p 
-                    className="detail-description"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.2 }}
-                  >
-                    {getActiveInitiative()?.description}
-                  </motion.p>
-                  
-                  {getActiveInitiative()?.keyPoints && (
-                    <motion.div 
-                      className="key-points"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5, delay: 0.3 }}
-                    >
-                      <h3>Key Features</h3>
-                      <ul>
-                        {getActiveInitiative()?.keyPoints.map((point, index) => (
-                          <motion.li 
-                            key={index}
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.3, delay: 0.4 + (index * 0.1) }}
-                          >
-                            {point}
-                          </motion.li>
-                        ))}
-                      </ul>
-                    </motion.div>
-                  )}
-                  
-                  <motion.div 
-                    className="cta-container"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.7 }}
-                  >
-                    {/* <button className="cta-button">Register Now</button>
-                    <button className="cta-button secondary">Learn More</button> */}
-                  </motion.div>
-                </div>
-                
-                <motion.div 
-                  className="detail-image-container"
-                  initial={{ opacity: 0, x: 50 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.7, delay: 0.3 }}
-                >
-                  <div className="image-decoration"></div>
-                </motion.div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </div>
       
-      <div className="initiatives-footer">
-        <h2>Ready to get involved?</h2>
-        <p>Join our initiatives and become part of the SARC community</p>
-        <button className="footer-cta">Contact Us</button>
+      <div className="initiative-content">
+        {/* For mobile: Show either list or detail */}
+        {isMobile ? (
+          <>
+            {isExpanded ? (
+              // Mobile detail view
+              <div className="mobile-initiative-detail">
+                <button 
+                  className="mobile-back-button"
+                  onClick={handleBackClick}
+                >
+                  ← Back
+                </button>
+                
+                <h2 style={{ color: getActiveInitiative()?.color }}>
+                  {getActiveInitiative()?.title}
+                </h2>
+                
+                <h3>{getActiveInitiative()?.subtitle}</h3>
+                
+                <p className="mobile-initiative-description">
+                  {getActiveInitiative()?.description}
+                </p>
+                
+                {getActiveInitiative()?.keyPoints && (
+                  <div className="mobile-key-points">
+                    <h4>Key Features:</h4>
+                    <ul>
+                      {getActiveInitiative()?.keyPoints.map((point, idx) => (
+                        <li key={idx}>{point}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            ) : (
+              // Mobile list view
+              <div className="mobile-initiative-list">
+                {initiatives.map((initiative) => (
+                  <div
+                    key={initiative.id}
+                    className="mobile-initiative-card"
+                    style={{ 
+                      background: `linear-gradient(135deg, ${initiative.color} 0%, ${adjustColor(initiative.color, 20)} 100%)`
+                    }}
+                    onClick={() => handleInitiativeClick(initiative.id)}
+                  >
+                    <h3>{initiative.title}</h3>
+                    <p>{initiative.subtitle}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </>
+        ) : (
+          // Improved Desktop view with cards
+          <div className="desktop-wrapper">
+            {initiatives.map((initiative) => (
+              <div
+                key={initiative.id}
+                className="initiative-item"
+                style={{ 
+                  backgroundColor: initiative.color,
+                  color: initiative.color
+                }}
+                onClick={() => handleInitiativeClick(initiative.id)}
+              >
+                <h3>{initiative.title}</h3>
+                <p>{initiative.subtitle}</p>
+              </div>
+            ))}
+            
+            {/* Desktop initiative detail modal */}
+            {isExpanded && getActiveInitiative() && (
+              <div className="initiative-display" onClick={handleBackClick}>
+                <div className="initiative-details" onClick={(e) => e.stopPropagation()}>
+                  <button 
+                    className="desktop-back-button"
+                    onClick={handleBackClick}
+                    aria-label="Close"
+                  >
+                    ×
+                  </button>
+                  
+                  <h2 style={{ color: getActiveInitiative().color }}>
+                    {getActiveInitiative().title}
+                  </h2>
+                  
+                  <h3>{getActiveInitiative().subtitle}</h3>
+                  
+                  <p>{getActiveInitiative().description}</p>
+                  
+                  {getActiveInitiative().keyPoints && (
+                    <div className="initiative-key-points">
+                      <h4>Key Features:</h4>
+                      <ul>
+                        {getActiveInitiative().keyPoints.map((point, idx) => (
+                          <li key={idx}>{point}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
 };
+
+// Helper function to adjust color brightness
+function adjustColor(color, amount) {
+  // Convert hex to RGB
+  let hex = color;
+  if (hex.startsWith('#')) {
+    hex = hex.slice(1);
+  }
+  
+  // Convert to RGB
+  let r = parseInt(hex.slice(0, 2), 16);
+  let g = parseInt(hex.slice(2, 4), 16);
+  let b = parseInt(hex.slice(4, 6), 16);
+  
+  // Adjust
+  r = Math.min(255, r + amount);
+  g = Math.min(255, g + amount);
+  b = Math.min(255, b + amount);
+  
+  // Convert back to hex
+  return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+}
 
 export default Initiatives;
