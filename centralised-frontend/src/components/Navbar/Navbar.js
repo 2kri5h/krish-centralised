@@ -1,14 +1,20 @@
-import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import React, { useState, useEffect, useRef } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FiMenu, FiX } from "react-icons/fi";
 import logo from "../../assets/logo.png";
 import "./Navbar.css";
+import { useAuth } from '../../context/AuthContext';
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [showWebsites, setShowWebsites] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+  const navRef = useRef(null);
+  const [scrolled, setScrolled] = useState(false);
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const { isAuthenticated, user, logout } = useAuth();
 
   // Check authentication status whenever location changes or component mounts
   useEffect(() => {
@@ -25,6 +31,33 @@ const Navbar = () => {
     return () => {
       window.removeEventListener('storage', checkAuthStatus);
     };
+  }, [location]);
+
+  // Handle scroll effect
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Close menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (navRef.current && !navRef.current.contains(event.target)) {
+        setMenuOpen(false);
+        setShowProfileMenu(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  // Set active link based on current path
+  useEffect(() => {
+    const path = location.pathname;
+    setMenuOpen(path.substring(1) === 'home');
   }, [location]);
 
   // Website data with their URLs
@@ -51,16 +84,32 @@ const Navbar = () => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("access_token");
-    setIsLoggedIn(false);
-    window.location.href = "/";
+    logout();
+    setShowProfileMenu(false);
+    navigate('/login');
+  };
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+    setShowProfileMenu(false);
+  };
+
+  const toggleProfileMenu = () => {
+    setShowProfileMenu(!showProfileMenu);
+  };
+
+  const closeMenu = () => {
+    setMenuOpen(false);
+    setShowProfileMenu(false);
   };
 
   return (
-    <nav className="bg-black py-4">
+    <nav ref={navRef} className={`bg-black py-4 ${scrolled ? 'scrolled' : ''}`}>
       <div className="max-w-7xl mx-auto px-4 flex justify-between items-center">
         {/* Logo */}
-        <img src={logo} alt="Sarc Logo" className="h-8 w-auto" />
+        <Link to="/" className="navbar-logo" onClick={closeMenu}>
+          <img src={logo} alt="Sarc Logo" className="h-8 w-auto" />
+        </Link>
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center space-x-6">
@@ -172,7 +221,7 @@ const Navbar = () => {
         {/* Mobile Menu Button */}
         <div className="md:hidden flex items-center">
           <button
-            onClick={() => setMenuOpen(!menuOpen)}
+            onClick={toggleMenu}
             className="text-white text-2xl"
           >
             {menuOpen ? <FiX /> : <FiMenu />}
@@ -186,21 +235,21 @@ const Navbar = () => {
           <Link
             to="/"
             className="block py-2 hover:text-[#6EACDA]"
-            onClick={() => setMenuOpen(false)}
+            onClick={closeMenu}
           >
             Home
           </Link>
           <Link
             to="/initiatives"
             className="block py-2 hover:text-[#6EACDA]"
-            onClick={() => setMenuOpen(false)}
+            onClick={closeMenu}
           >
             Initiatives
           </Link>
           <Link
             to="/gallery"
             className="block py-2 hover:text-[#6EACDA]"
-            onClick={() => setMenuOpen(false)}
+            onClick={closeMenu}
           >
             Gallery
           </Link>
@@ -214,7 +263,7 @@ const Navbar = () => {
           <Link
             to="/contact"
             className="block py-2 hover:text-[#6EACDA]"
-            onClick={() => setMenuOpen(false)}
+            onClick={closeMenu}
           >
             Contact us
           </Link>
@@ -226,14 +275,14 @@ const Navbar = () => {
                 <Link
                   to="/signup"
                   className="block w-full bg-gradient-to-r from-orange-500 to-amber-500 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:from-orange-600 hover:to-amber-600 transition-all duration-300"
-                  onClick={() => setMenuOpen(false)}
+                  onClick={closeMenu}
                 >
                   Sign Up
                 </Link>
                 <Link
                   to="/login"
                   className="block w-full bg-gradient-to-r from-orange-500 to-amber-500 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:from-orange-600 hover:to-amber-600 transition-all duration-300"
-                  onClick={() => setMenuOpen(false)}
+                  onClick={closeMenu}
                 >
                   Login
                 </Link>
@@ -243,14 +292,14 @@ const Navbar = () => {
                 <Link
                   to="/profile"
                   className="block w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:from-blue-600 hover:to-blue-700 transition-all duration-300"
-                  onClick={() => setMenuOpen(false)}
+                  onClick={toggleProfileMenu}
                 >
                   Profile
                 </Link>
                 <button
                   onClick={() => {
                     handleLogout();
-                    setMenuOpen(false);
+                    closeMenu();
                   }}
                   className="w-full bg-gradient-to-r from-red-500 to-red-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:from-red-600 hover:to-red-700 transition-all duration-300 flex items-center justify-center space-x-2"
                 >
@@ -271,7 +320,7 @@ const Navbar = () => {
                 key={index}
                 onClick={() => {
                   handleWebsiteClick(site.url);
-                  setMenuOpen(false);
+                  closeMenu();
                 }}
                 className={`py-1 px-4 ${
                   site.url ? "text-[#6EACDA]" : "text-gray-500"
