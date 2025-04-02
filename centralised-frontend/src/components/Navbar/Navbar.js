@@ -187,14 +187,19 @@ const Navbar = () => {
           </Link>
 
           {/* Authentication Buttons - Desktop */}
-          {!isLoggedIn ? (
-            <div className="flex items-center bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-lg overflow-hidden">
-              <Link to="/signup" className="px-4 py-2 text-sm font-semibold hover:bg-white/10 transition-colors">
-                Sign Up
-              </Link>
-              <span className="text-white/20">|</span>
-              <Link to="/login" className="px-4 py-2 text-sm font-semibold hover:bg-white/10 transition-colors">
+          {!isAuthenticated ? (
+            <div className="flex items-center space-x-4">
+              <Link
+                to="/login"
+                className="text-[#e2e2b6] text-md hover:text-[#6EACDA] transition-colors"
+              >
                 Login
+              </Link>
+              <Link
+                to="/signup"
+                className="text-[#e2e2b6] text-md hover:text-[#6EACDA] transition-colors"
+              >
+                Sign Up
               </Link>
             </div>
           ) : (
@@ -270,7 +275,7 @@ const Navbar = () => {
 
           {/* Authentication Buttons - Mobile */}
           <div className="mt-4 space-y-2 px-4">
-            {!isLoggedIn ? (
+            {!isAuthenticated ? (
               <>
                 <Link
                   to="/signup"
