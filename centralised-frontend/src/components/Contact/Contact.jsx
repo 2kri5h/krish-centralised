@@ -202,7 +202,7 @@ const Contact = () => {
             transition={{ duration: 0.8 }}
           >
             CONTACT US
-            <img src={ContactIcon} alt="Contact Icon" className="ml-4 h-12 md:h-16" />
+            {/* <img src={ContactIcon} alt="Contact Icon" className="ml-4 h-12 md:h-16" /> */}
           </motion.h1>
           <motion.p
             className="text-lg text-gray-300 max-w-2xl mx-auto"
