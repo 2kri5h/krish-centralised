@@ -98,27 +98,39 @@ const initiativesData = [
   }
 ];
 
-// Add this testimonials array after the initiativesData array
+// Update the testimonials array with alumni quotes
 const testimonials = [
   {
-    text: "The Alumni Student Mentorship Program was a game-changer for me. My mentor provided invaluable guidance that helped me secure my dream job.",
-    author: "Rahul Sharma, Class of 2022"
+    text: "SARC keeps the IIT Bombay spirit alive by connecting alumni with students in meaningful ways. It's a fantastic initiative that encourages learning, growth and exploration.",
+    author: "Sameer Saxena, Writer & Director"
   },
   {
-    text: "Participating in Alumination was one of the highlights of my time at IIT Bombay. The connections I made there continue to benefit me in my career.",
-    author: "Priya Patel, Class of 2021"
+    text: "The bridge that SARC creates between alumni and students is invaluable. It's inspiring to see how it helps young minds explore diverse career paths beyond conventional choices.",
+    author: "Nitesh Tiwari, Filmmaker"
   },
   {
-    text: "The Industrial Learning Program gave me real-world experience that set me apart during job interviews. I'm grateful for the opportunity SARC provided.",
-    author: "Vikram Singh, Class of 2023"
+    text: "SARC is a powerful bridge between students and alumni, creating a community where experiences, insights, and opportunities are shared. It's incredible to see how it continues to inspire and guide students, helping them shape their future with confidence.",
+    author: "Bhavish Aggarwal, Co-founder & CEO, Ola"
   },
   {
-    text: "SARC's events create a wonderful bridge between students and alumni. The networking opportunities are invaluable for career growth.",
-    author: "Ananya Desai, Class of 2020"
+    text: "The mentorship and guidance SARC facilitates are truly invaluable. It empowers students to dream big, take risks and carve their own paths with confidence.",
+    author: "Ahana Gautam, Co-founder, Open Secret"
   },
   {
-    text: "The guidance I received through SARC's mentorship programs helped me navigate my career path with confidence. Truly thankful!",
-    author: "Arjun Mehta, Class of 2022"
+    text: "SARC goes beyond just connecting students and alumni—it serves as a guiding force, helping students gain clarity, direction, and confidence from the experiences of those who have been in their shoes.",
+    author: "Ashima Mittal, IAS Officer"
+  },
+  {
+    text: "SARC has been instrumental in building a strong and enduring alumni network. By fostering mentorship and knowledge-sharing, it ensures that each generation of IIT Bombay students learns from those who have walked the path before them.",
+    author: "Nandan Nilekani, Co-founder, Infosys"
+  },
+  {
+    text: "SARC brings together alumni stories that go beyond textbooks and classrooms. It's a fantastic initiative that helps students explore unconventional paths and find the courage to carve their own unique journeys.",
+    author: "Vipul Goyal, Stand-up Comedian & Writer"
+  },
+  {
+    text: "SARC connects students with alumni who have faced similar crossroads, helping them make informed decisions and pursue their goals with conviction.",
+    author: "Shubham Kumar, AIR 1 UPSC CSE 2020"
   }
 ];
 
@@ -593,76 +605,108 @@ const Home = () => {
     return () => clearInterval(welcomeInterval);
   }, []);
   
-  // Auto-scroll interval for testimonials
-  useEffect(() => {
-    const testimonialInterval = setInterval(() => {
-      setCurrentTestimonialIndex(prev => (prev + 1) % testimonials.length);
-    }, 5000);
-    
-    return () => clearInterval(testimonialInterval);
-  }, [testimonials.length]);
+  // First, add these states at the beginning of your component
+  const [visibleTestimonials, setVisibleTestimonials] = useState(3);
+  const [duplicatedTestimonials, setDuplicatedTestimonials] = useState([]);
 
-  // Updated alumni data with exact image paths
+  // Create a simple array of duplicated testimonials for infinite scroll
+  useEffect(() => {
+    // Create duplicated testimonials for infinite scroll
+    const duplicated = [...testimonials, ...testimonials, ...testimonials];
+    setDuplicatedTestimonials(duplicated);
+  }, [testimonials]);
+
+  // Add this useEffect to handle responsive testimonial display
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 640) {
+        setVisibleTestimonials(1);
+      } else if (window.innerWidth < 1024) {
+        setVisibleTestimonials(2);
+      } else {
+        setVisibleTestimonials(3);
+      }
+    };
+    
+    handleResize(); // Set initial value
+    window.addEventListener('resize', handleResize);
+    
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Updated alumni data with personalized bios
   const alumniData = [
-    { 
-      name: "Deepak Satwalekar", 
-      title: "Former MD & CEO, HDFC Standard Life Insurance", 
-      image: deepakImage 
+    {
+      name: "Nandan Nilekani",
+      title: "Co-founder of Infosys, Former Chairman of UIDAI",
+      image: nandanImage,
+      bio: "IIT Bombay EE 1973 graduate who co-founded Infosys, led India's ambitious Aadhaar project, and is known for his philanthropy and contributions to India's digital transformation."
     },
-    { 
-      name: "Nitesh Tiwari", 
-      title: "Director", 
-      image: downloadImage 
+    {
+      name: "Deepak Parekh",
+      title: "Chairman of HDFC",
+      image: deepakImage,
+      bio: "A distinguished IIT Bombay alumnus who transformed HDFC into one of India's largest financial conglomerates. Known for his integrity and leadership in the banking and finance sector."
     },
-    { 
-      name: "Falguni Nayar", 
-      title: "Founder & CEO, Nykaa", 
-      image: falguniImage 
+    {
+      name: "Falguni Nayar",
+      title: "Founder & CEO of Nykaa",
+      image: falguniImage,
+      bio: "IIT Bombay graduate who left a successful banking career to found Nykaa at age 50, becoming one of India's most successful self-made female billionaires and e-commerce pioneers."
     },
-    { 
-      name: "Ashima Mittal", 
-      title: "IAS Officer, CEO Zilla Parishad of Nashik", 
-      image: ashimaImage 
+    {
+      name: "K. Sivan",
+      title: "Former Chairman of ISRO",
+      image: sivanImage,
+      bio: "IIT Bombay alumnus who served as the chairman of ISRO and was instrumental in leading India's space missions including Chandrayaan-2. Known as the 'Rocket Man of India'."
     },
-    { 
-      name: "Ashishkumar Chauhan", 
-      title: "MD & CEO, Bombay Stock Exchange", 
-      image: imagesImage 
+    {
+      name: "Ashima Mittal",
+      title: "IAS Officer",
+      image: ashimaImage,
+      bio: "IIT Bombay graduate who secured AIR 12 in the UPSC Civil Services Examination. Currently serving as CEO Zilla Parishad of Nashik, Maharashtra, making significant contributions to public administration."
     },
-    { 
-      name: "K. Sivan", 
-      title: "Former Chairman, ISRO", 
-      image: sivanImage 
+    {
+      name: "Sameer Saxena",
+      title: "Co-founder of TVF",
+      image: sameerImage,
+      bio: "IIT Bombay alumnus who co-founded The Viral Fever (TVF), revolutionizing India's digital entertainment landscape with original content that resonates with the youth."
     },
-    { 
-      name: "Sameer Saxena", 
-      title: "Co-founder, TVF", 
-      image: sameerImage 
+    {
+      name: "Shubham Kumar",
+      title: "IAS Officer, UPSC AIR 1",
+      image: shubhamImage,
+      bio: "IIT Bombay Civil Engineering 2018 graduate who topped the UPSC Civil Services Examination in 2020, inspiring many engineering students to pursue careers in public service."
     },
-    { 
-      name: "Shubham Kumar", 
-      title: "IITB CE 2018", 
-      image: shubhamImage 
+    {
+      name: "Vipul Goyal",
+      title: "Stand-up Comedian & Actor",
+      image: unnamedImage,
+      bio: "IIT Bombay alumnus who became one of India's most popular stand-up comedians. Known for his show 'Humorously Yours' and comedy that draws from his engineering background and campus experiences."
     },
-    { 
-      name: "Bhavish Aggarwal", 
-      title: "Founder & CEO, Ola", 
-      image: uaxcImage 
+    {
+      name: "Bhavish Aggarwal",
+      title: "Co-founder & CEO of Ola Cabs",
+      image: uaxcImage,
+      bio: "IIT Bombay Computer Science graduate who revolutionized India's transportation sector by founding Ola Cabs, and is now pioneering electric mobility through Ola Electric."
     },
-    { 
-      name: "Vipul Goyal", 
-      title: "Comedian", 
-      image: unnamedImage 
+    {
+      name: "Pranav Mistry",
+      title: "Former CEO of Samsung STAR Labs",
+      image: wnqaemozImage,
+      bio: "IIT Bombay alumnus who invented SixthSense, a wearable gestural interface. Former CEO of Samsung STAR Labs and recognized as one of the young innovators under 35 by MIT."
     },
-    { 
-      name: "Ahana Gautam", 
-      title: "CEO, Open Secret", 
-      image: wnqaemozImage 
+    {
+      name: "Parag Agrawal",
+      title: "Former CEO of Twitter",
+      image: uaxcImage,
+      bio: "IIT Bombay Computer Science graduate who served as the CEO of Twitter. Previously as CTO, he led the company's technical strategy and oversaw machine learning and AI advancements."
     },
-    { 
-      name: "Nandan Nilekani", 
-      title: "Co-founder & Chairman, Infosys", 
-      image: nandanImage 
+    {
+      name: "Nitin Nohria",
+      title: "Former Dean of Harvard Business School",
+      image: imagesImage,
+      bio: "IIT Bombay Chemical Engineering graduate who served as the 10th Dean of Harvard Business School from 2010-2020, the first Indian-American to hold this prestigious position."
     }
   ];
 
@@ -1079,7 +1123,7 @@ const Home = () => {
       {/* Add another clear spacer before testimonials */}
       <div className="h-40 bg-black"></div>
 
-        {/* Testimonials Section */}
+        {/* Testimonials Section with Infinite Scroll */}
       <div className="mt-8 bg-gray-900 rounded-2xl p-6 mb-12 mx-4 md:mx-auto max-w-7xl" id="testimonial">
           <h2 className="text-2xl font-semibold text-orange-500 mb-6">Testimonials</h2>
           <div className="relative">
@@ -1087,48 +1131,55 @@ const Home = () => {
               <div 
                 className="flex transition-transform duration-500 ease-in-out"
                 style={{
-                  transform: `translateX(-${currentTestimonialIndex * (window.innerWidth < 768 ? 100 : 25)}%)`,
+                  transform: `translateX(-${currentTestimonialIndex * (100 / visibleTestimonials)}%)`,
+                  width: `${duplicatedTestimonials.length * (100 / visibleTestimonials)}%`
                 }}
               >
-                {testimonials.map((testimonial, index) => (
+                {duplicatedTestimonials.map((testimonial, index) => (
                   <div 
                     key={index} 
-                    className="flex-none w-full md:w-1/4 px-4"
+                    className="px-2"
+                    style={{ width: `${100 / visibleTestimonials}%` }}
                   >
-                  <div className="bg-black/50 border border-gray-800 p-6 rounded-xl shadow-md h-full">
-                    <p className="text-gray-300 mb-4">"{testimonial.text}"</p>
-                      <p className="text-orange-500 font-medium">{testimonial.author}</p>
+                    <div className="bg-black/50 border border-gray-800 p-6 rounded-xl shadow-md h-full">
+                      <p className="text-gray-300 mb-4 text-sm md:text-base">"{testimonial.text}"</p>
+                      <p className="text-orange-500 font-medium text-sm md:text-base">{testimonial.author}</p>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Navigation Arrows */}
-            <div className="flex justify-center mt-8 gap-8">
+            {/* Navigation Arrows - Fixed z-index and event handling */}
+            <div className="flex justify-center mt-8 gap-8 relative z-50">
               <button 
-                onClick={() => setCurrentTestimonialIndex(prev => 
-                  prev === 0 ? testimonials.length - 1 : prev - 1
-                )}
-                className="bg-orange-500 hover:bg-orange-600 text-white w-12 h-12 rounded-full flex items-center justify-center transition-colors"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  const newIndex = currentTestimonialIndex - 1;
+                  setCurrentTestimonialIndex(newIndex < 0 ? 0 : newIndex);
+                }}
+                className="bg-orange-500 hover:bg-orange-600 text-white w-12 h-12 rounded-full flex items-center justify-center transition-colors relative z-50"
               >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
                 </svg>
               </button>
               <button 
-                onClick={() => setCurrentTestimonialIndex(prev => 
-                  (prev + 1) % testimonials.length
-                )}
-                className="bg-orange-500 hover:bg-orange-600 text-white w-12 h-12 rounded-full flex items-center justify-center transition-colors"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  const newIndex = currentTestimonialIndex + 1;
+                  const maxIndex = duplicatedTestimonials.length - visibleTestimonials;
+                  setCurrentTestimonialIndex(newIndex > maxIndex ? maxIndex : newIndex);
+                }}
+                className="bg-orange-500 hover:bg-orange-600 text-white w-12 h-12 rounded-full flex items-center justify-center transition-colors relative z-50"
               >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
                 </svg>
               </button>
+            </div>
           </div>
         </div>
-      </div>
       
       <Footer />
     </div>
