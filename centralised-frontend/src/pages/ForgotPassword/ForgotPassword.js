@@ -36,7 +36,7 @@ const ForgotPassword = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <h2>Forgot Password</h2>
+        <h2>Change Password</h2>
         
         {isSuccess ? (
           <div className="success-message">
@@ -54,14 +54,14 @@ const ForgotPassword = () => {
         ) : (
           <form onSubmit={handleSubmit}>
             <div className="form-group">
-              <label htmlFor="email">Email Address</label>
+              <label htmlFor="email">LDAP ID</label>
               <input
                 type="email"
                 id="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                placeholder="Enter your email address"
+                placeholder="Enter your LDAP ID"
               />
             </div>
             

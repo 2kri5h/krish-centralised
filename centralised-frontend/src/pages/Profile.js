@@ -46,6 +46,7 @@ const Profile = () => {
 
   return (
     <div className="profile-container">
+      <div style={{height: '4vh'}}></div>
       <div className="profile-header">
         <h1>My Profile</h1>
         <p>View and manage your account information</p>
@@ -60,7 +61,7 @@ const Profile = () => {
             <div className="profile-actions">
               <button 
                 className="profile-button change-password"
-                onClick={() => navigate('/changePassword')}
+                onClick={() => navigate('/forgot-password')}
               >
                 Change Password
               </button>

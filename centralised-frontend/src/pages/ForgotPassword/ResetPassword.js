@@ -25,7 +25,7 @@ const ResetPassword = () => {
     setMessage('');
 
     try {
-      const response = await axios.post(`/api/auth/password/${uid}/${token}/`, {
+      const response = await axios.post(`https://centralised.sarc-iitb.org/api/auth/password/${uid}/${token}/`, {
         password,
         password2: confirmPassword
       });

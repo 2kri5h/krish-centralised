@@ -115,13 +115,13 @@ const Navbar = () => {
         <div className="hidden md:flex items-center space-x-6">
           <Link
             to="/"
-            className="text-[#e2e2b6] text-md hover:text-[#6EACDA] transition-colors"
+            className="text-[#e2e2b6] text-md hover:text-[#ff6b2b] transition-colors"
           >
             Home
           </Link>
           <Link
             to="/initiatives"
-            className="text-[#e2e2b6] text-md hover:text-[#6EACDA] transition-colors"
+            className="text-[#e2e2b6] text-md hover:text-[#ff6b2b] transition-colors"
           >
             Initiatives
           </Link>
@@ -133,7 +133,7 @@ const Navbar = () => {
             onMouseLeave={() => setShowWebsites(false)}
           >
             <li
-              className="text-[#e2e2b6] text-md hover:text-[#6EACDA] transition-colors cursor-pointer"
+              className="text-[#e2e2b6] text-md hover:text-[#ff6b2b] transition-colors cursor-pointer"
               style={{ listStyle: "none" }}
             >
               Websites
@@ -169,19 +169,19 @@ const Navbar = () => {
 
           <Link
             to="/gallery"
-            className="text-[#e2e2b6] text-md hover:text-[#6EACDA] transition-colors"
+            className="text-[#e2e2b6] text-md hover:text-[#ff6b2b] transition-colors"
           >
             Gallery
           </Link>
-          {/* <Link
-            to="/blogs"
-            className="text-[#e2e2b6] text-md hover:text-[#6EACDA] transition-colors"
+          <Link
+            to="/alumni-advice"
+            className="text-[#e2e2b6] text-md hover:text-[#ff6b2b] transition-colors"
           >
-            Blogs
-          </Link> */}
+            Alumni Advice
+          </Link>
           <Link
             to="/contact"
-            className="text-[#e2e2b6] text-md hover:text-[#6EACDA] transition-colors"
+            className="text-[#e2e2b6] text-md hover:text-[#ff6b2b] transition-colors"
           >
             Contact us
           </Link>
@@ -191,13 +191,13 @@ const Navbar = () => {
             <div className="flex items-center space-x-4">
               <Link
                 to="/login"
-                className="text-[#e2e2b6] text-md hover:text-[#6EACDA] transition-colors"
+                className="text-[#e2e2b6] text-md hover:text-[#ff6b2b] transition-colors"
               >
                 Login
               </Link>
               <Link
                 to="/signup"
-                className="text-[#e2e2b6] text-md hover:text-[#6EACDA] transition-colors"
+                className="text-[#e2e2b6] text-md hover:text-[#ff6b2b] transition-colors"
               >
                 Sign Up
               </Link>
@@ -206,7 +206,7 @@ const Navbar = () => {
             <div className="flex items-center space-x-4">
               <Link
                 to="/profile"
-                className="text-[#e2e2b6] text-md hover:text-[#6EACDA] transition-colors"
+                className="text-[#e2e2b6] text-md hover:text-[#ff6b2b] transition-colors"
               >
                 Profile
               </Link>
@@ -258,13 +258,13 @@ const Navbar = () => {
           >
             Gallery
           </Link>
-          {/* <Link
-            to="/blogs"
+          <Link
+            to="/alumni-advice"
             className="block py-2 hover:text-[#6EACDA]"
-            onClick={() => setMenuOpen(false)}
+            onClick={closeMenu}
           >
-            Blogs
-          </Link> */}
+            Alumni Advice
+          </Link>
           <Link
             to="/contact"
             className="block py-2 hover:text-[#6EACDA]"

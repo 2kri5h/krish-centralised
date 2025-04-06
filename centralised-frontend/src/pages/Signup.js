@@ -143,7 +143,7 @@ const Signup = () => {
             {/* Form fields with animations */}
             {[
               { name: "name", type: "text", placeholder: "Full Name" },
-              { name: "email", type: "email", placeholder: "Email Address" },
+              { name: "email", type: "email", placeholder: "LDAP ID" },
               { name: "password", type: "password", placeholder: "Password" },
               { name: "phone", type: "tel", placeholder: "Phone Number" },
               { name: "roll_number", type: "text", placeholder: "Roll Number" },

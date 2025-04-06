@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import axios from "axios";
 
 const ChangePassword = () => {
-  const [passwordData, setPasswordData] = useState({ password: "", password2: "" })
+  const [passwordData, setPasswordData] = useState({
+    password: "",
+    password2: "",
+  });
   const [error, setError] = useState(null);
 
   const handlePasswordChange = (e) => {
@@ -12,7 +15,7 @@ const ChangePassword = () => {
     });
   };
   const handlePasswordChangeSubmit = async () => {
-    const accessToken = localStorage.getItem("access_token");
+    const accessToken = localStorage.getItem("token");
 
     if (!accessToken) {
       setError("No access token found. Please log in.");
@@ -20,9 +23,9 @@ const ChangePassword = () => {
     }
 
     if (passwordData.password !== passwordData.password2) {
-        setError("Passwords do not match. Please try again.");
-        return;
-      }
+      setError("Passwords do not match. Please try again.");
+      return;
+    }
 
     try {
       const response = await axios.post(
@@ -57,7 +60,7 @@ const ChangePassword = () => {
         </h2>
 
         {error && <div className="text-red-500 text-center mb-4">{error}</div>}
-        
+
         <div className="mt-4">
           <label className="block text-sm font-semibold text-black mb-1">
             Password

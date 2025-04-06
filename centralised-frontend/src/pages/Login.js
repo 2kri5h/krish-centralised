@@ -55,7 +55,7 @@ const Login = () => {
 
   const handleResendVerification = async () => {
     if (!email) {
-      setError("Please enter your email address to resend verification");
+      setError("Please enter your LDAP ID to resend verification");
       return;
     }
     
@@ -147,7 +147,7 @@ const Login = () => {
               <motion.input
                 type="email"
                 name="email"
-                placeholder="Email Address"
+                placeholder="LDAP ID"
                 className="w-full px-4 py-3 bg-white/5 border border-gray-700 rounded-lg focus:outline-none focus:border-orange-500 text-white"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}

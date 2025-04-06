@@ -20,6 +20,7 @@ import Loading from './components/Loading/Loading';
 import Signup from './pages/Signup';
 import VerifyEmail from './pages/VerifyEmail';
 import DirectVerify from './pages/DirectVerify';
+import IfIKnewThen from './components/IfIKnewThen/IfIKnewThen';
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -44,6 +45,7 @@ const App = () => {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/initiatives" element={<Initiatives />} />
+              <Route path="/alumni-advice" element={<IfIKnewThen />} />
               <Route path="/gallery" element={<Gallery />} />
               <Route path="/blogs" element={<Blogs />} />
               <Route path="/contact" element={<Contact />} />  
