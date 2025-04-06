@@ -1036,7 +1036,7 @@ const Home = () => {
 
                 <div className="mt-8 z-1000">
                   <a
-                    onClick={() => window.location.href = "http://localhost:3000/initiatives"}
+                    onClick={() => window.location.href = "https://centralised.sarc-iitb.org/initiatives"}
                     className="bg-white/10 hover:bg-white/20 text-white py-3 px-6 rounded-lg transition-all flex items-center gap-2 cursor-pointer"
                   >
                     Learn more
