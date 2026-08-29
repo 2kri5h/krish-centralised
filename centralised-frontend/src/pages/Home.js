@@ -892,6 +892,7 @@ const Home = () => {
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-blue-500 filter blur-3xl opacity-30"></div>
         </div>
 
+<<<<<<< HEAD
         {/* Fixed container for text animations */}
         <div
           className="fixed top-0 left-0 w-full h-screen flex items-center justify-center z-10"
@@ -997,13 +998,65 @@ const Home = () => {
             </AnimatePresence>
           </div>
         </div>
+=======
+          {/* Testimonials */}
+          <GridItem
+            title="Testimonials"
+            color="cream"
+            className="col-span-full md:col-span-4"
+            icon={testimonialIcon}
+            iconWidth="23%"
+            scrollToId="testimonial"
+            expandedContent={
+              <div className="flex flex-wrap md:flex-nowrap justify-center gap-4 p-4">
+  {[1, 2, 3].map((i) => (
+    <div 
+      key={i} 
+      className="w-full sm:w-64 bg-[#F9F5DC] border border-black rounded-2xl p-4 flex flex-col justify-center items-center text-center shadow-md"
+    >
+      <p className="text-md font-semibold">SARC keeps the IIT Bombay spirit alive by connecting alumni with...</p>
+      <p className="text-sm text-gray-600">Sameer Saxena, Writer & Director</p>
+    </div>
+  ))}
+</div>
+>>>>>>> c237bd9c6d71425d0cff972ecae9a59b3728446c
 
         {/* Spacer to create scrollable area */}
         <div className="h-[400vh]"></div>
       </section>
 
+<<<<<<< HEAD
       {/* Add a clear div to ensure proper spacing between sections */}
       <div className="clear-both h-20"></div>
+=======
+          {/* Contact */}
+          <GridItem
+            title="Contact"
+            color="blue"
+            className="col-span-full md:col-span-2"
+            icon={contactIcon}
+            iconWidth="45%"
+            expandedContent={
+              <div className="space-y-2">
+              {/* First Row: Office Contact */}
+              <div className="flex justify-between items-center w-full p-3 rounded-lg bg-[#F9F5DC] shadow-md">
+                <span className="text-md font-medium text-gray-700">OFFICE</span>
+                <span className="text-lg font-bold text-black">881382383</span>
+              </div>
+          
+            
+              {/* Third Row: Overall OC Contact */}
+              <div className="flex justify-between items-center w-full p-3 rounded-lg bg-[#F9F5DC] shadow-md">
+                <span className="text-md font-medium text-gray-700">Web Head</span>
+                <span className="text-lg font-bold text-black">6263173987</span>
+              </div>
+            </div>
+            
+            }
+            scrollToId="contactUs"
+          />
+        </div>
+>>>>>>> c237bd9c6d71425d0cff972ecae9a59b3728446c
 
       {/* Horizontal Scrolling Initiatives Section */}
       <section

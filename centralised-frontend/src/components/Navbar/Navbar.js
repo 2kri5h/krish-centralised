@@ -83,6 +83,7 @@ const Navbar = () => {
     window.open(url, "_blank");
   };
 
+<<<<<<< HEAD
   const handleLogout = () => {
     logout();
     setShowProfileMenu(false);
@@ -102,6 +103,9 @@ const Navbar = () => {
     setMenuOpen(false);
     setShowProfileMenu(false);
   };
+=======
+  const isLoggedIn = localStorage.getItem("access_token");
+>>>>>>> c237bd9c6d71425d0cff972ecae9a59b3728446c
 
   return (
     <nav ref={navRef} className={`bg-black py-4 ${scrolled ? 'scrolled' : ''}`}>
@@ -177,8 +181,21 @@ const Navbar = () => {
             to="/alumni-advice"
             className="text-[#e2e2b6] text-md hover:text-[#ff6b2b] transition-colors"
           >
+<<<<<<< HEAD
             Alumni Advice
           </Link>
+=======
+            Blogs
+          </Link> */}
+          {isLoggedIn && (
+            <Link
+              to="/profile"
+              className="text-[#e2e2b6] text-md hover:text-[#6EACDA] transition-colors"
+            >
+              Profile
+            </Link>
+          )}
+>>>>>>> c237bd9c6d71425d0cff972ecae9a59b3728446c
           <Link
             to="/contact"
             className="text-[#e2e2b6] text-md hover:text-[#ff6b2b] transition-colors"
@@ -187,12 +204,22 @@ const Navbar = () => {
           </Link>
 
           {/* Authentication Buttons - Desktop */}
+<<<<<<< HEAD
           {!isAuthenticated ? (
             <div className="flex items-center space-x-4">
               <Link
                 to="/login"
                 className="text-[#e2e2b6] text-md hover:text-[#ff6b2b] transition-colors"
               >
+=======
+          {!isLoggedIn ? (
+            <div className="flex items-center bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-lg overflow-hidden">
+              <Link to="/signup" className="px-4 py-2 text-sm font-semibold hover:bg-white/10 transition-colors">
+                Sign Up
+              </Link>
+              <span className="text-white/20">|</span>
+              <Link to="/login" className="px-4 py-2 text-sm font-semibold hover:bg-white/10 transition-colors">
+>>>>>>> c237bd9c6d71425d0cff972ecae9a59b3728446c
                 Login
               </Link>
               <Link
@@ -206,12 +233,23 @@ const Navbar = () => {
             <div className="flex items-center space-x-4">
               <Link
                 to="/profile"
+<<<<<<< HEAD
                 className="text-[#e2e2b6] text-md hover:text-[#ff6b2b] transition-colors"
+=======
+                className="text-[#e2e2b6] text-md hover:text-[#6EACDA] transition-colors"
+>>>>>>> c237bd9c6d71425d0cff972ecae9a59b3728446c
               >
                 Profile
               </Link>
               <button
+<<<<<<< HEAD
                 onClick={handleLogout}
+=======
+                onClick={() => {
+                  localStorage.removeItem("access_token");
+                  window.location.href = "/";
+                }}
+>>>>>>> c237bd9c6d71425d0cff972ecae9a59b3728446c
                 className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-4 py-2 rounded-lg font-semibold transition-all duration-300 flex items-center space-x-2"
               >
                 <span>Logout</span>
@@ -275,19 +313,31 @@ const Navbar = () => {
 
           {/* Authentication Buttons - Mobile */}
           <div className="mt-4 space-y-2 px-4">
+<<<<<<< HEAD
             {!isAuthenticated ? (
+=======
+            {!isLoggedIn ? (
+>>>>>>> c237bd9c6d71425d0cff972ecae9a59b3728446c
               <>
                 <Link
                   to="/signup"
                   className="block w-full bg-gradient-to-r from-orange-500 to-amber-500 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:from-orange-600 hover:to-amber-600 transition-all duration-300"
+<<<<<<< HEAD
                   onClick={closeMenu}
+=======
+                  onClick={() => setMenuOpen(false)}
+>>>>>>> c237bd9c6d71425d0cff972ecae9a59b3728446c
                 >
                   Sign Up
                 </Link>
                 <Link
                   to="/login"
                   className="block w-full bg-gradient-to-r from-orange-500 to-amber-500 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:from-orange-600 hover:to-amber-600 transition-all duration-300"
+<<<<<<< HEAD
                   onClick={closeMenu}
+=======
+                  onClick={() => setMenuOpen(false)}
+>>>>>>> c237bd9c6d71425d0cff972ecae9a59b3728446c
                 >
                   Login
                 </Link>
@@ -297,14 +347,24 @@ const Navbar = () => {
                 <Link
                   to="/profile"
                   className="block w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:from-blue-600 hover:to-blue-700 transition-all duration-300"
+<<<<<<< HEAD
                   onClick={toggleProfileMenu}
+=======
+                  onClick={() => setMenuOpen(false)}
+>>>>>>> c237bd9c6d71425d0cff972ecae9a59b3728446c
                 >
                   Profile
                 </Link>
                 <button
                   onClick={() => {
+<<<<<<< HEAD
                     handleLogout();
                     closeMenu();
+=======
+                    localStorage.removeItem("access_token");
+                    window.location.href = "/";
+                    setMenuOpen(false);
+>>>>>>> c237bd9c6d71425d0cff972ecae9a59b3728446c
                   }}
                   className="w-full bg-gradient-to-r from-red-500 to-red-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:from-red-600 hover:to-red-700 transition-all duration-300 flex items-center justify-center space-x-2"
                 >

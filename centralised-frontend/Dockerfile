@@ -20,4 +20,8 @@ COPY . ./
 EXPOSE 3000
 
 # Start the application using npm
+<<<<<<< HEAD
 CMD ["npm", "start"]
+=======
+CMD ["npm", "start"]
+>>>>>>> c237bd9c6d71425d0cff972ecae9a59b3728446c

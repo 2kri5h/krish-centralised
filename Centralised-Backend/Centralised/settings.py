@@ -1,8 +1,19 @@
 # Add or update the STATIC_ROOT setting
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+import os
+from pathlib import Path
 
-# Make sure the directory exists
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+# STATIC_URL = '/static/'
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# # Make sure the directory exists
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, 'static'),
+# ] 
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
-] 
+    BASE_DIR / 'static',
+]

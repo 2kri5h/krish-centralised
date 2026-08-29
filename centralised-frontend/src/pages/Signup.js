@@ -115,6 +115,7 @@ const Signup = () => {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
+<<<<<<< HEAD
           >
             Create Account
           </motion.h2>
@@ -187,6 +188,70 @@ const Signup = () => {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 1 }}
           >
+=======
+          >
+            Create Account
+          </motion.h2>
+
+          {error && (
+            <motion.div 
+              className="bg-red-500/10 border border-red-500/20 text-red-400 px-4 py-3 rounded-lg mb-6"
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              {error}
+            </motion.div>
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Form fields with animations */}
+            {[
+              { name: "name", type: "text", placeholder: "Full Name" },
+              { name: "email", type: "email", placeholder: "Email Address" },
+              { name: "password", type: "password", placeholder: "Password" },
+              { name: "phone", type: "tel", placeholder: "Phone Number" },
+              { name: "roll_number", type: "text", placeholder: "Roll Number" },
+              { name: "hostel_number", type: "text", placeholder: "Hostel Number" },
+            ].map((field, index) => (
+              <motion.div
+                key={field.name}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
+              >
+                <input
+                  type={field.type}
+                  name={field.name}
+                  placeholder={field.placeholder}
+                  value={formData[field.name]}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-3 bg-white/5 border border-gray-700 rounded-lg focus:outline-none focus:border-orange-500 text-white"
+                />
+              </motion.div>
+            ))}
+
+            <motion.button
+              type="submit"
+              className="w-full bg-gradient-to-r from-orange-500 to-amber-500 text-white py-3 px-4 rounded-lg font-medium hover:from-orange-600 hover:to-amber-600 transition-all duration-300 disabled:opacity-50 mt-6"
+              disabled={loading}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.9 }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              {loading ? "Creating Account..." : "Sign Up"}
+            </motion.button>
+          </form>
+
+          <motion.div 
+            className="mt-6 text-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 1 }}
+          >
+>>>>>>> c237bd9c6d71425d0cff972ecae9a59b3728446c
             <p className="text-gray-400">
               Already have an account?{" "}
               <Link to="/login" className="text-orange-400 hover:text-orange-300 transition-colors">
