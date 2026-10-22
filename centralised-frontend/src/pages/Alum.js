@@ -1,25 +1,25 @@
 import React from "react";
 
 
-  
+
 
   const AlumniGrid = () => {
     const alumniData = [
         { name: "Mr XYZ", title: "CEO, Google", image: "logo192.png" },
-        { name: "Ms ABC", title: "CTO, Microsoft", image: "\Group 61.png" },
+        { name: "Ms ABC", title: "CTO, Microsoft", image: "Group 61.png" },
         { name: "Mr XYZ", title: "CEO, Google", image: "logo192.png" },
-        { name: "Ms ABC", title: "CTO, Microsoft", image: "\Group 61.png" },
+        { name: "Ms ABC", title: "CTO, Microsoft", image: "Group 61.png" },
         { name: "Mr XYZ", title: "CEO, Google", image: "logo192.png" },
-        { name: "Ms ABC", title: "CTO, Microsoft", image: "\Group 61.png" },
+        { name: "Ms ABC", title: "CTO, Microsoft", image: "Group 61.png" },
         { name: "Mr XYZ", title: "CEO, Google", image: "logo192.png" },
-        { name: "Ms ABC", title: "CTO, Microsoft", image: "\Group 61.png" },
+        { name: "Ms ABC", title: "CTO, Microsoft", image: "Group 61.png" },
         { name: "Mr XYZ", title: "CEO, Google", image: "logo192.png" },
-        { name: "Ms ABC", title: "CTO, Microsoft", image: "\Group 61.png" },
+        { name: "Ms ABC", title: "CTO, Microsoft", image: "Group 61.png" },
         { name: "Mr XYZ", title: "CEO, Google", image: "logo192.png" },
-        { name: "Ms ABC", title: "CTO, Microsoft", image: "\Group 61.png" },
+        { name: "Ms ABC", title: "CTO, Microsoft", image: "Group 61.png" },
       ];
-  
-      
+
+
       return (
         <div className="bg-blue-700 p-6 rounded-xl w-full max-w-6xl">
           <h2 className="text-white text-2xl font-bold mb-4 text-center">
@@ -29,7 +29,7 @@ import React from "react";
             {alumniData.map((alumni, index) => (
               <div
                 key={index}
-                className="bg-[#FFFDD0] p-4 rounded-xl shadow-md text-center flex flex-col items-center 
+                className="bg-[#FFFDD0] p-4 rounded-xl shadow-md text-center flex flex-col items-center
                            transition-transform duration-300 hover:scale-110"
               >
                 <img
@@ -45,5 +45,5 @@ import React from "react";
         </div>
       );
     };
-    
+
     export default AlumniGrid;

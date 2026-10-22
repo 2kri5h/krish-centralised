@@ -1298,13 +1298,6 @@ const IfIKnewThen = () => {
     controls.start("visible");
   }, [controls]);
 
-  // Handle scroll to chapter section
-  const scrollToChapters = () => {
-    if (chapterRef.current) {
-      chapterRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
   // Toggle description visibility
   const toggleDescription = () => {
     setShowFullDescription(!showFullDescription);

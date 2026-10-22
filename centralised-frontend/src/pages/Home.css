@@ -1,92 +1,1412 @@
-.home-container {
-  background-color: #121212;
-  color: white;
+@font-face {
+  font-family: Cabinet;
+  src: url("../assets/home-fonts/cabinet-500-normal.woff2");
+  font-weight: 500;
+}
+@font-face {
+  font-family: Cabinet;
+  src: url("../assets/home-fonts/cabinet-700-normal.woff2");
+  font-weight: 700;
+}
+@font-face {
+  font-family: Cabinet;
+  src: url("../assets/home-fonts/cabinet-800-normal.woff2");
+  font-weight: 800;
+}
+@font-face {
+  font-family: Switzer;
+  src: url("../assets/home-fonts/switzer-400-normal.woff2");
+  font-weight: 400;
+}
+@font-face {
+  font-family: Switzer;
+  src: url("../assets/home-fonts/switzer-600-normal.woff2");
+  font-weight: 600;
+}
+@font-face {
+  font-family: Switzer;
+  src: url("../assets/home-fonts/switzer-700-normal.woff2");
+  font-weight: 700;
+}
+.sarc-home {
+  --navy: #011627;
+  --blue: #140d4f;
+  --green: #04724d;
+  --mint: #2dd881;
+  --teal: #2ec4b6;
+  --white: #ffffff;
+  --paper: #fdfffc;
+  --ink: var(--navy);
+  --line: rgba(1, 22, 39, 0.18);
+  --radius: 12px;
+  --gutter: 64px;
+}
+.sarc-home * {
+  box-sizing: border-box;
+}
+.sarc-home {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font:
+    400 16px/1.5 Switzer,
+    Arial,
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.sarc-home a {
+  color: inherit;
+  text-decoration: none;
+}
+.sarc-home button {
+  font: inherit;
+  cursor: pointer;
+}
+.sarc-home img {
+  display: block;
+  width: 100%;
+  object-fit: cover;
+}
+.sarc-home h1,
+.sarc-home h2,
+.sarc-home h3,
+.sarc-home p {
+  margin: 0;
+}
+.sarc-home h1,
+.sarc-home h2,
+.sarc-home h3 {
+  font-family: Cabinet, Arial, sans-serif;
+}
+.sarc-home button,
+.sarc-home a {
+  -webkit-tap-highlight-color: transparent;
+}
+.sarc-home a:focus-visible,
+.sarc-home button:focus-visible {
+  outline: 3px solid var(--teal);
+  outline-offset: 5px;
+}
+.sarc-home .skip {
+  position: absolute;
+  top: -80px;
+  left: 20px;
+  z-index: 20;
+  background: var(--white);
+  padding: 12px;
+}
+.sarc-home .skip:focus {
+  top: 10px;
+}
+.sarc-home .wrap {
+  width: calc(100% - var(--gutter) * 2);
+  max-width: 1440px;
+  margin: auto;
+}
+.sarc-home .logo {
+  width: 94px;
+  height: 53px;
+  display: block;
+  background: var(--navy);
+  mask: url("../assets/logo.png") center/contain no-repeat;
+  -webkit-mask: url("../assets/logo.png") center/contain no-repeat;
+}
+.sarc-home .nav {
+  height: 104px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 40px;
+}
+.sarc-home .brand {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.sarc-home .brand-meta {
+  border-left: 1px solid var(--line);
+  padding-left: 20px;
+  font-size: 12px;
+  line-height: 1.45;
+}
+.sarc-home .brand-meta strong {
+  font-size: 14px;
+  display: block;
+}
+.sarc-home .nav-links {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.sarc-home .nav-links > a:not(.button) {
+  position: relative;
+}
+.sarc-home .nav-links > a:not(.button):after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--green);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s;
+}
+.sarc-home .nav-links > a:hover:after {
+  transform: scaleX(1);
+}
+.sarc-home .button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+  min-height: 48px;
+  padding: 10px 12px 10px 22px;
+  border: 1px solid var(--navy);
+  border-radius: 99px;
+  font-size: 13px;
+  font-weight: 600;
+  background: var(--navy);
+  color: var(--white);
+  transition: background 0.25s;
+}
+.sarc-home .button i {
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  font-size: 19px;
+  font-style: normal;
+  border-radius: 50%;
+  background: var(--mint);
+  color: var(--navy);
+  transition: transform 0.3s;
+}
+.sarc-home .button:hover i {
+  transform: rotate(45deg);
+}
+.sarc-home .button:hover {
+  background: var(--green);
+}
+.sarc-home .menu-button {
+  display: none;
+  border: 1px solid var(--line);
+  background: transparent;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  font-size: 22px;
+}
+.sarc-home .hero-shell {
+  margin: 0 24px;
+  background: var(--navy);
+  border-radius: var(--radius);
+  overflow: hidden;
+  color: var(--white);
+}
+.sarc-home .hero {
+  height: 650px;
+  position: relative;
+  isolation: isolate;
+}
+.sarc-home .hero-image {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  object-position: 50% 54%;
+  opacity: 0;
+  transition: opacity 0.85s;
+}
+.sarc-home .hero-image.active {
+  opacity: 1;
+}
+.sarc-home .hero:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(1, 22, 39, 0.82),
+      rgba(1, 22, 39, 0.15) 50%,
+      rgba(1, 22, 39, 0.03)
+    ),
+    linear-gradient(0deg, rgba(1, 22, 39, 0.62), transparent 60%);
+  z-index: 0;
+}
+.sarc-home .hero-keyline {
+  position: absolute;
+  inset: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 6px;
+  z-index: 1;
+  pointer-events: none;
+}
+.sarc-home .hero-main {
+  position: absolute;
+  left: 40px;
+  bottom: 110px;
+  z-index: 2;
+}
+.sarc-home .hero-main .school {
+  font-size: 16px;
+  margin-bottom: 15px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.sarc-home .school:before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--mint);
+}
+.sarc-home .hero h1 {
+  font-size: 180px;
+  line-height: 0.84;
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  margin-left: -7px;
+}
+.sarc-home .hero-sub {
+  font-size: 22px;
+  line-height: 1.4;
+  font-weight: 500;
+  margin-top: 22px;
+  max-width: 500px;
+}
+.sarc-home .hero-main .button {
+  margin-top: 30px;
+  background: var(--white);
+  color: var(--navy);
+  border-color: var(--white);
+}
+.sarc-home .hero-main .button:hover {
+  background: var(--mint);
+}
+.sarc-home .hero-caption {
+  position: absolute;
+  z-index: 2;
+  bottom: 35px;
+  left: 40px;
+  right: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+}
+.sarc-home .hero-caption p {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+}
+.sarc-home .hero-caption p:before {
+  content: "";
+  height: 1px;
+  width: 40px;
+  background: var(--mint);
+}
+.sarc-home .playback {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.sarc-home .playback button {
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  background: rgba(1, 22, 39, 0.5);
+  color: var(--white);
+  border-radius: 50%;
+  font-size: 12px;
+  transition:
+    background 0.2s,
+    transform 0.2s;
+}
+.sarc-home .playback button:hover {
+  transform: translateY(-2px);
+  background: var(--green);
+}
+.sarc-home .playback button[aria-current="true"] {
+  background: var(--mint);
+  border-color: var(--mint);
+  color: var(--navy);
+}
+.sarc-home .pause {
+  margin-left: 5px;
+}
+.sarc-home .hero-note {
+  position: absolute;
+  right: 42px;
+  top: 38px;
+  z-index: 2;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 99px;
+  padding: 7px 15px;
+  font-size: 12px;
+  background: rgba(1, 22, 39, 0.3);
+}
+.sarc-home .routes {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  padding: 26px 0;
+  margin: 0 40px;
+}
+.sarc-home .route {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  border-right: 1px solid rgba(255, 255, 255, 0.22);
+  gap: 20px;
+}
+.sarc-home .route:first-child {
+  padding-left: 0;
+}
+.sarc-home .route:last-child {
+  border: 0;
+  padding-right: 0;
+}
+.sarc-home .route small {
+  font-size: 11px;
+  color: var(--teal);
+  display: block;
+  margin-bottom: 3px;
+}
+.sarc-home .route strong {
+  font-size: 18px;
+  font-weight: 600;
+}
+.sarc-home .route span {
+  font-size: 25px;
+  color: var(--mint);
+  transition: transform 0.25s;
+}
+.sarc-home .route:hover span {
+  transform: translate(4px, -4px);
+}
+.sarc-home .about {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 80px;
+  padding: 94px 0 100px;
+  border-bottom: 1px solid var(--line);
+}
+.sarc-home .section-label {
+  font-size: 16px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+.sarc-home .section-label:before {
+  content: "";
+  width: 22px;
+  height: 3px;
+  background: var(--green);
+}
+.sarc-home .about h2 {
+  font-size: 45px;
+  line-height: 1.13;
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  max-width: 860px;
+}
+.sarc-home .about h2 span {
+  color: var(--green);
+}
+.sarc-home .about-bottom {
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+  align-items: end;
+  margin-top: 27px;
+}
+.sarc-home .about p {
+  max-width: 540px;
+  font-size: 15px;
+  line-height: 1.6;
+}
+.sarc-home .text-link {
+  display: inline-flex;
+  gap: 16px;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  border-bottom: 1px solid currentColor;
+  padding: 6px 0;
+}
+.sarc-home .text-link span {
+  transition: transform 0.25s;
+}
+.sarc-home .text-link:hover span {
+  transform: translate(4px, -4px);
+}
+.sarc-home .programs {
+  padding: 80px 0 88px;
+}
+.sarc-home .section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 40px;
+  margin-bottom: 35px;
+}
+.sarc-home .section-head h2 {
+  font-size: 59px;
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+  font-weight: 700;
+}
+.sarc-home .section-head p {
+  font-size: 15px;
+  max-width: 300px;
+}
+.sarc-home .program-grid {
+  display: grid;
+  grid-template-columns: 1.12fr 1fr;
+  gap: 42px;
+}
+.sarc-home .feature-photo {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+.sarc-home .feature-photo img {
+  height: 330px;
+  transition: transform 0.7s;
+}
+.sarc-home .feature:hover img {
+  transform: scale(1.025);
+}
+.sarc-home .photo-label {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  background: var(--white);
+  color: var(--green);
+  border-radius: 99px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.sarc-home .feature-info {
+  display: flex;
+  align-items: start;
+  gap: 30px;
+  justify-content: space-between;
+  margin-top: 23px;
+}
+.sarc-home .feature-info h3 {
+  font-size: 34px;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  max-width: 420px;
+}
+.sarc-home .feature-info p {
+  font-size: 14px;
+  max-width: 400px;
+  margin-top: 12px;
+}
+.sarc-home .circle-arrow {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--green);
+  color: var(--green);
+  border-radius: 50%;
+  font-size: 24px;
+  transition:
+    background 0.3s,
+    transform 0.3s;
+}
+.sarc-home .feature:hover .circle-arrow,
+.sarc-home .program-row:hover .circle-arrow {
+  background: var(--mint);
+  transform: rotate(45deg);
+}
+.sarc-home .program-row {
+  display: grid;
+  grid-template-columns: 1fr 138px;
+  gap: 24px;
+  border-top: 1px solid var(--line);
+  padding: 25px 0;
+}
+.sarc-home .program-row:first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+.sarc-home .program-row:last-child {
+  border-bottom: 1px solid var(--line);
+}
+.sarc-home .program-row small {
+  color: var(--green);
+  font-size: 12px;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 10px;
+}
+.sarc-home .program-row h3 {
+  font-size: 31px;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+}
+.sarc-home .program-row p {
+  font-size: 14px;
+  line-height: 1.5;
+  margin-top: 11px;
+  max-width: 300px;
+}
+.sarc-home .program-row img {
+  height: 150px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+}
+.sarc-home .program-row .text-link {
+  margin-top: 13px;
+  color: var(--green);
+}
+.sarc-home .directory {
+  display: flex;
+  gap: 11px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 38px;
+  padding-top: 26px;
+  border-top: 1px solid var(--line);
+}
+.sarc-home .directory > span {
+  font-size: 13px;
+  margin-right: 10px;
+  font-weight: 600;
+}
+.sarc-home .directory a {
+  font-size: 12px;
+  padding: 9px 15px;
+  border: 1px solid var(--line);
+  border-radius: 99px;
+  transition:
+    background 0.25s,
+    transform 0.25s;
+}
+.sarc-home .directory a:hover {
+  background: var(--mint);
+  transform: translateY(-2px);
+}
+.sarc-home .events {
+  background: var(--green);
+  color: var(--white);
+  margin: 0 24px;
+  border-radius: var(--radius);
+  padding: 55px 40px 58px;
+}
+.sarc-home .events .section-head {
+  margin-bottom: 32px;
+}
+.sarc-home .events .section-head h2 {
+  font-size: 58px;
+}
+.sarc-home .events-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.05fr;
+  gap: 65px;
+}
+.sarc-home .event-feature {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  min-height: 370px;
+}
+.sarc-home .event-feature img {
+  height: 100%;
+  position: absolute;
+  inset: 0;
+}
+.sarc-home .event-feature:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, rgba(1, 22, 39, 0.85), transparent 75%);
+}
+.sarc-home .event-feature div {
+  position: absolute;
+  left: 27px;
+  right: 27px;
+  bottom: 26px;
+  z-index: 1;
+}
+.sarc-home .event-feature h3 {
+  font-size: 49px;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+.sarc-home .event-feature p {
+  font-size: 14px;
+  margin-top: 10px;
+}
+.sarc-home .event-list {
+  border-top: 1px solid rgba(255, 255, 255, 0.35);
+}
+.sarc-home .event-row {
+  display: grid;
+  grid-template-columns: 70px 1fr 25px;
+  gap: 20px;
+  padding: 29px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.35);
+}
+.sarc-home .date strong {
+  font: 700 40px/0.9 Cabinet;
+  display: block;
+  letter-spacing: -0.04em;
+}
+.sarc-home .date span {
+  font-size: 12px;
+  margin-top: 8px;
+  display: block;
+  color: var(--white);
+}
+.sarc-home .event-row h3 {
+  font-size: 26px;
+  line-height: 1.1;
+  font-weight: 700;
+}
+.sarc-home .event-row p {
+  font-size: 12px;
+  margin-top: 10px;
+}
+.sarc-home .event-row > span {
+  font-size: 24px;
+  color: var(--mint);
+  transition: transform 0.25s;
+}
+.sarc-home .event-row:hover > span {
+  transform: translate(3px, -3px);
+}
+.sarc-home .events-note {
+  font-size: 12px;
+  margin-top: 23px;
+  max-width: 450px;
+}
+.sarc-home .gallery {
+  padding: 84px 0 90px;
+}
+.sarc-home .gallery-pair {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 24px;
+}
+.sarc-home .gallery-pair figure {
+  margin: 0;
+}
+.sarc-home .gallery-pair img {
+  height: 300px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+}
+.sarc-home figcaption {
+  font-size: 12px;
+  margin-top: 11px;
+  display: flex;
+  justify-content: space-between;
+}
+.sarc-home .footer {
+  background: var(--navy);
+  color: var(--white);
+  padding: 48px var(--gutter) 28px;
+}
+.sarc-home .footer-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 55px;
+  align-items: start;
+}
+.sarc-home .footer .logo {
+  width: 190px;
+  height: 108px;
+  background: var(--white);
+}
+.sarc-home .footer-name {
+  font-size: 13px;
+  margin-top: 18px;
+  color: var(--teal);
+}
+.sarc-home .footer-links {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+}
+.sarc-home .footer-links h3 {
+  font: 600 13px Switzer;
+  margin-bottom: 15px;
+  color: var(--teal);
+}
+.sarc-home .footer-links a,
+.sarc-home .footer-links p {
+  display: block;
+  font-size: 13px;
+  line-height: 1.9;
+}
+.sarc-home .footer-links a:hover {
+  text-decoration: underline;
+}
+.sarc-home .footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding-top: 25px;
+  margin-top: 40px;
+  border-top: 1px solid rgba(255, 255, 255, 0.22);
+  font-size: 11px;
+}
+.sarc-home .mobile-nav {
+  display: none;
+}
+@media (max-width: 1100px) {
+  .sarc-home {
+    --gutter: 36px;
+  }
+  .sarc-home .nav {
+    height: 88px;
+  }
+  .sarc-home .nav-links {
+    gap: 20px;
+  }
+  .sarc-home .brand-meta {
+    display: none;
+  }
+  .sarc-home .hero {
+    height: 610px;
+  }
+  .sarc-home .hero h1 {
+    font-size: 156px;
+  }
+  .sarc-home .hero-main {
+    left: 28px;
+  }
+  .sarc-home .hero-caption {
+    left: 28px;
+    right: 28px;
+  }
+  .sarc-home .hero-note {
+    right: 30px;
+  }
+  .sarc-home .routes {
+    margin: 0 28px;
+  }
+  .sarc-home .route {
+    padding: 0 20px;
+  }
+  .sarc-home .route strong {
+    font-size: 15px;
+  }
+  .sarc-home .about {
+    grid-template-columns: 1fr 2.5fr;
+    gap: 35px;
+    padding: 70px 0;
+  }
+  .sarc-home .about h2 {
+    font-size: 36px;
+  }
+  .sarc-home .about-bottom {
+    display: block;
+  }
+  .sarc-home .about .text-link {
+    margin-top: 18px;
+  }
+  .sarc-home .section-head h2 {
+    font-size: 48px;
+  }
+  .sarc-home .program-grid {
+    gap: 27px;
+  }
+  .sarc-home .feature-photo img {
+    height: 280px;
+  }
+  .sarc-home .feature-info h3 {
+    font-size: 30px;
+  }
+  .sarc-home .program-row {
+    grid-template-columns: 1fr 120px;
+    gap: 15px;
+  }
+  .sarc-home .program-row h3 {
+    font-size: 25px;
+  }
+  .sarc-home .program-row img {
+    height: 125px;
+  }
+  .sarc-home .events-grid {
+    gap: 30px;
+  }
+  .sarc-home .event-row {
+    grid-template-columns: 58px 1fr 20px;
+    gap: 12px;
+  }
+  .sarc-home .event-row h3 {
+    font-size: 23px;
+  }
+  .sarc-home .events {
+    padding: 40px 28px;
+  }
+  .sarc-home .gallery-pair img {
+    height: 240px;
+  }
+  .sarc-home .footer-links {
+    gap: 30px;
+  }
+}
+@media (max-width: 650px) {
+  .sarc-home {
+    --gutter: 20px;
+  }
+  .sarc-home .nav {
+    height: 80px;
+  }
+  .sarc-home .logo {
+    width: 76px;
+    height: 44px;
+  }
+  .sarc-home .brand-meta {
+    display: block;
+    font-size: 9px;
+    padding-left: 13px;
+  }
+  .sarc-home .brand-meta strong {
+    font-size: 11px;
+  }
+  .sarc-home .brand {
+    gap: 13px;
+  }
+  .sarc-home .nav-links {
+    display: none;
+  }
+  .sarc-home .menu-button {
+    display: block;
+  }
+  .sarc-home .hero-shell {
+    margin: 0 10px;
+  }
+  .sarc-home .hero {
+    height: 570px;
+  }
+  .sarc-home .hero-keyline {
+    inset: 10px;
+  }
+  .sarc-home .hero-note {
+    top: 25px;
+    right: 25px;
+    font-size: 10px;
+  }
+  .sarc-home .hero-main {
+    left: 24px;
+    bottom: 105px;
+    right: 24px;
+  }
+  .sarc-home .hero h1 {
+    font-size: 114px;
+    margin-left: -4px;
+  }
+  .sarc-home .hero-main .school {
+    font-size: 13px;
+    margin-bottom: 19px;
+  }
+  .sarc-home .hero-sub {
+    font-size: 21px;
+    max-width: 280px;
+    margin-top: 15px;
+  }
+  .sarc-home .hero-main .button {
+    margin-top: 24px;
+  }
+  .sarc-home .hero-image {
+    object-position: 59% 50%;
+  }
+  .sarc-home .hero:after {
+    background: linear-gradient(
+      0deg,
+      rgba(1, 22, 39, 0.94),
+      rgba(1, 22, 39, 0.2) 95%
+    );
+  }
+  .sarc-home .hero-caption {
+    left: 24px;
+    right: 24px;
+    bottom: 25px;
+    align-items: end;
+  }
+  .sarc-home .hero-caption p {
+    font-size: 10px;
+    max-width: 80px;
+    line-height: 1.5;
+  }
+  .sarc-home .hero-caption p:before {
+    display: none;
+  }
+  .sarc-home .playback {
+    gap: 7px;
+  }
+  .sarc-home .playback button {
+    width: 32px;
+    height: 32px;
+    font-size: 11px;
+  }
+  .sarc-home .routes {
+    grid-template-columns: 1fr;
+    margin: 0 24px;
+    padding: 6px 0 14px;
+  }
+  .sarc-home .route {
+    padding: 15px 0 !important;
+    border-right: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.22);
+  }
+  .sarc-home .route small {
+    display: none;
+  }
+  .sarc-home .route strong {
+    font-size: 15px;
+  }
+  .sarc-home .route span {
+    font-size: 22px;
+  }
+  .sarc-home .about {
+    display: block;
+    padding: 55px 0 48px;
+  }
+  .sarc-home .section-label {
+    font-size: 13px;
+    margin-bottom: 24px;
+  }
+  .sarc-home .about h2 {
+    font-size: 32px;
+    line-height: 1.1;
+  }
+  .sarc-home .about p {
+    font-size: 15px;
+  }
+  .sarc-home .about-bottom {
+    margin-top: 21px;
+  }
+  .sarc-home .programs {
+    padding: 48px 0 50px;
+  }
+  .sarc-home .section-head {
+    display: block;
+    margin-bottom: 26px;
+  }
+  .sarc-home .section-head h2 {
+    font-size: 42px;
+    line-height: 1.02;
+  }
+  .sarc-home .section-head p {
+    font-size: 14px;
+    margin-top: 17px;
+  }
+  .sarc-home .section-head .text-link {
+    margin-top: 17px;
+  }
+  .sarc-home .program-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .sarc-home .feature-photo img {
+    height: 235px;
+  }
+  .sarc-home .feature-info {
+    margin-top: 18px;
+    gap: 18px;
+  }
+  .sarc-home .feature-info h3 {
+    font-size: 30px;
+  }
+  .sarc-home .feature-info p {
+    font-size: 14px;
+  }
+  .sarc-home .circle-arrow {
+    width: 42px;
+    height: 42px;
+  }
+  .sarc-home .program-row {
+    grid-template-columns: 1fr 95px;
+  }
+  .sarc-home .program-row h3 {
+    font-size: 27px;
+  }
+  .sarc-home .program-row img {
+    height: 128px;
+  }
+  .sarc-home .program-row:first-child {
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+  }
+  .sarc-home .directory {
+    gap: 8px;
+    margin-top: 25px;
+    padding-top: 23px;
+  }
+  .sarc-home .directory > span {
+    width: 100%;
+    margin-bottom: 6px;
+  }
+  .sarc-home .directory a {
+    font-size: 11px;
+    padding: 8px 12px;
+  }
+  .sarc-home .events {
+    margin: 0 10px;
+    padding: 34px 20px;
+  }
+  .sarc-home .events .section-head h2 {
+    font-size: 42px;
+  }
+  .sarc-home .events-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .sarc-home .event-feature {
+    min-height: 280px;
+  }
+  .sarc-home .event-feature h3 {
+    font-size: 42px;
+  }
+  .sarc-home .event-feature div {
+    left: 20px;
+    bottom: 22px;
+  }
+  .sarc-home .event-row {
+    padding: 23px 0;
+    grid-template-columns: 52px 1fr 20px;
+  }
+  .sarc-home .event-row h3 {
+    font-size: 24px;
+  }
+  .sarc-home .events-note {
+    font-size: 11px;
+  }
+  .sarc-home .gallery {
+    padding: 48px 0;
+  }
+  .sarc-home .gallery-pair {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+  .sarc-home .gallery-pair img {
+    height: 230px;
+  }
+  .sarc-home .footer {
+    padding: 36px 20px 25px;
+  }
+  .sarc-home .footer-top {
+    display: block;
+  }
+  .sarc-home .footer .logo {
+    width: 130px;
+    height: 74px;
+  }
+  .sarc-home .footer-links {
+    margin-top: 34px;
+    gap: 22px;
+  }
+  .sarc-home .footer-links a,
+  .sarc-home .footer-links p {
+    font-size: 12px;
+  }
+  .sarc-home .footer-bottom {
+    font-size: 10px;
+    align-items: end;
+  }
+  .sarc-home .mobile-nav.open {
+    display: flex;
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    top: 75px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    z-index: 10;
+    padding: 20px;
+    flex-direction: column;
+    gap: 15px;
+  }
+  .sarc-home .mobile-nav a {
+    padding: 8px;
+    font-size: 18px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sarc-home *,
+  .sarc-home *:before,
+  .sarc-home *:after {
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+@media (max-width: 650px) {
+  .sarc-home .hero-image {
+    object-position: 50% 50%;
+  }
+  .sarc-home .hero:after {
+    background: linear-gradient(
+      0deg,
+      rgba(1, 22, 39, 0.94),
+      rgba(1, 22, 39, 0.18) 80%,
+      rgba(1, 22, 39, 0.08)
+    );
+  }
+  .sarc-home .event-row p,
+  .sarc-home .events-note,
+  .sarc-home figcaption,
+  .sarc-home .footer-links a,
+  .sarc-home .footer-links p {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .sarc-home .footer-bottom {
+    font-size: 12px;
+  }
+  .sarc-home .footer-name {
+    font-size: 13px;
+  }
+  .sarc-home .hero-caption p {
+    font-size: 11px;
+    max-width: 100px;
+  }
+  .sarc-home .hero-sub {
+    font-size: 17px;
+    line-height: 1.45;
+  }
+  .sarc-home .program-row small {
+    font-size: 13px;
+  }
+}
+.sarc-home .footer-links a {
+  min-height: 28px;
+}
+.sarc-home .event-feature img {
+  transition: transform 0.7s;
+}
+.sarc-home .event-feature:hover img {
+  transform: scale(1.03);
+}
+.sarc-home section[id] {
+  scroll-margin-top: 24px;
+}
+.sarc-home .hero-main {
+  bottom: 102px;
+}
+.sarc-home .hero h1 {
+  font-size: clamp(104px, 10.3vw, 148px);
+  line-height: 0.92;
+  letter-spacing: -0.025em;
+  margin-left: -4px;
+}
+.sarc-home .hero-main .school {
+  margin-bottom: 18px;
+}
+.sarc-home .hero-sub {
+  font-size: clamp(17px, 1.5vw, 21px);
+  line-height: 1.45;
+  margin-top: 18px;
+}
+.sarc-home .hero-main .button {
+  margin-top: 24px;
+}
+.sarc-home .playback {
+  padding: 7px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 99px;
+  background: rgba(1, 22, 39, 0.36);
+  backdrop-filter: blur(8px);
+}
+.sarc-home .playback button {
+  background: rgba(1, 22, 39, 0.28);
+}
+.sarc-home .about {
+  grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.12fr);
+  gap: clamp(30px, 5vw, 72px);
+  padding: 64px 0 66px;
+  align-items: center;
+}
+.sarc-home .about-photo {
+  margin: 0;
+  min-width: 0;
+}
+.sarc-home .about-photo img {
+  height: 310px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  object-position: 50% 50%;
+}
+.sarc-home .about-photo figcaption {
+  font-size: 12px;
+  line-height: 1.5;
+  margin-top: 13px;
+  gap: 15px;
+}
+.sarc-home .about-copy {
+  min-width: 0;
+}
+.sarc-home .about-copy .section-label {
+  font-size: 13px;
+  margin-bottom: 22px;
+}
+.sarc-home .about h2 {
+  font-size: clamp(30px, 3vw, 43px);
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+}
+.sarc-home .about-bottom {
+  display: block;
+  margin-top: 22px;
+}
+.sarc-home .about-bottom p {
+  font-size: 16px;
+  line-height: 1.6;
+  max-width: 570px;
+}
+.sarc-home .about-bottom .text-link {
+  margin-top: 20px;
+  color: var(--green);
+}
+.sarc-home .section-head h2 {
+  font-size: clamp(42px, 4.1vw, 59px);
+}
+.sarc-home .events .section-head h2 {
+  font-size: clamp(42px, 4.1vw, 58px);
+}
+@media (min-width: 651px) and (max-width: 1100px) {
+  .sarc-home .about {
+    gap: 32px;
+    padding: 55px 0;
+  }
+  .sarc-home .about-photo img {
+    height: 300px;
+  }
+  .sarc-home .about h2 {
+    font-size: 32px;
+  }
+  .sarc-home .about-bottom p {
+    font-size: 15px;
+  }
+  .sarc-home .hero-main {
+    bottom: 110px;
+  }
+  .sarc-home .hero h1 {
+    font-size: 132px;
+  }
+}
+@media (max-width: 650px) {
+  .sarc-home .hero-main {
+    bottom: 110px;
+  }
+  .sarc-home .hero h1 {
+    font-size: 100px;
+    letter-spacing: -0.025em;
+  }
+  .sarc-home .hero-main .school {
+    font-size: 12px;
+    margin-bottom: 16px;
+  }
+  .sarc-home .hero-sub {
+    font-size: 17px;
+    max-width: 300px;
+  }
+  .sarc-home .hero-caption {
+    left: 20px;
+    right: 20px;
+    bottom: 22px;
+  }
+  .sarc-home .hero-caption p {
+    max-width: 88px;
+  }
+  .sarc-home .playback {
+    gap: 5px;
+    padding: 5px;
+  }
+  .sarc-home .playback button {
+    width: 44px;
+    height: 44px;
+  }
+  .sarc-home .pause {
+    margin-left: 2px;
+  }
+  .sarc-home .about {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 26px;
+    padding: 42px 0 45px;
+  }
+  .sarc-home .about-photo img {
+    height: 235px;
+  }
+  .sarc-home .about-photo figcaption {
+    font-size: 12px;
+  }
+  .sarc-home .about-copy .section-label {
+    margin-bottom: 18px;
+  }
+  .sarc-home .about h2 {
+    font-size: 32px;
+    line-height: 1.12;
+  }
+  .sarc-home .about-bottom {
+    margin-top: 18px;
+  }
+  .sarc-home .about-bottom p {
+    font-size: 16px;
+  }
+  .sarc-home .about-bottom .text-link {
+    margin-top: 17px;
+  }
+}
+@media (max-width: 650px) {
+  .sarc-home .nav {
+    gap: 14px;
+  }
+  .sarc-home .hero h1 {
+    font-size: clamp(80px, 25.6vw, 100px);
+  }
+  .sarc-home .brand-meta {
+    max-width: 160px;
+  }
+}
+.sarc-home {
+  background: #fdfffc;
   min-height: 100vh;
-  overflow-x: hidden;
-} 
-
-.custom-scrollbar::-webkit-scrollbar {
-  width: 6px;
+  overflow: hidden;
 }
-
-.custom-scrollbar::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
+.sarc-home .hero-image {
+  width: 100%;
 }
-
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(249, 115, 22, 0.5);
-  border-radius: 10px;
+.sarc-home .hero-image.active {
+  visibility: visible;
 }
-
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: rgba(249, 115, 22, 0.7);
+.sarc-home .media-reveal {
+  clip-path: inset(5% 0 5% 0 round 12px);
+  transform: scale(1.02);
+  transition:
+    clip-path 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
 }
-
-/* Add these styles to improve horizontal scrolling */
-.flex {
-  transition: transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+.sarc-home .media-reveal.media-in {
+  clip-path: inset(0 0 0 0 round 12px);
+  transform: scale(1);
 }
-
-/* Ensure first and last items are fully visible */
-.sticky {
-  overflow: visible !important;
-}
-
-/* Add smooth scrolling */
-html {
-  scroll-behavior: smooth;
-}
-
-/* Optimize transitions between sections */
-section {
-  transition: opacity 0.8s ease-in-out;
-}
-
-/* Make typing effect more fluid */
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
-}
-
-.typing-cursor {
-  display: inline-block;
-  width: 2px;
-  height: 1em;
-  background-color: #f97316;
-  margin-left: 2px;
-  animation: blink 0.7s infinite;
-}
-
-/* Reduce scroll resistance */
-body {
-  overflow-x: hidden;
-}
-
-/* Add these styles to fix spacing and overlapping issues */
-@media (max-width: 768px) {
-  .sticky {
-    position: sticky;
-    top: 20px;
-    z-index: 20;
-  }
-  
-  .about-stats {
-    margin-top: -200vh !important;
-  }
-  
-  .alumni-section {
-    margin-top: 0 !important;
+@media (prefers-reduced-motion: reduce) {
+  .sarc-home *,
+  .sarc-home *::before,
+  .sarc-home *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
-
-/* Remove section spacer heights */
-.section-spacer {
-  height: 0;
-}
-
-@media (min-width: 769px) {
-  .section-spacer {
-    height: 0;
-  }
-} 

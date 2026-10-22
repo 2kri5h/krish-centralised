@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import './Profile.css';
-import { FaUser, FaEnvelope, FaPhone, FaIdCard, FaHome } from 'react-icons/fa';
+import { FaPhone, FaIdCard, FaHome } from 'react-icons/fa';
 
 const Profile = () => {
   const { user, isAuthenticated, loading, logout } = useAuth();
@@ -19,7 +19,7 @@ const Profile = () => {
     if (!loading && !isAuthenticated) {
       navigate('/login');
     }
-    
+
     if (user) {
       setProfileData({
         name: user.name || 'Not provided',
@@ -59,13 +59,13 @@ const Profile = () => {
               {profileData.name.charAt(0).toUpperCase()}
             </div>
             <div className="profile-actions">
-              <button 
+              <button
                 className="profile-button change-password"
                 onClick={() => navigate('/forgot-password')}
               >
                 Change Password
               </button>
-              <button 
+              <button
                 className="logout-button-large"
                 onClick={handleLogout}
               >
@@ -74,12 +74,12 @@ const Profile = () => {
               </button>
             </div>
           </div>
-          
+
           <div className="profile-details">
             <div className="profile-info">
               <h2>{profileData.name}</h2>
               <p className="profile-email">{profileData.email}</p>
-              
+
               <div className="profile-data-grid">
                 <div className="profile-data-item">
                   <FaPhone className="profile-icon" />
@@ -88,7 +88,7 @@ const Profile = () => {
                     <span className="profile-value">{profileData.phone_number}</span>
                   </div>
                 </div>
-                
+
                 <div className="profile-data-item">
                   <FaIdCard className="profile-icon" />
                   <div>
@@ -96,7 +96,7 @@ const Profile = () => {
                     <span className="profile-value">{profileData.roll_number}</span>
                   </div>
                 </div>
-                
+
                 <div className="profile-data-item">
                   <FaHome className="profile-icon" />
                   <div>

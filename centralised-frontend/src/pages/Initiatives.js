@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence, useInView } from "framer-motion";
+import React, { useState, useEffect } from "react";
+
 import "./Initiatives.css";
 
 // Real SARC initiatives data based on provided information
@@ -320,44 +320,41 @@ const initiatives = [
 
 const Initiatives = () => {
   const [activeInitiative, setActiveInitiative] = useState(null);
-  const [hoveredInitiative, setHoveredInitiative] = useState(null);
   const [isExpanded, setIsExpanded] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
-  const sectionRef = useRef(null);
-  const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
-  
+
   // Detect mobile on mount and resize
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
     };
-    
+
     handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-  
+
   // Set default active initiative
   useEffect(() => {
     if (!activeInitiative && initiatives.length > 0) {
       setActiveInitiative(initiatives[0].id);
     }
   }, [activeInitiative]);
-  
+
   const handleInitiativeClick = (id) => {
     setActiveInitiative(id);
     setIsExpanded(true);
-    
+
     // Scroll to top on mobile
     if (isMobile) {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
-  
+
   const handleBackClick = () => {
     setIsExpanded(false);
   };
-  
+
   const getActiveInitiative = () => {
     return initiatives.find(item => item.id === activeInitiative);
   };
@@ -378,23 +375,23 @@ const Initiatives = () => {
             {isExpanded ? (
               // Mobile detail view
               <div className="mobile-initiative-detail">
-                <button 
+                <button
                   className="mobile-back-button"
                   onClick={handleBackClick}
                 >
                   ← Back
                 </button>
-                
+
                 <h2 style={{ color: getActiveInitiative()?.color }}>
                   {getActiveInitiative()?.title}
                 </h2>
-                
+
                 <h3>{getActiveInitiative()?.subtitle}</h3>
-                
+
                 <p className="mobile-initiative-description">
                   {getActiveInitiative()?.description}
                 </p>
-                
+
                 {getActiveInitiative()?.keyPoints && (
                   <div className="mobile-key-points">
                     <h4>Key Features:</h4>
@@ -413,7 +410,7 @@ const Initiatives = () => {
                   <div
                     key={initiative.id}
                     className="mobile-initiative-card"
-                    style={{ 
+                    style={{
                       background: `linear-gradient(135deg, ${initiative.color} 0%, ${adjustColor(initiative.color, 20)} 100%)`
                     }}
                     onClick={() => handleInitiativeClick(initiative.id)}
@@ -432,7 +429,7 @@ const Initiatives = () => {
               <div
                 key={initiative.id}
                 className="initiative-item"
-                style={{ 
+                style={{
                   backgroundColor: initiative.color,
                   color: initiative.color
                 }}
@@ -442,27 +439,27 @@ const Initiatives = () => {
                 <p>{initiative.subtitle}</p>
                 </div>
             ))}
-            
+
             {/* Desktop initiative detail modal */}
             {isExpanded && getActiveInitiative() && (
               <div className="initiative-display" onClick={handleBackClick}>
                 <div className="initiative-details" onClick={(e) => e.stopPropagation()}>
-                  <button 
+                  <button
                     className="desktop-back-button"
                     onClick={handleBackClick}
                     aria-label="Close"
                   >
                     ×
                   </button>
-                  
+
                   <h2 style={{ color: getActiveInitiative().color }}>
                     {getActiveInitiative().title}
                   </h2>
-                  
+
                   <h3>{getActiveInitiative().subtitle}</h3>
-                  
+
                   <p>{getActiveInitiative().description}</p>
-                  
+
                   {getActiveInitiative().keyPoints && (
                     <div className="initiative-key-points">
                       <h4>Key Features:</h4>
@@ -490,17 +487,17 @@ function adjustColor(color, amount) {
   if (hex.startsWith('#')) {
     hex = hex.slice(1);
   }
-  
+
   // Convert to RGB
   let r = parseInt(hex.slice(0, 2), 16);
   let g = parseInt(hex.slice(2, 4), 16);
   let b = parseInt(hex.slice(4, 6), 16);
-  
+
   // Adjust
   r = Math.min(255, r + amount);
   g = Math.min(255, g + amount);
   b = Math.min(255, b + amount);
-  
+
   // Convert back to hex
   return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
 }

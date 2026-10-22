@@ -15,21 +15,21 @@ const ResetPassword = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (password !== confirmPassword) {
       setMessage('Passwords do not match');
       return;
     }
-    
+
     setIsLoading(true);
     setMessage('');
 
     try {
-      const response = await axios.post(`https://centralised.sarc-iitb.org/api/auth/password/${uid}/${token}/`, {
+      await axios.post(`https://centralised.sarc-iitb.org/api/auth/password/${uid}/${token}/`, {
         password,
         password2: confirmPassword
       });
-      
+
       setIsSuccess(true);
       setMessage('Password has been reset successfully');
     } catch (error) {
@@ -42,19 +42,19 @@ const ResetPassword = () => {
 
   return (
     <div className="reset-password-container">
-      <motion.div 
+      <motion.div
         className="reset-password-card"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
         <h2>Reset Password</h2>
-        
+
         {isSuccess ? (
           <div className="success-message">
             <div className="success-icon">✓</div>
             <p>{message}</p>
-            <motion.button 
+            <motion.button
               className="back-to-login-btn"
               onClick={() => navigate('/login')}
               whileHover={{ scale: 1.05 }}
@@ -76,7 +76,7 @@ const ResetPassword = () => {
                 placeholder="Enter new password"
               />
             </div>
-            
+
             <div className="form-group">
               <label htmlFor="confirmPassword">Confirm Password</label>
               <input
@@ -88,10 +88,10 @@ const ResetPassword = () => {
                 placeholder="Confirm new password"
               />
             </div>
-            
+
             {message && <div className="error-message">{message}</div>}
-            
-            <motion.button 
+
+            <motion.button
               type="submit"
               className="submit-btn"
               disabled={isLoading}
@@ -107,4 +107,4 @@ const ResetPassword = () => {
   );
 };
 
-export default ResetPassword; 
+export default ResetPassword;

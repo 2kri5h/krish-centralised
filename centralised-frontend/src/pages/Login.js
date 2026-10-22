@@ -3,11 +3,8 @@ import { useNavigate, Link, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { motion } from "framer-motion";
 import loginImage from "../assets/login.png";
-<<<<<<< HEAD
 import './Login.css';
 import axios from "axios";
-=======
->>>>>>> c237bd9c6d71425d0cff972ecae9a59b3728446c
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -39,10 +36,10 @@ const Login = () => {
     e.preventDefault();
     setError('');
     setLoading(true);
-    
+
     try {
       const result = await login(email, password);
-      
+
       if (result.success) {
         navigate('/profile');
       } else {
@@ -61,14 +58,14 @@ const Login = () => {
       setError("Please enter your LDAP ID to resend verification");
       return;
     }
-    
+
     setLoading(true);
     try {
       // Call the resend verification API with the correct endpoint
       const response = await axios.post("/api/auth/resend-verification/", {
         email
       });
-      
+
       if (response.status === 200) {
         setError("");
         setSuccessMessage("Verification email sent! Please check your webmail.");
@@ -84,7 +81,7 @@ const Login = () => {
     <div className="min-h-screen bg-black flex">
       {/* Left side - Image */}
       <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
-        <motion.div 
+        <motion.div
           className="absolute inset-0 z-0 opacity-20"
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.2 }}
@@ -93,22 +90,22 @@ const Login = () => {
           <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-orange-600 to-transparent"></div>
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-orange-500 filter blur-3xl opacity-30"></div>
         </motion.div>
-        <img 
-          src={loginImage} 
-          alt="Login" 
+        <img
+          src={loginImage}
+          alt="Login"
           className="absolute inset-0 w-full h-full object-cover"
         />
       </div>
 
       {/* Right side - Form */}
       <div className="w-full lg:w-1/2 flex items-center justify-center px-8 py-12">
-        <motion.div 
+        <motion.div
           className="max-w-md w-full"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <motion.h2 
+          <motion.h2
             className="text-4xl font-bold mb-8 text-center bg-clip-text text-transparent bg-gradient-to-r from-orange-400 to-yellow-300"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -117,9 +114,8 @@ const Login = () => {
             Welcome Back
           </motion.h2>
 
-<<<<<<< HEAD
           {successMessage && (
-            <motion.div 
+            <motion.div
               className="bg-green-500/10 border border-green-500/20 text-green-400 px-4 py-3 rounded-lg mb-6"
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -128,27 +124,21 @@ const Login = () => {
             </motion.div>
           )}
 
-=======
->>>>>>> c237bd9c6d71425d0cff972ecae9a59b3728446c
           {error && (
-            <motion.div 
+            <motion.div
               className="bg-red-500/10 border border-red-500/20 text-red-400 px-4 py-3 rounded-lg mb-6"
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
             >
-<<<<<<< HEAD
               <p>{error}</p>
               {error.includes("not verified") && (
-                <button 
+                <button
                   onClick={handleResendVerification}
                   className="mt-2 text-orange-400 hover:text-orange-300 text-sm underline"
                 >
                   Resend verification email
                 </button>
               )}
-=======
-              {error}
->>>>>>> c237bd9c6d71425d0cff972ecae9a59b3728446c
             </motion.div>
           )}
 
@@ -157,17 +147,10 @@ const Login = () => {
               <motion.input
                 type="email"
                 name="email"
-<<<<<<< HEAD
                 placeholder="LDAP ID"
                 className="w-full px-4 py-3 bg-white/5 border border-gray-700 rounded-lg focus:outline-none focus:border-orange-500 text-white"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-=======
-                placeholder="Email Address"
-                className="w-full px-4 py-3 bg-white/5 border border-gray-700 rounded-lg focus:outline-none focus:border-orange-500 text-white"
-                value={formData.email}
-                onChange={handleChange}
->>>>>>> c237bd9c6d71425d0cff972ecae9a59b3728446c
                 required
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -181,13 +164,8 @@ const Login = () => {
                 name="password"
                 placeholder="Password"
                 className="w-full px-4 py-3 bg-white/5 border border-gray-700 rounded-lg focus:outline-none focus:border-orange-500 text-white"
-<<<<<<< HEAD
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-=======
-                value={formData.password}
-                onChange={handleChange}
->>>>>>> c237bd9c6d71425d0cff972ecae9a59b3728446c
                 required
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -209,7 +187,7 @@ const Login = () => {
             </motion.button>
           </form>
 
-          <motion.div 
+          <motion.div
             className="mt-8 text-center space-y-2"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

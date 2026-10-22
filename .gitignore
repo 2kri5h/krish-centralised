@@ -98,6 +98,11 @@ yarn-error.log*
 # Frontend-specific files (if any)
 centralised-frontend/.env
 centralised-frontend/.env.local
+
+# Fontshare licensed assets are downloaded from the official API on install.
+# The license permits site/app embedding but restricts font redistribution in repositories.
+centralised-frontend/src/assets/home-fonts/
+sarc-native/assets/fonts/
 centralised-frontend/.env.development.local
 centralised-frontend/.env.test.local
 centralised-frontend/.env.production.local
