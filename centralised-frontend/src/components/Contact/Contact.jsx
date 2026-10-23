@@ -137,40 +137,39 @@ const councilMembers = [
 ];
 
 const Contact = () => {
-  const [activePortfolio, setActivePortfolio] = useState(null);
   const [selectedMember, setSelectedMember] = useState(null);
   const portfolioRef = useRef(null);
   const controls = useAnimation();
-
+  
   // Animate when component mounts
   useEffect(() => {
     controls.start("visible");
   }, [controls]);
-
+  
   // Handle scroll to portfolio section
   const scrollToPortfolios = () => {
     if (portfolioRef.current) {
       portfolioRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   };
-
+  
   return (
     <div className="contact-page-container">
       {/* Hero section with contact information */}
       <section className="contact-hero">
-        <motion.div
+        <motion.div 
           className="hero-content"
           initial="hidden"
           animate={controls}
           variants={{
             hidden: { opacity: 0 },
-            visible: {
+            visible: { 
               opacity: 1,
               transition: { staggerChildren: 0.2 }
             }
           }}
         >
-          <motion.h1
+          <motion.h1 
             variants={{
               hidden: { opacity: 0, y: -20 },
               visible: { opacity: 1, y: 0, transition: { duration: 0.8 } }
@@ -178,18 +177,18 @@ const Contact = () => {
           >
             Connect With Us
           </motion.h1>
-
-          <motion.p
+          
+          <motion.p 
             className="hero-subtitle"
             variants={{
               hidden: { opacity: 0, y: 20 },
               visible: { opacity: 1, y: 0, transition: { duration: 0.8 } }
             }}
           >
-            SARC Core Team Members 2024-25
+            SARC Core Team Members 2026-2027
           </motion.p>
-
-          <motion.div
+          
+          <motion.div 
             className="contact-cards"
             variants={{
               hidden: { opacity: 0, y: 20 },
@@ -203,7 +202,7 @@ const Contact = () => {
               <h3>Email Us</h3>
               <p>sarc@iitb.ac.in</p>
             </div>
-
+            
             <div className="contact-card">
               <div className="card-icon">
                 <FaPhone />
@@ -211,7 +210,7 @@ const Contact = () => {
               <h3>Call Us</h3>
               <p>+91 62631 73987</p>
             </div>
-
+            
             <div className="contact-card">
               <div className="card-icon">
                 <FaMapMarkerAlt />
@@ -220,8 +219,8 @@ const Contact = () => {
               <p>SARC Room, Old SAC, IIT Bombay</p>
             </div>
           </motion.div>
-
-          <motion.button
+          
+          <motion.button 
             className="scroll-cta"
             onClick={scrollToPortfolios}
             variants={{
@@ -238,15 +237,15 @@ const Contact = () => {
           </motion.button>
         </motion.div>
       </section>
-
+      
       {/* Overall Coordinator Section */}
       <section className="oc-section">
         <div className="section-heading">
           <h2>Overall Coordinator</h2>
           <div className="heading-line"></div>
         </div>
-
-        <motion.div
+        
+        <motion.div 
           className="oc-card"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -254,9 +253,9 @@ const Contact = () => {
           transition={{ duration: 0.8 }}
         >
           <div className="oc-image-container">
-            <img
-              src={require("../../assets/ctm/aniruddha.jpg")}
-              alt="Aniruddha Goyal"
+            <img 
+              src={require("../../assets/ctm/aniruddha.jpg")} 
+              alt="Aniruddha Goyal" 
               className="oc-image"
             />
           </div>
@@ -274,79 +273,74 @@ const Contact = () => {
           </div>
         </motion.div>
       </section>
-
+      
       {/* Portfolio Sections */}
       <section className="portfolios-section" ref={portfolioRef}>
         <div className="section-heading">
           <h2>Our Portfolios</h2>
           <div className="heading-line"></div>
         </div>
-
-        <div className="portfolio-navigation">
-          {councilMembers.map((portfolio, index) => (
-            <motion.button
+        
+        <div className="portfolio-list">
+          {councilMembers.map((portfolio) => (
+            <motion.section
               key={portfolio.portfolio}
-              className={`portfolio-nav-item ${activePortfolio === portfolio.portfolio ? 'active' : ''}`}
-              onClick={() => setActivePortfolio(portfolio.portfolio)}
-              initial={{ opacity: 0, y: 20 }}
+              className="portfolio-group"
+              initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              whileHover={{ y: -5 }}
-            >
-              {portfolio.portfolio}
-            </motion.button>
-          ))}
-        </div>
-
-        <AnimatePresence mode="wait">
-          {activePortfolio ? (
-            <motion.div
-              key={activePortfolio}
-              className="team-grid"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
               transition={{ duration: 0.5 }}
+              aria-labelledby={`portfolio-${portfolio.portfolio}`}
             >
-              {councilMembers
-                .find(p => p.portfolio === activePortfolio)
-                ?.members.map((member, index) => (
+              <h3 className="portfolio-group-heading" id={`portfolio-${portfolio.portfolio}`}>
+                {portfolio.portfolio}
+              </h3>
+              <div className="team-grid">
+                {portfolio.members.map((member, index) => (
                   <motion.div
                     key={member.name}
                     className="team-member-card"
                     initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
-                    whileHover={{
+                    whileHover={{ 
                       y: -10,
                       boxShadow: "0 20px 40px rgba(0, 0, 0, 0.2)",
                       transition: { duration: 0.3 }
                     }}
-                    onClick={() => setSelectedMember(member)}
+                    onClick={() => setSelectedMember({ ...member, portfolio: portfolio.portfolio })}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(event) => {
+                      if (event.key === "Enter" || event.key === " ") {
+                        event.preventDefault();
+                        setSelectedMember({ ...member, portfolio: portfolio.portfolio });
+                      }
+                    }}
                   >
                     <div className="member-photo-frame">
-                      <img
-                        src={require(`../../assets/ctm/${member.photo}`)}
+                      <img 
+                        src={require(`../../assets/ctm/${member.photo}`)} 
                         alt={member.name}
                         className="member-photo"
                       />
                     </div>
                     <div className="member-info">
                       <h3>{member.name}</h3>
-                      <p>{activePortfolio}</p>
+                      <p>{portfolio.portfolio}</p>
                       <div className="member-social">
-                        <a
-                          href={`https://www.linkedin.com/in/${member.linkedinUsername}`}
-                          target="_blank"
+                        <a 
+                          href={`https://www.linkedin.com/in/${member.linkedinUsername}`} 
+                          target="_blank" 
                           rel="noopener noreferrer"
                           aria-label={`LinkedIn profile of ${member.name}`}
                         >
                           <FaLinkedinIn />
                         </a>
-                        <a
-                          href={`https://www.instagram.com/${member.instagramUsername}`}
-                          target="_blank"
+                        <a 
+                          href={`https://www.instagram.com/${member.instagramUsername}`} 
+                          target="_blank" 
                           rel="noopener noreferrer"
                           aria-label={`Instagram profile of ${member.name}`}
                         >
@@ -356,32 +350,23 @@ const Contact = () => {
                     </div>
                   </motion.div>
                 ))}
-            </motion.div>
-          ) : (
-            <motion.div
-              className="portfolio-prompt"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              <p>Select a portfolio above to see team members</p>
-            </motion.div>
-          )}
-        </AnimatePresence>
+              </div>
+            </motion.section>
+          ))}
+        </div>
       </section>
-
+      
       {/* Modal for detailed member view */}
       <AnimatePresence>
         {selectedMember && (
-          <motion.div
+          <motion.div 
             className="member-modal-backdrop"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setSelectedMember(null)}
           >
-            <motion.div
+            <motion.div 
               className="member-modal"
               initial={{ opacity: 0, y: 50, scale: 0.9 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -389,40 +374,40 @@ const Contact = () => {
               transition={{ type: "spring", damping: 25 }}
               onClick={e => e.stopPropagation()}
             >
-              <button
+              <button 
                 className="modal-close"
                 onClick={() => setSelectedMember(null)}
                 aria-label="Close"
               >
                 ×
               </button>
-
+              
               <div className="modal-content">
                 <div className="modal-image-container">
-                  <img
-                    src={require(`../../assets/ctm/${selectedMember.photo}`)}
+                  <img 
+                    src={require(`../../assets/ctm/${selectedMember.photo}`)} 
                     alt={selectedMember.name}
                     className="modal-image"
                   />
                 </div>
-
+                
                 <div className="modal-details">
                   <h2>{selectedMember.name}</h2>
-                  <p className="modal-title">{activePortfolio}</p>
-
+                  <p className="modal-title">{selectedMember.portfolio}</p>
+                  
                   <div className="modal-social">
-                    <a
-                      href={`https://www.linkedin.com/in/${selectedMember.linkedinUsername}`}
-                      target="_blank"
+                    <a 
+                      href={`https://www.linkedin.com/in/${selectedMember.linkedinUsername}`} 
+                      target="_blank" 
                       rel="noopener noreferrer"
                       className="modal-social-link linkedin"
                     >
                       <FaLinkedinIn />
                       <span>LinkedIn</span>
                     </a>
-                    <a
-                      href={`https://www.instagram.com/${selectedMember.instagramUsername}`}
-                      target="_blank"
+                    <a 
+                      href={`https://www.instagram.com/${selectedMember.instagramUsername}`} 
+                      target="_blank" 
                       rel="noopener noreferrer"
                       className="modal-social-link instagram"
                     >
@@ -436,12 +421,30 @@ const Contact = () => {
           </motion.div>
         )}
       </AnimatePresence>
-
+      
       <footer className="contact-footer">
         <p>© {new Date().getFullYear()} Student Alumni Relations Cell (SARC), IIT Bombay</p>
       </footer>
     </div>
   );
+};
+
+// Helper function to get gradient colors similar to initiatives
+const getGradientColor = (index) => {
+  const gradients = [
+    "from-orange-500 to-amber-500",
+    "from-blue-500 to-purple-500",
+    "from-green-500 to-teal-500",
+    "from-red-500 to-pink-500",
+    "from-indigo-500 to-blue-500",
+    "from-yellow-500 to-orange-500",
+    "from-purple-500 to-pink-500",
+    "from-cyan-500 to-blue-500",
+    "from-emerald-500 to-green-500",
+    "from-rose-500 to-red-500",
+  ];
+  
+  return gradients[index % gradients.length];
 };
 
 export default Contact;

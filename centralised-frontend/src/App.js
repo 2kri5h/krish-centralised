@@ -9,7 +9,7 @@ import { AuthProvider } from "./context/AuthContext";
 import Home from "./pages/Home";
 import SARCPage from "./pages/AboutUs";
 import AlumniGrid from "./pages/Alum";
-import Initiatives from "./pages/Initiatives";
+import Initiatives from "./pages/Initiatives/Initiatives";
 import Gallery from "./pages/Gallery";
 import Contact from "./components/Contact/Contact";
 import Blogs from "./pages/Blogs";

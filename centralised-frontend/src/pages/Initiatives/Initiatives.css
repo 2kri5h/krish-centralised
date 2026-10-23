@@ -1,0 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=TikTok+Sans:wght@400;500;600;700&display=swap');
+
+/* Page-scoped styles preserve the shared navbar and other pages. */
+.sarc-initiatives {
+  --ini-accent: #04724d;
+  --ini-heading: #163d30;
+  --ini-muted: #53685e;
+  --ini-line: #d7e8df;
+  font-family: 'Geist', sans-serif;
+  color: var(--ini-heading);
+  background: linear-gradient(90deg, #7dcea0 0%, #9eddb8 40%, #b9e8cb 70%, #a6dfbc 88%, #88d3a6 100%);
+  line-height: 1.65;
+  overflow: clip;
+}
+.sarc-initiatives *, .sarc-initiatives *::before, .sarc-initiatives *::after { box-sizing: border-box; }
+.sarc-initiatives :is(h1, h2, h3, p) { margin: 0; }
+.sarc-initiatives :is(h1, h2, h3) { font-family: 'TikTok Sans', sans-serif; line-height: 1.2; letter-spacing: -.035em; text-wrap: balance; }
+.sarc-initiatives a { color: inherit; text-decoration: none; }
+.sarc-initiatives :is(a, [tabindex]):focus-visible { outline: 3px solid var(--ini-accent); outline-offset: 5px; }
+.sarc-initiatives ::selection { background: #c8f1dc; color: #163d30; }
+.sarc-initiatives .ini-container { width: min(1240px, calc(100% - 80px)); margin-inline: auto; }
+.sarc-initiatives .ini-scroll-progress { position: fixed; top: 0; left: 0; right: 0; height: 3px; background: #2dd881; transform-origin: left; z-index: 40; pointer-events: none; }
+.sarc-initiatives .ini-hero { position: relative; isolation: isolate; overflow: hidden; background: linear-gradient(90deg, #71c996 0%, #95d8ae 40%, #b1e3c4 70%, #9bdab3 88%, #7dcea0 100%); border-bottom: 1px solid var(--ini-line); }
+.sarc-initiatives .ini-hero-content { position: relative; padding-block: 88px 58px; text-align: center; }
+.sarc-initiatives .ini-hero h1 { font-size: clamp(3rem, 6vw, 5rem); font-weight: 600; letter-spacing: -.055em; margin-block: 0 18px; }
+.sarc-initiatives .ini-hero h1 span { color: var(--ini-accent); }
+.sarc-initiatives .ini-hero-subtitle { font-size: clamp(1.1rem, 2vw, 1.4rem); font-weight: 500; }
+.sarc-initiatives .ini-hero-description { max-width: 620px; margin: 16px auto 26px; font-size: 15px; color: var(--ini-muted); }
+.sarc-initiatives .ini-explore { display: inline-flex; align-items: center; gap: 18px; background: var(--ini-accent); color: white; padding: 13px 22px; border-radius: 8px; font-size: 13px; font-weight: 500; box-shadow: 0 5px 15px #04724d1a; transition: background .25s, box-shadow .25s; }
+.sarc-initiatives .ini-explore:hover { background: #03583c; box-shadow: 0 8px 20px #04724d2b; }
+.sarc-initiatives .ini-hero-decoration { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+.sarc-initiatives .ini-hero-decoration span { position: absolute; width: 500px; height: 500px; border-radius: 50%; border: 1px solid #04724d0c; top: -110px; right: -230px; }
+.sarc-initiatives .ini-hero-decoration span:nth-child(2) { width: 660px; height: 660px; top: -190px; right: -310px; }
+.sarc-initiatives .ini-hero-decoration span:nth-child(3) { width: 350px; height: 350px; top: auto; right: auto; left: -220px; bottom: -100px; background: #d8f2e466; }
+.sarc-initiatives .ini-programs { padding-block: 64px 88px; scroll-margin-top: 24px; }
+.sarc-initiatives .ini-section-heading { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 32px; }
+.sarc-initiatives .ini-section-heading h2 { font-size: clamp(1.6rem, 2.8vw, 2.25rem); font-weight: 500; margin-top: 10px; }
+.sarc-initiatives .ini-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+.sarc-initiatives .ini-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 28px;
+  border: 2px solid #2563eb;
+  border-radius: 24px 28px 23px 27px;
+  background: #d8f0e2;
+  box-shadow: 0 2px 8px #2563eb0a;
+  transition: box-shadow .3s ease, translate .3s ease;
+  overflow: visible;
+}
+/* A second, interrupted outline echoes the hand-drawn reference. */
+.sarc-initiatives .ini-card::before {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border: 1px solid #2563eb;
+  border-radius: 29px 32px 28px 31px;
+  pointer-events: none;
+  mask-image: conic-gradient(from 0deg, transparent 0deg 8deg, #000 8deg 105deg, transparent 105deg 116deg, #000 116deg 205deg, transparent 205deg 216deg, #000 216deg 345deg, transparent 345deg);
+  transition: opacity .3s ease;
+}
+.sarc-initiatives .ini-card:hover,
+.sarc-initiatives .ini-card:focus-within {
+  translate: 3px -3px;
+  box-shadow: -7px 9px 0 #2563eb, -10px 14px 20px #2563eb26;
+}
+.sarc-initiatives .ini-card:hover::before,
+.sarc-initiatives .ini-card:focus-within::before { opacity: 0; }
+
+.sarc-initiatives .ini-card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.sarc-initiatives .ini-category { color: var(--ini-accent); font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .09em; }
+.sarc-initiatives .ini-card h3 { margin-block: 10px 16px; font-size: 23px; font-weight: 600; }
+.sarc-initiatives .ini-description { color: var(--ini-muted); font-size: 13px; line-height: 1.85; }
+.sarc-initiatives .ini-card-link { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: auto; padding-top: 24px; color: var(--ini-accent); font-size: 12px; font-weight: 600; }
+.sarc-initiatives .ini-card-link:hover { text-decoration: underline; text-underline-offset: 5px; }
+@media (max-width: 1000px) {
+  .sarc-initiatives .ini-container { width: calc(100% - 48px); }
+  .sarc-initiatives .ini-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+}
+@media (max-width: 600px) {
+  .sarc-initiatives .ini-container { width: calc(100% - 32px); }
+  .sarc-initiatives .ini-hero-content { padding-block: 56px 40px; }
+  .sarc-initiatives .ini-hero-description { font-size: 14px; }
+  .sarc-initiatives .ini-programs { padding-block: 40px 56px; }
+  .sarc-initiatives .ini-section-heading { flex-direction: column; align-items: start; gap: 12px; }
+  .sarc-initiatives .ini-grid { grid-template-columns: 1fr; gap: 18px; }
+  .sarc-initiatives .ini-card { padding: 24px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sarc-initiatives .ini-card:hover, .sarc-initiatives .ini-card:focus-within { translate: none; }
+  .sarc-initiatives *, .sarc-initiatives *::before, .sarc-initiatives *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}

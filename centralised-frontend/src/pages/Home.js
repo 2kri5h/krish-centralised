@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import Lenis from "lenis";
 import "lenis/dist/lenis.css";
 import "./Home.css";
@@ -137,11 +138,13 @@ export default function Home() {
         </a>
         <nav className="nav-links" aria-label="Main navigation">
           <a href="#programs">Programs</a>
-          <a href="#events">Events</a>
+          <Link to="/initiatives">Initiatives</Link>
+          <Link to="/gallery">Gallery</Link>
+          <Link to="/contact">Team & Contact</Link>
           <a href="#about">About SARC</a>
-          <a className="button" href="#programs">
+          <Link className="button" to="/initiatives">
             Explore SARC <i aria-hidden="true">↗</i>
-          </a>
+          </Link>
         </nav>
         <button
           className="menu-button"
@@ -158,7 +161,9 @@ export default function Home() {
         aria-label="Mobile navigation"
       >
         <a href="#programs">Programs</a>
-        <a href="#events">Events</a>
+        <Link to="/initiatives">Initiatives</Link>
+        <Link to="/gallery">Gallery</Link>
+        <Link to="/contact">Team & Contact</Link>
         <a href="#about">About SARC</a>
       </nav>
       <main id="main">
@@ -191,7 +196,6 @@ export default function Home() {
               src={require("../assets/gallery/gallery/4.png")}
               alt="Audience attending a SARC event"
             />
-            <div className="hero-keyline"></div>
             <div className="hero-main">
               <p className="school">Student Alumni Relations Cell</p>
               <h1>SARC</h1>
@@ -227,242 +231,226 @@ export default function Home() {
             </div>
           </section>
           <nav className="routes" aria-label="Quick links">
-            <a className="route" href="https://asmp.sarc-iitb.org/">
+            <Link className="route" to="/initiatives">
               <div>
-                <small>Mentorship</small>
-                <strong>Alumni Student Mentorship</strong>
+                <small>Explore 17 Initiatives</small>
+                <strong>Mentorship & Programs</strong>
               </div>
               <span aria-hidden="true">↗</span>
-            </a>
-            <a className="route" href="#events">
+            </Link>
+            <Link className="route" to="/gallery">
               <div>
-                <small>On campus</small>
-                <strong>Upcoming events</strong>
+                <small>3D Ring Experience</small>
+                <strong>Photo Gallery</strong>
               </div>
               <span aria-hidden="true">↗</span>
-            </a>
-            <a className="route" href="#programs">
+            </Link>
+            <Link className="route" to="/contact">
               <div>
-                <small>Explore SARC</small>
-                <strong>Programs & initiatives</strong>
+                <small>Council 2026–2027</small>
+                <strong>Team & Contact</strong>
               </div>
               <span aria-hidden="true">↗</span>
-            </a>
+            </Link>
           </nav>
         </div>
-        <section className="about wrap" id="about">
-          <figure className="about-photo">
-            <img
-              src={require("../assets/gallery/gallery/5.JPG")}
-              alt="A student speaking with an alumnus during a SARC interaction"
-            />
-            <figcaption>
-              Student and alumni interaction<span>IIT Bombay</span>
-            </figcaption>
-          </figure>
-          <div className="about-copy">
-            <div className="section-label">About SARC</div>
-            <h2>
-              SARC connects the students to the{" "}
-              <span>alumni of IIT Bombay.</span>
-            </h2>
-            <div className="about-bottom">
+
+        {/* 1. Authority Metric Ribbon */}
+        <section className="authority-ribbon wrap" aria-label="SARC Reach and Scale">
+          <div className="authority-item">
+            <span className="authority-num">70,000+</span>
+            <span className="authority-label">Alumni in 90+ Countries</span>
+          </div>
+          <div className="authority-item">
+            <span className="authority-num">14,000+</span>
+            <span className="authority-label">Students Connected</span>
+          </div>
+          <div className="authority-item">
+            <span className="authority-num">17</span>
+            <span className="authority-label">Strategic Initiatives</span>
+          </div>
+          <div className="authority-item">
+            <span className="authority-num">Est. 2008</span>
+            <span className="authority-label">Dean ACR · IIT Bombay</span>
+          </div>
+        </section>
+
+        {/* 2. Main Gateway Grid */}
+        <section className="gateway-section wrap" id="initiatives">
+          <div className="gateway-grid">
+            {/* Left Column: Initiatives Gateway */}
+            <div className="gateway-main">
+              <div className="gateway-header">
+                <span className="gateway-kicker">OUR INITIATIVES</span>
+                <h2>Connecting students to world-class alumni.</h2>
+                <p>Three core pillars of mentorship, flagship conclaves, and campus traditions.</p>
+              </div>
+
+              <div className="gateway-cards">
+                {/* Pillar 1: Mentorship */}
+                <Link to="/initiatives" className="gateway-card">
+                  <div className="gateway-card-top">
+                    <span className="gateway-pill pill-mentorship">MENTORSHIP</span>
+                  </div>
+                  <h3>Mentorship & Career</h3>
+                  <ul className="gateway-card-list">
+                    <li>ASMP (1-on-1 Alumni Pairings)</li>
+                    <li>Industrial Learning Program (ILP)</li>
+                    <li>Mock Interview & GD Drive</li>
+                  </ul>
+                  <div className="gateway-card-img">
+                    <img
+                      src={require("../assets/gallery/gallery/1.jpg")}
+                      alt="Student mentoring interaction"
+                    />
+                  </div>
+                </Link>
+
+                {/* Pillar 2: Summits */}
+                <Link to="/initiatives" className="gateway-card">
+                  <div className="gateway-card-top">
+                    <span className="gateway-pill pill-fest">FLAGSHIP FEST</span>
+                  </div>
+                  <h3>Alumination & Summits</h3>
+                  <ul className="gateway-card-list">
+                    <li>Annual Alumination Fest</li>
+                    <li>Student Alumni Meet (SAM)</li>
+                    <li>Beyond the Horizon Conclave</li>
+                  </ul>
+                  <div className="gateway-card-img">
+                    <img
+                      src={require("../assets/gallery/gallery/12.png")}
+                      alt="Alumination mainstage"
+                    />
+                  </div>
+                </Link>
+
+                {/* Pillar 3: Traditions */}
+                <Link to="/initiatives" className="gateway-card">
+                  <div className="gateway-card-top">
+                    <span className="gateway-pill pill-heritage">HERITAGE</span>
+                  </div>
+                  <h3>Campus Traditions</h3>
+                  <ul className="gateway-card-list">
+                    <li>Hostel Alumni Meets</li>
+                    <li>Milestone Batch Reunions</li>
+                    <li>Institute Valedictory Function</li>
+                  </ul>
+                  <div className="gateway-card-img">
+                    <img
+                      src={require("../assets/gallery/gallery/3.JPG")}
+                      alt="Campus batch gathering"
+                    />
+                  </div>
+                </Link>
+              </div>
+
+              <div className="gateway-cta-wrapper">
+                <Link to="/initiatives" className="gateway-explore-btn">
+                  Explore All 17 SARC Initiatives <span aria-hidden="true">→</span>
+                </Link>
+              </div>
+            </div>
+
+            {/* Right Column: Gallery Portal & Events Ledger */}
+            <div className="gateway-side">
+              {/* Gallery Gateway Portal */}
+              <div className="gateway-gallery-portal">
+                <div className="gallery-portal-header">
+                  <span className="gallery-portal-kicker">MOMENTS OF CONNECTION</span>
+                  <h3>Moments Across Decades</h3>
+                  <p>A living archive of reunions, conclaves, and campus memories.</p>
+                </div>
+                
+                <div className="gallery-portal-strip">
+                  <div className="gallery-thumb">
+                    <img src={require("../assets/gallery/gallery/8.JPG")} alt="Alumni panel" />
+                  </div>
+                  <div className="gallery-thumb">
+                    <img src={require("../assets/gallery/gallery/32.JPG")} alt="Alumination lights" />
+                  </div>
+                  <div className="gallery-thumb">
+                    <img src={require("../assets/gallery/gallery/4.png")} alt="Audience" />
+                  </div>
+                  <div className="gallery-thumb">
+                    <img src={require("../assets/gallery/gallery/23.jpeg")} alt="Student mentorship" />
+                  </div>
+                </div>
+
+                <Link to="/gallery" className="gallery-portal-btn">
+                  Launch 3D Ring Gallery <span aria-hidden="true">↗</span>
+                </Link>
+              </div>
+
+              {/* Events Ledger */}
+              <div className="gateway-events-ledger">
+                <div className="ledger-header">
+                  <h4>Events Ledger</h4>
+                  <span className="ledger-sub">2026 Season</span>
+                </div>
+                <div className="ledger-list">
+                  <div className="ledger-item">
+                    <div className="ledger-date">
+                      <strong>24-25</strong>
+                      <span>OCT</span>
+                    </div>
+                    <div className="ledger-info">
+                      <h5>Alumination 2026</h5>
+                      <p>Annual Student-Alumni Conclave · LHC & Convocation Hall</p>
+                    </div>
+                  </div>
+                  <div className="ledger-item">
+                    <div className="ledger-date">
+                      <strong>OCT-NOV</strong>
+                      <span>DRIVE</span>
+                    </div>
+                    <div className="ledger-info">
+                      <h5>Placement Mock Interview Drive</h5>
+                      <p>Simulated technical & GD rounds with senior alumni</p>
+                    </div>
+                  </div>
+                  <div className="ledger-item">
+                    <div className="ledger-date">
+                      <strong>ANNUAL</strong>
+                      <span>MEET</span>
+                    </div>
+                    <div className="ledger-info">
+                      <h5>Student Alumni Meet (SAM)</h5>
+                      <p>Interactive department & hostel networking sessions</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* 3. About & Council Anchor */}
+        <section className="council-anchor wrap" id="about">
+          <div className="council-anchor-box">
+            <div className="council-anchor-content">
+              <span className="council-kicker">ABOUT SARC</span>
+              <h2>Bridging students and alumni under the Dean ACR Office.</h2>
               <p>
-                A student body working with the Dean ACR Office to bring
-                students and alumni together through mentorship, events and
-                initiatives throughout the year.
+                Established in 2008, the Student Alumni Relations Cell fosters lifelong bonds
+                between over 70,000 alumni and 14,000 students through year-round mentorship,
+                conclaves, and collaborative initiatives.
               </p>
-              <a className="text-link" href="https://acr.iitbombay.org/sarc/">
-                More about SARC <span aria-hidden="true">↗</span>
-              </a>
-            </div>
-          </div>
-        </section>
-        <section className="programs wrap" id="programs">
-          <div className="section-head">
-            <h2>
-              Programs &<br />
-              initiatives.
-            </h2>
-            <p>
-              Explore the official websites for mentorship, career preparation
-              and student alumni engagement.
-            </p>
-          </div>
-          <div className="program-grid">
-            <a className="feature" href="https://asmp.sarc-iitb.org/">
-              <div className="feature-photo">
-                <img
-                  src={require("../assets/gallery/gallery/1.jpg")}
-                  alt="A student in conversation with an alumnus"
-                />
-                <span className="photo-label">Mentorship · ASMP</span>
-              </div>
-              <div className="feature-info">
-                <div>
-                  <h3>
-                    Alumni Student
-                    <br />
-                    Mentorship Program
-                  </h3>
-                  <p>
-                    A continuing dialogue between IIT Bombay students and
-                    alumni.
-                  </p>
-                </div>
-                <span className="circle-arrow" aria-hidden="true">
-                  ↗
-                </span>
-              </div>
-            </a>
-            <div>
-              <article className="program-row">
-                <div>
-                  <small>Career preparation · PMP</small>
-                  <h3>
-                    Placement
-                    <br />
-                    Mentoring Program
-                  </h3>
-                  <p>Alumni guidance for students preparing for placements.</p>
-                  <a className="text-link" href="https://pmp.sarc-iitb.org/">
-                    Visit PMP <span aria-hidden="true">↗</span>
-                  </a>
-                </div>
-                <img
-                  src={require("../assets/gallery/gallery/6.JPG")}
-                  alt="Students speaking with alumni at a SARC event"
-                />
-              </article>
-              <article className="program-row">
-                <div>
-                  <small>Learning · ILP</small>
-                  <h3>
-                    Industrial
-                    <br />
-                    Learning Program
-                  </h3>
-                  <p>Apply academic knowledge to projects shared by alumni.</p>
-                  <a
-                    className="text-link"
-                    href="https://gymkhana.iitb.ac.in/instiapp//org/sarc"
-                  >
-                    Program details <span aria-hidden="true">↗</span>
-                  </a>
-                </div>
-                <img
-                  src={require("../assets/gallery/gallery/23.jpeg")}
-                  alt="Students participating in a learning session"
-                />
-              </article>
-            </div>
-          </div>
-          <div className="directory">
-            <span>Also at SARC</span>
-            <a href="https://sam-sarc-iitb.vercel.app/">Student Alumni Meet</a>
-            <a href="https://ntp.sarc-iitb.org/">Shadow Program</a>
-            <a href="https://yearbook.sarc-iitb.org/">Yearbook</a>
-            <a href="https://gymkhana.iitb.ac.in/instiapp//org/sarc">
-              All initiatives
-            </a>
-          </div>
-        </section>
-        <section className="events" id="events">
-          <div className="section-head">
-            <h2>Events at SARC.</h2>
-            <a
-              className="text-link"
-              href="https://gymkhana.iitb.ac.in/instiapp//org/sarc"
-            >
-              View the event calendar <span aria-hidden="true">↗</span>
-            </a>
-          </div>
-          <div className="events-grid">
-            <a
-              className="event-feature"
-              href="https://alumination.sarc-iitb.org/"
-            >
-              <img
-                src={require("../assets/gallery/gallery/32.JPG")}
-                alt="Alumination entrance at IIT Bombay"
-              />
-              <div>
-                <h3>Alumination</h3>
-                <p>Explore the program, events and schedule.</p>
-              </div>
-            </a>
-            <div>
-              <div className="event-list">
-                <a
-                  className="event-row"
-                  href="https://gymkhana.iitb.ac.in/instiapp//org/sarc"
-                >
-                  <div className="date">
-                    <strong>24</strong>
-                    <span>OCT 2026</span>
-                  </div>
-                  <div>
-                    <h3>
-                      Mock Interview &<br />
-                      Group Discussion
-                    </h3>
-                    <p>24 to 25 October · Lecture Hall Complex</p>
-                  </div>
-                  <span aria-hidden="true">↗</span>
-                </a>
-                <a
-                  className="event-row"
-                  href="https://gymkhana.iitb.ac.in/instiapp//org/sarc"
-                >
-                  <div className="date">
-                    <strong>25</strong>
-                    <span>OCT 2026</span>
-                  </div>
-                  <div>
-                    <h3>Group Mentoring</h3>
-                    <p>10 am to 5 pm · Lecture Hall Complex</p>
-                  </div>
-                  <span aria-hidden="true">↗</span>
+              <div className="council-anchor-links">
+                <Link to="/contact" className="anchor-link-btn">
+                  Meet the 2026–2027 Team <span aria-hidden="true">↗</span>
+                </Link>
+                <a href="https://acr.iitbombay.org/" target="_blank" rel="noreferrer" className="anchor-link-text">
+                  Dean ACR Office, IIT Bombay <span aria-hidden="true">↗</span>
                 </a>
               </div>
-              <p className="events-note">
-                Event details and participation information are available on the
-                official event listings.
-              </p>
             </div>
-          </div>
-        </section>
-        <section className="gallery wrap">
-          <div className="section-head">
-            <h2>From the gallery.</h2>
-            <a
-              className="text-link"
-              href="https://alumination.sarc-iitb.org/gallery"
-            >
-              View the gallery <span aria-hidden="true">↗</span>
-            </a>
-          </div>
-          <div className="gallery-pair">
-            <figure>
+            <div className="council-anchor-visual">
               <img
-                src={require("../assets/gallery/gallery/8.JPG")}
-                alt="Alumni panel discussion with students"
+                src={require("../assets/gallery/gallery/5.JPG")}
+                alt="SARC student and alumni meeting"
               />
-              <figcaption>
-                <span>Conversations with alumni</span>
-                <span>SARC, IIT Bombay</span>
-              </figcaption>
-            </figure>
-            <figure>
-              <img
-                src={require("../assets/gallery/gallery/3.JPG")}
-                alt="SARC group gathering on stage"
-              />
-              <figcaption>
-                <span>Alumination</span>
-                <span>IIT Bombay</span>
-              </figcaption>
-            </figure>
+            </div>
           </div>
         </section>
       </main>
@@ -477,9 +465,11 @@ export default function Home() {
           <div className="footer-links">
             <div>
               <h3>Explore</h3>
-              <a href="#programs">Programs & initiatives</a>
-              <a href="#events">Events</a>
-              <a href="https://acr.iitbombay.org/sarc/">About SARC</a>
+              <a href="#programs">Programs</a>
+              <Link to="/initiatives">Initiatives</Link>
+              <Link to="/gallery">Gallery</Link>
+              <Link to="/contact">Team & Contact</Link>
+              <a href="https://acr.iitbombay.org/sarc/" target="_blank" rel="noreferrer">About SARC ↗</a>
             </div>
             <div>
               <h3>Visit & connect</h3>

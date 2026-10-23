@@ -237,14 +237,6 @@
     linear-gradient(0deg, rgba(1, 22, 39, 0.62), transparent 60%);
   z-index: 0;
 }
-.sarc-home .hero-keyline {
-  position: absolute;
-  inset: 18px;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 6px;
-  z-index: 1;
-  pointer-events: none;
-}
 .sarc-home .hero-main {
   position: absolute;
   left: 40px;
@@ -389,332 +381,470 @@
 .sarc-home .route:hover span {
   transform: translate(4px, -4px);
 }
-.sarc-home .about {
+/* ==========================================================================
+   1. AUTHORITY METRIC RIBBON
+   ========================================================================== */
+.sarc-home .authority-ribbon {
   display: grid;
-  grid-template-columns: 1fr 2fr;
-  gap: 80px;
-  padding: 94px 0 100px;
-  border-bottom: 1px solid var(--line);
-}
-.sarc-home .section-label {
-  font-size: 16px;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 13px;
-}
-.sarc-home .section-label:before {
-  content: "";
-  width: 22px;
-  height: 3px;
-  background: var(--green);
-}
-.sarc-home .about h2 {
-  font-size: 45px;
-  line-height: 1.13;
-  font-weight: 500;
-  letter-spacing: -0.035em;
-  max-width: 860px;
-}
-.sarc-home .about h2 span {
-  color: var(--green);
-}
-.sarc-home .about-bottom {
-  display: flex;
-  justify-content: space-between;
-  gap: 40px;
-  align-items: end;
-  margin-top: 27px;
-}
-.sarc-home .about p {
-  max-width: 540px;
-  font-size: 15px;
-  line-height: 1.6;
-}
-.sarc-home .text-link {
-  display: inline-flex;
-  gap: 16px;
-  font-size: 13px;
-  font-weight: 600;
-  white-space: nowrap;
-  border-bottom: 1px solid currentColor;
-  padding: 6px 0;
-}
-.sarc-home .text-link span {
-  transition: transform 0.25s;
-}
-.sarc-home .text-link:hover span {
-  transform: translate(4px, -4px);
-}
-.sarc-home .programs {
-  padding: 80px 0 88px;
-}
-.sarc-home .section-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: end;
-  gap: 40px;
-  margin-bottom: 35px;
-}
-.sarc-home .section-head h2 {
-  font-size: 59px;
-  line-height: 1.02;
-  letter-spacing: -0.04em;
-  font-weight: 700;
-}
-.sarc-home .section-head p {
-  font-size: 15px;
-  max-width: 300px;
-}
-.sarc-home .program-grid {
-  display: grid;
-  grid-template-columns: 1.12fr 1fr;
-  gap: 42px;
-}
-.sarc-home .feature-photo {
-  position: relative;
+  grid-template-columns: repeat(4, 1fr);
+  background: var(--paper);
+  border: 1px solid var(--line);
   border-radius: var(--radius);
+  margin: 32px auto 48px;
   overflow: hidden;
-  border: 1px solid var(--line);
+  box-shadow: 0 4px 16px rgba(1, 22, 39, 0.04);
 }
-.sarc-home .feature-photo img {
-  height: 330px;
-  transition: transform 0.7s;
-}
-.sarc-home .feature:hover img {
-  transform: scale(1.025);
-}
-.sarc-home .photo-label {
-  position: absolute;
-  bottom: 16px;
-  left: 16px;
-  background: var(--white);
-  color: var(--green);
-  border-radius: 99px;
-  padding: 6px 14px;
-  font-size: 12px;
-  font-weight: 600;
-}
-.sarc-home .feature-info {
+.sarc-home .authority-item {
+  padding: 24px 20px;
+  text-align: center;
+  border-right: 1px solid var(--line);
   display: flex;
-  align-items: start;
-  gap: 30px;
-  justify-content: space-between;
-  margin-top: 23px;
+  flex-direction: column;
+  justify-content: center;
 }
-.sarc-home .feature-info h3 {
-  font-size: 34px;
-  line-height: 1.05;
-  letter-spacing: -0.025em;
-  max-width: 420px;
+.sarc-home .authority-item:last-child {
+  border-right: none;
 }
-.sarc-home .feature-info p {
-  font-size: 14px;
-  max-width: 400px;
-  margin-top: 12px;
-}
-.sarc-home .circle-arrow {
-  display: grid;
-  place-items: center;
-  flex-shrink: 0;
-  width: 48px;
-  height: 48px;
-  border: 1px solid var(--green);
-  color: var(--green);
-  border-radius: 50%;
-  font-size: 24px;
-  transition:
-    background 0.3s,
-    transform 0.3s;
-}
-.sarc-home .feature:hover .circle-arrow,
-.sarc-home .program-row:hover .circle-arrow {
-  background: var(--mint);
-  transform: rotate(45deg);
-}
-.sarc-home .program-row {
-  display: grid;
-  grid-template-columns: 1fr 138px;
-  gap: 24px;
-  border-top: 1px solid var(--line);
-  padding: 25px 0;
-}
-.sarc-home .program-row:first-child {
-  padding-top: 0;
-  border-top: 0;
-}
-.sarc-home .program-row:last-child {
-  border-bottom: 1px solid var(--line);
-}
-.sarc-home .program-row small {
-  color: var(--green);
-  font-size: 12px;
-  font-weight: 600;
-  display: block;
-  margin-bottom: 10px;
-}
-.sarc-home .program-row h3 {
-  font-size: 31px;
-  line-height: 1.05;
-  letter-spacing: -0.025em;
-}
-.sarc-home .program-row p {
-  font-size: 14px;
-  line-height: 1.5;
-  margin-top: 11px;
-  max-width: 300px;
-}
-.sarc-home .program-row img {
-  height: 150px;
-  border-radius: 8px;
-  border: 1px solid var(--line);
-}
-.sarc-home .program-row .text-link {
-  margin-top: 13px;
-  color: var(--green);
-}
-.sarc-home .directory {
-  display: flex;
-  gap: 11px;
-  align-items: center;
-  flex-wrap: wrap;
-  margin-top: 38px;
-  padding-top: 26px;
-  border-top: 1px solid var(--line);
-}
-.sarc-home .directory > span {
-  font-size: 13px;
-  margin-right: 10px;
-  font-weight: 600;
-}
-.sarc-home .directory a {
-  font-size: 12px;
-  padding: 9px 15px;
-  border: 1px solid var(--line);
-  border-radius: 99px;
-  transition:
-    background 0.25s,
-    transform 0.25s;
-}
-.sarc-home .directory a:hover {
-  background: var(--mint);
-  transform: translateY(-2px);
-}
-.sarc-home .events {
-  background: var(--green);
-  color: var(--white);
-  margin: 0 24px;
-  border-radius: var(--radius);
-  padding: 55px 40px 58px;
-}
-.sarc-home .events .section-head {
-  margin-bottom: 32px;
-}
-.sarc-home .events .section-head h2 {
-  font-size: 58px;
-}
-.sarc-home .events-grid {
-  display: grid;
-  grid-template-columns: 1fr 1.05fr;
-  gap: 65px;
-}
-.sarc-home .event-feature {
-  position: relative;
-  border-radius: 8px;
-  overflow: hidden;
-  min-height: 370px;
-}
-.sarc-home .event-feature img {
-  height: 100%;
-  position: absolute;
-  inset: 0;
-}
-.sarc-home .event-feature:after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(0deg, rgba(1, 22, 39, 0.85), transparent 75%);
-}
-.sarc-home .event-feature div {
-  position: absolute;
-  left: 27px;
-  right: 27px;
-  bottom: 26px;
-  z-index: 1;
-}
-.sarc-home .event-feature h3 {
-  font-size: 49px;
-  line-height: 1;
+.sarc-home .authority-num {
+  font-family: Cabinet, sans-serif;
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--navy);
+  line-height: 1.1;
   letter-spacing: -0.03em;
 }
-.sarc-home .event-feature p {
-  font-size: 14px;
-  margin-top: 10px;
+.sarc-home .authority-label {
+  font-family: Switzer, sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(1, 22, 39, 0.65);
+  margin-top: 6px;
 }
-.sarc-home .event-list {
-  border-top: 1px solid rgba(255, 255, 255, 0.35);
+
+/* ==========================================================================
+   2. MAIN GATEWAY SECTION
+   ========================================================================== */
+.sarc-home .gateway-section {
+  padding-bottom: 70px;
 }
-.sarc-home .event-row {
+.sarc-home .gateway-grid {
   display: grid;
-  grid-template-columns: 70px 1fr 25px;
-  gap: 20px;
-  padding: 29px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.35);
+  grid-template-columns: 1.8fr 1.15fr;
+  gap: 48px;
+  align-items: start;
 }
-.sarc-home .date strong {
-  font: 700 40px/0.9 Cabinet;
-  display: block;
-  letter-spacing: -0.04em;
+
+/* Initiatives Gateway */
+.sarc-home .gateway-main {
+  display: flex;
+  flex-direction: column;
 }
-.sarc-home .date span {
+.sarc-home .gateway-header {
+  margin-bottom: 28px;
+}
+.sarc-home .gateway-kicker {
   font-size: 12px;
-  margin-top: 8px;
-  display: block;
-  color: var(--white);
-}
-.sarc-home .event-row h3 {
-  font-size: 26px;
-  line-height: 1.1;
   font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--green);
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
 }
-.sarc-home .event-row p {
-  font-size: 12px;
-  margin-top: 10px;
+.sarc-home .gateway-kicker:before {
+  content: "";
+  width: 18px;
+  height: 2px;
+  background: var(--green);
 }
-.sarc-home .event-row > span {
-  font-size: 24px;
-  color: var(--mint);
-  transition: transform 0.25s;
+.sarc-home .gateway-header h2 {
+  font-size: 38px;
+  line-height: 1.12;
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  color: var(--navy);
+  margin-bottom: 10px;
 }
-.sarc-home .event-row:hover > span {
-  transform: translate(3px, -3px);
+.sarc-home .gateway-header p {
+  font-size: 15px;
+  color: rgba(1, 22, 39, 0.7);
+  line-height: 1.5;
+  max-width: 580px;
 }
-.sarc-home .events-note {
-  font-size: 12px;
-  margin-top: 23px;
-  max-width: 450px;
-}
-.sarc-home .gallery {
-  padding: 84px 0 90px;
-}
-.sarc-home .gallery-pair {
+
+.sarc-home .gateway-cards {
   display: grid;
-  grid-template-columns: 1.4fr 1fr;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin-bottom: 28px;
+}
+.sarc-home .gateway-card {
+  background: #d8f0e2;
+  border: 2px solid #2563eb;
+  border-radius: 20px 24px 18px 22px;
+  padding: 20px 18px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: -4px 6px 0 #2563eb;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+}
+.sarc-home .gateway-card:hover {
+  transform: translate(2px, -3px);
+  box-shadow: -7px 9px 0 #2563eb, -10px 14px 20px rgba(37, 99, 235, 0.2);
+}
+.sarc-home .gateway-card-top {
+  margin-bottom: 10px;
+}
+.sarc-home .gateway-pill {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 4px 10px;
+  border-radius: 99px;
+  display: inline-block;
+  text-transform: uppercase;
+}
+.sarc-home .pill-mentorship {
+  background: #04724d;
+  color: #ffffff;
+}
+.sarc-home .pill-fest {
+  background: #2563eb;
+  color: #ffffff;
+}
+.sarc-home .pill-heritage {
+  background: #140d4f;
+  color: #ffffff;
+}
+.sarc-home .gateway-card h3 {
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #163d30;
+  margin-bottom: 12px;
+}
+.sarc-home .gateway-card-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 16px;
+  font-size: 12px;
+  color: #435b51;
+  line-height: 1.6;
+}
+.sarc-home .gateway-card-list li {
+  position: relative;
+  padding-left: 13px;
+  margin-bottom: 3px;
+}
+.sarc-home .gateway-card-list li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #04724d;
+  font-weight: bold;
+}
+.sarc-home .gateway-card-img {
+  width: 100%;
+  height: 115px;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-top: auto;
+  border: 1px solid rgba(37, 99, 235, 0.25);
+}
+.sarc-home .gateway-card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+.sarc-home .gateway-card:hover .gateway-card-img img {
+  transform: scale(1.05);
+}
+.sarc-home .gateway-cta-wrapper {
+  margin-top: 4px;
+}
+.sarc-home .gateway-explore-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: #04724d;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 13px 26px;
+  border-radius: 8px;
+  box-shadow: 0 4px 14px rgba(4, 114, 77, 0.22);
+  transition: background 0.25s, transform 0.2s, box-shadow 0.25s;
+}
+.sarc-home .gateway-explore-btn:hover {
+  background: #03583c;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(4, 114, 77, 0.32);
+}
+
+/* Gallery Portal & Events Sidebar */
+.sarc-home .gateway-side {
+  display: flex;
+  flex-direction: column;
   gap: 24px;
 }
-.sarc-home .gallery-pair figure {
-  margin: 0;
+.sarc-home .gateway-gallery-portal {
+  background: #0a0a0a;
+  border-radius: 18px;
+  padding: 28px 24px;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.22);
+  position: relative;
+  overflow: hidden;
 }
-.sarc-home .gallery-pair img {
-  height: 300px;
-  border-radius: 12px;
+.sarc-home .gallery-portal-header {
+  margin-bottom: 20px;
+}
+.sarc-home .gallery-portal-kicker {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #ffb347;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 6px;
+}
+.sarc-home .gallery-portal-header h3 {
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 1.15;
+  background: linear-gradient(to right, #ff6b2b, #ffb347);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 6px;
+}
+.sarc-home .gallery-portal-header p {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.72);
+  line-height: 1.45;
+}
+.sarc-home .gallery-portal-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 22px;
+}
+.sarc-home .gallery-thumb {
+  height: 74px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+.sarc-home .gallery-thumb:hover {
+  transform: scale(1.06);
+  border-color: #ff6b2b;
+}
+.sarc-home .gallery-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.sarc-home .gallery-portal-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: rgba(255, 107, 43, 0.16);
+  color: #ffb347;
+  border: 1px solid rgba(255, 107, 43, 0.42);
+  padding: 12px 18px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  transition: background 0.25s, color 0.25s, border-color 0.25s;
+}
+.sarc-home .gallery-portal-btn:hover {
+  background: #ff6b2b;
+  color: #ffffff;
+  border-color: #ff6b2b;
+}
+
+/* Events Ledger */
+.sarc-home .gateway-events-ledger {
+  background: #ffffff;
   border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: 0 4px 16px rgba(1, 22, 39, 0.04);
 }
-.sarc-home figcaption {
-  font-size: 12px;
-  margin-top: 11px;
+.sarc-home .ledger-header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+}
+.sarc-home .ledger-header h4 {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--navy);
+  margin: 0;
+}
+.sarc-home .ledger-sub {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--green);
+  background: rgba(4, 114, 77, 0.08);
+  padding: 3px 8px;
+  border-radius: 99px;
+}
+.sarc-home .ledger-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.sarc-home .ledger-item {
+  display: grid;
+  grid-template-columns: 66px 1fr;
+  gap: 14px;
+  align-items: center;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(1, 22, 39, 0.08);
+}
+.sarc-home .ledger-item:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+.sarc-home .ledger-date {
+  background: #f4f6f8;
+  border-radius: 8px;
+  padding: 7px 4px;
+  text-align: center;
+  border: 1px solid rgba(1, 22, 39, 0.08);
+}
+.sarc-home .ledger-date strong {
+  display: block;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--navy);
+  line-height: 1.1;
+}
+.sarc-home .ledger-date span {
+  display: block;
+  font-size: 9px;
+  font-weight: 700;
+  color: #ff6b2b;
+  letter-spacing: 0.05em;
+  margin-top: 3px;
+}
+.sarc-home .ledger-info h5 {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--navy);
+  margin: 0 0 3px;
+  line-height: 1.25;
+}
+.sarc-home .ledger-info p {
+  font-size: 11px;
+  color: rgba(1, 22, 39, 0.65);
+  line-height: 1.4;
+  margin: 0;
+}
+
+/* ==========================================================================
+   3. COUNCIL & DEAN ACR ANCHOR
+   ========================================================================== */
+.sarc-home .council-anchor {
+  padding-bottom: 80px;
+}
+.sarc-home .council-anchor-box {
+  display: grid;
+  grid-template-columns: 1.45fr 1fr;
+  gap: 40px;
+  background: #f7faf8;
+  border: 1px solid #d7e8df;
+  border-radius: 20px;
+  padding: 44px;
+  align-items: center;
+}
+.sarc-home .council-kicker {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--green);
+  letter-spacing: 0.08em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.sarc-home .council-kicker:before {
+  content: "";
+  width: 16px;
+  height: 2px;
+  background: var(--green);
+}
+.sarc-home .council-anchor-content h2 {
+  font-size: 32px;
+  line-height: 1.15;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 14px;
+  letter-spacing: -0.03em;
+}
+.sarc-home .council-anchor-content p {
+  font-size: 14px;
+  color: rgba(1, 22, 39, 0.72);
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+.sarc-home .council-anchor-links {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.sarc-home .anchor-link-btn {
+  background: var(--navy);
+  color: #ffffff;
+  padding: 12px 22px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.2s, transform 0.2s;
+}
+.sarc-home .anchor-link-btn:hover {
+  background: var(--green);
+  transform: translateY(-2px);
+}
+.sarc-home .anchor-link-text {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--navy);
+  border-bottom: 1px solid var(--navy);
+  padding-bottom: 2px;
+  transition: color 0.2s, border-color 0.2s;
+}
+.sarc-home .anchor-link-text:hover {
+  color: var(--green);
+  border-color: var(--green);
+}
+.sarc-home .council-anchor-visual {
+  height: 260px;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid #d7e8df;
+}
+.sarc-home .council-anchor-visual img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 .sarc-home .footer {
   background: var(--navy);
@@ -806,57 +936,24 @@
   .sarc-home .route strong {
     font-size: 15px;
   }
-  .sarc-home .about {
-    grid-template-columns: 1fr 2.5fr;
-    gap: 35px;
-    padding: 70px 0;
+  .sarc-home .authority-ribbon {
+    grid-template-columns: repeat(2, 1fr);
   }
-  .sarc-home .about h2 {
-    font-size: 36px;
+  .sarc-home .authority-item:nth-child(2) {
+    border-right: none;
   }
-  .sarc-home .about-bottom {
-    display: block;
+  .sarc-home .authority-item:nth-child(1),
+  .sarc-home .authority-item:nth-child(2) {
+    border-bottom: 1px solid var(--line);
   }
-  .sarc-home .about .text-link {
-    margin-top: 18px;
+  .sarc-home .gateway-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
   }
-  .sarc-home .section-head h2 {
-    font-size: 48px;
-  }
-  .sarc-home .program-grid {
-    gap: 27px;
-  }
-  .sarc-home .feature-photo img {
-    height: 280px;
-  }
-  .sarc-home .feature-info h3 {
-    font-size: 30px;
-  }
-  .sarc-home .program-row {
-    grid-template-columns: 1fr 120px;
-    gap: 15px;
-  }
-  .sarc-home .program-row h3 {
-    font-size: 25px;
-  }
-  .sarc-home .program-row img {
-    height: 125px;
-  }
-  .sarc-home .events-grid {
-    gap: 30px;
-  }
-  .sarc-home .event-row {
-    grid-template-columns: 58px 1fr 20px;
-    gap: 12px;
-  }
-  .sarc-home .event-row h3 {
-    font-size: 23px;
-  }
-  .sarc-home .events {
-    padding: 40px 28px;
-  }
-  .sarc-home .gallery-pair img {
-    height: 240px;
+  .sarc-home .council-anchor-box {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding: 32px;
   }
   .sarc-home .footer-links {
     gap: 30px;
@@ -895,9 +992,6 @@
   }
   .sarc-home .hero {
     height: 570px;
-  }
-  .sarc-home .hero-keyline {
-    inset: 10px;
   }
   .sarc-home .hero-note {
     top: 25px;
@@ -976,129 +1070,49 @@
   .sarc-home .route span {
     font-size: 22px;
   }
-  .sarc-home .about {
-    display: block;
-    padding: 55px 0 48px;
-  }
-  .sarc-home .section-label {
-    font-size: 13px;
-    margin-bottom: 24px;
-  }
-  .sarc-home .about h2 {
-    font-size: 32px;
-    line-height: 1.1;
-  }
-  .sarc-home .about p {
-    font-size: 15px;
-  }
-  .sarc-home .about-bottom {
-    margin-top: 21px;
-  }
-  .sarc-home .programs {
-    padding: 48px 0 50px;
-  }
-  .sarc-home .section-head {
-    display: block;
-    margin-bottom: 26px;
-  }
-  .sarc-home .section-head h2 {
-    font-size: 42px;
-    line-height: 1.02;
-  }
-  .sarc-home .section-head p {
-    font-size: 14px;
-    margin-top: 17px;
-  }
-  .sarc-home .section-head .text-link {
-    margin-top: 17px;
-  }
-  .sarc-home .program-grid {
+  .sarc-home .authority-ribbon {
     grid-template-columns: 1fr;
-    gap: 32px;
+    margin: 24px auto 36px;
   }
-  .sarc-home .feature-photo img {
-    height: 235px;
+  .sarc-home .authority-item {
+    border-right: none;
+    border-bottom: 1px solid var(--line);
+    padding: 16px 14px;
   }
-  .sarc-home .feature-info {
-    margin-top: 18px;
-    gap: 18px;
+  .sarc-home .authority-item:last-child {
+    border-bottom: none;
   }
-  .sarc-home .feature-info h3 {
-    font-size: 30px;
+  .sarc-home .authority-num {
+    font-size: 26px;
   }
-  .sarc-home .feature-info p {
+  .sarc-home .gateway-header h2 {
+    font-size: 28px;
+  }
+  .sarc-home .gateway-header p {
     font-size: 14px;
   }
-  .sarc-home .circle-arrow {
-    width: 42px;
-    height: 42px;
+  .sarc-home .gateway-cards {
+    grid-template-columns: 1fr;
+    gap: 16px;
   }
-  .sarc-home .program-row {
-    grid-template-columns: 1fr 95px;
+  .sarc-home .gateway-card {
+    box-shadow: -3px 5px 0 #2563eb;
   }
-  .sarc-home .program-row h3 {
-    font-size: 27px;
-  }
-  .sarc-home .program-row img {
-    height: 128px;
-  }
-  .sarc-home .program-row:first-child {
-    padding-top: 24px;
-    border-top: 1px solid var(--line);
-  }
-  .sarc-home .directory {
+  .sarc-home .gallery-portal-strip {
+    grid-template-columns: repeat(2, 1fr);
     gap: 8px;
-    margin-top: 25px;
-    padding-top: 23px;
   }
-  .sarc-home .directory > span {
-    width: 100%;
-    margin-bottom: 6px;
+  .sarc-home .gallery-thumb {
+    height: 68px;
   }
-  .sarc-home .directory a {
-    font-size: 11px;
-    padding: 8px 12px;
+  .sarc-home .council-anchor-box {
+    padding: 24px 18px;
   }
-  .sarc-home .events {
-    margin: 0 10px;
-    padding: 34px 20px;
-  }
-  .sarc-home .events .section-head h2 {
-    font-size: 42px;
-  }
-  .sarc-home .events-grid {
-    grid-template-columns: 1fr;
-    gap: 28px;
-  }
-  .sarc-home .event-feature {
-    min-height: 280px;
-  }
-  .sarc-home .event-feature h3 {
-    font-size: 42px;
-  }
-  .sarc-home .event-feature div {
-    left: 20px;
-    bottom: 22px;
-  }
-  .sarc-home .event-row {
-    padding: 23px 0;
-    grid-template-columns: 52px 1fr 20px;
-  }
-  .sarc-home .event-row h3 {
+  .sarc-home .council-anchor-content h2 {
     font-size: 24px;
   }
-  .sarc-home .events-note {
-    font-size: 11px;
-  }
-  .sarc-home .gallery {
-    padding: 48px 0;
-  }
-  .sarc-home .gallery-pair {
-    grid-template-columns: 1fr;
-    gap: 22px;
-  }
-  .sarc-home .gallery-pair img {
-    height: 230px;
+  .sarc-home .council-anchor-visual {
+    height: 190px;
   }
   .sarc-home .footer {
     padding: 36px 20px 25px;

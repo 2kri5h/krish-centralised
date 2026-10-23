@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800&family=Roboto:wght@400;500;700&display=swap");
+
 .fixed-gallery-container {
   position: relative;
   width: 100%;
@@ -760,42 +762,40 @@
   background-color: #2a2a2a; /* Placeholder color */
 }
 
-/* Fix any conflict with the navbar */
-body, html {
-  margin: 0;
-  padding: 0;
-  background-color: #121212;
-}
-
 /* Base styling */
 .gallery-container {
-  background-color: #121212;
-  color: white;
+  --gallery-white: #ffffff;
+  --gallery-midnight-violet: #1c0b19;
+  --gallery-deep-twilight: #140d4f;
+  --gallery-turf-green: #04724d;
+  --gallery-emerald: #2dd881;
+
+  background-color: var(--gallery-midnight-violet);
+  color: var(--gallery-white);
   min-height: 100vh;
   padding: 80px 20px 40px;
   width: 100%;
   box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
 }
 
-.gallery-header {
+.gallery-container .gallery-header {
+  color: var(--gallery-white);
   text-align: center;
   margin-bottom: 40px;
 }
 
-.gallery-header h1 {
+.gallery-container .gallery-header h1 {
+  color: var(--gallery-emerald);
   font-size: 3rem;
-  font-weight: 700;
+  font-family: "Nunito", sans-serif;
+  font-weight: 800;
   margin-bottom: 10px;
-  background: linear-gradient(to right, #ff6b2b, #ffb347);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  color: transparent;
 }
 
-.gallery-header p {
+.gallery-container .gallery-header p {
   font-size: 1.2rem;
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--gallery-white);
 }
 
 .mobile-gallery-wrapper {
@@ -936,11 +936,11 @@ body, html {
     padding: 70px 15px 30px;
   }
   
-  .gallery-header h1 {
+  .gallery-container .gallery-header h1 {
     font-size: 2.2rem;
   }
   
-  .gallery-header p {
+  .gallery-container .gallery-header p {
     font-size: 1rem;
   }
   
@@ -952,4 +952,78 @@ body, html {
     top: -30px;
     right: 0;
   }
-} 
+}
+
+/* The stage replaces the previous gallery grids with one clipped, viewport-height canvas. */
+.gallery-stage {
+  position: relative;
+  width: 100%;
+  height: 100svh;
+  overflow: hidden;
+  background: transparent;
+  touch-action: pan-y;
+}
+
+/* The parent scales the ring as a unit; each card keeps an independent motion target. */
+.gallery-orbit {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* Cards are centered by their negative half-size margins and animated from the center point. */
+.gallery-card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  overflow: visible;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  will-change: transform, filter;
+}
+
+/* Counter-rotate the visible face so orbiting cards stay upright while their positions circle. */
+.gallery-card-face {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 6px;
+  background: var(--gallery-midnight-violet);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.55);
+  transform-origin: center;
+  will-change: transform;
+}
+
+/* Gallery photos fill each card without inheriting the old grid hover scaling. */
+.gallery-card-face img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  -webkit-user-drag: none;
+}
+
+/* Keep the layout control above the moving image cards. */
+.gallery-overview {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 100;
+  border: 1px solid var(--gallery-emerald);
+  border-radius: 999px;
+  padding: 0.5rem 0.9rem;
+  background: var(--gallery-turf-green);
+  color: var(--gallery-white);
+  font-family: "Roboto", sans-serif;
+  font-size: 1rem;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+}
+
+.gallery-overview:hover,
+.gallery-overview:focus-visible {
+  background: var(--gallery-emerald);
+  color: var(--gallery-midnight-violet);
+}
