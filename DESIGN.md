@@ -1,5 +1,25 @@
 # SARC homepage design specification
 
+## Homepage refinement, 24 October 2026
+
+This is the current direction for the web homepage. The older mockup specification below is retained as design history where it differs from the implementation.
+
+**Brief:** Present SARC as the student and alumni bridge at IIT Bombay. Help students find initiatives, alumni find the team, and both groups reach events and the gallery. Use real photographs and the existing React app. Only the homepage changes.
+
+**Concepts considered:**
+
+1. **The living archive:** a dense collage of SARC events. Memorable, but it would bury the practical routes people need.
+2. **The campus bridge:** a restrained institutional page moving from one human conversation to the wider community. Chosen because the original SARC photographs make the idea specific and credible.
+3. **The initiative directory:** a utility-first index of all programs. Useful, but it would duplicate the dedicated initiatives page.
+
+**Concept card:** The homepage moves from one connection to many. The hero gathering establishes the community; an individual conversation follows. A dated list of the three nearest SARC events sits beside an Alumination feature, inspired by the clarity of alumni event calendars while using SARC's own names, people and colors. ASMP and ILP show people at work in larger photographs; the gallery widens the view. The signature moment remains the quiet rotation of real photographs in the hero. Motion settles rather than bounces. The first frame reads as a photograph-led poster even when motion is disabled.
+
+**System:** Navy `#011627` remains the structural field and text; indigo `#140d4f` brings through the Contact and Gallery palette in the Alumination feature and archive; forest `#04724d` marks primary actions; copper `#cf743f` draws from Gallery's orange for the festival action and event dates; paper `#fdfffc`, mist `#e8f0ec`, and warm stone `#f2e9de` give reading sections distinct weights. Mint `#2dd881` marks the selected photograph. Cabinet Grotesk handles display headings, Switzer handles copy and controls. A shared content grid, rectangular image crops, short arrow movements, and fine dividers keep the page consistent. Desktop sections alternate hero, three quick routes, split about, the event-list and feature pair, two image-led program rows, asymmetric gallery, and a direct contact close. Mobile stacks each section in a deliberate reading order. The header uses the SARC mark alone; the footer repeats it with a labeled quick-link list. Lenis smooths homepage wheel and anchor travel while honoring reduced motion and native touch scrolling.
+
+**Content rule:** No unsupported reach metrics, dated event claims, or invented credentials. The event list is sourced from InstiApp's public SARC events API through a small same-origin backend endpoint, cached for 15 minutes. It filters ended events, sorts by start time, and returns the nearest three. The browser also removes elapsed events each minute and refreshes the feed every 15 minutes. A dated local fallback covers an unavailable feed and naturally expires. Event rows and the Alumination feature link to InstiApp; the requested "Explore more events" line links to the existing Initiatives page. The mock interview listing is temporarily excluded because its structured dates conflict with its description. Current event imagery can be replaced with an official Alumination 2026 photo or poster supplied by SARC.
+
+**Performance and access:** Homepage photographs have WebP derivatives. The initial photograph gets priority, subsequent media is lazy where useful. The layout retains a visible skip link, one H1, focus indicators, mobile navigation with Escape, 44px menu control, and reduced-motion handling.
+
 **Revision:** final review direction, 22 October 2026
 **Scope:** homepage only
 **Reference viewports:** desktop 1440px, tablet 834px, mobile 390px

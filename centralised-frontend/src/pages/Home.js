@@ -1,492 +1,528 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import Lenis from "lenis";
 import "lenis/dist/lenis.css";
 import "./Home.css";
 
+const photos = [
+  require("../assets/home-media/hero-gathering.webp"),
+  require("../assets/home-media/hero-stage.webp"),
+  require("../assets/home-media/alumination-stage.webp"),
+];
+
+const sarcCalendar = "https://gymkhana.iitb.ac.in/instiapp//org/sarc";
+
+const aluminationEvents = [
+  {
+    name: "Group Mentoring",
+    start_time: "2026-10-25T10:00:00+05:30",
+    end_time: "2026-10-25T17:00:00+05:30",
+    venue: "Lecture Hall Complex",
+    url: "https://gymkhana.iitb.ac.in/instiapp//event/group-mentoring-82fb9bc6",
+  },
+  {
+    name: "Innovation Expo",
+    start_time: "2026-10-25T11:00:00+05:30",
+    end_time: "2026-10-25T17:00:00+05:30",
+    venue: "Lecture Hall Complex",
+    url: "https://gymkhana.iitb.ac.in/instiapp//event/innovation-expo-9b3ae6df",
+  },
+  {
+    name: "Workshops",
+    start_time: "2026-10-25T11:00:00+05:30",
+    end_time: "2026-10-25T13:00:00+05:30",
+    venue: "Lecture Hall Complex",
+    url: "https://gymkhana.iitb.ac.in/instiapp//event/workshops-b7eb411f",
+  },
+];
+
+const dateParts = new Intl.DateTimeFormat("en-IN", {
+  timeZone: "Asia/Kolkata",
+  day: "numeric",
+  month: "short",
+});
+const eventTime = new Intl.DateTimeFormat("en-IN", {
+  timeZone: "Asia/Kolkata",
+  hour: "numeric",
+  minute: "2-digit",
+  hour12: true,
+});
+
+function eventDateParts(value) {
+  const parts = dateParts.formatToParts(new Date(value));
+  return {
+    day: parts.find((part) => part.type === "day")?.value,
+    month: parts.find((part) => part.type === "month")?.value.toUpperCase(),
+  };
+}
+
+const programs = [
+  {
+    name: "Alumni Student Mentorship Program",
+    short: "ASMP",
+    description:
+      "Yearlong one-to-one mentorship pairs students with alumni for guidance on their next steps.",
+    href: "/initiatives",
+    image: require("../assets/home-media/mentorship.webp"),
+    alt: "A student in conversation with an alumnus",
+  },
+  {
+    name: "Industrial Learning Program",
+    short: "ILP",
+    description:
+      "Alumni-led projects and internships in summer and winter take learning beyond the classroom.",
+    href: "/initiatives",
+    image: require("../assets/home-media/learning.webp"),
+    alt: "Students discussing work around a table",
+  },
+];
+
+function ArrowLink({ to, children, className = "" }) {
+  const external = /^https?:\/\//.test(to);
+  const Target = external ? "a" : Link;
+  return (
+    <Target
+      className={`home-arrow-link ${className}`}
+      {...(external ? { href: to, target: "_blank", rel: "noreferrer" } : { to })}
+    >
+      <span>{children}</span>
+      <span className="home-arrow" aria-hidden="true">
+        ↗
+      </span>
+    </Target>
+  );
+}
+
 export default function Home() {
-  const rootRef = useRef(null);
+  const [events, setEvents] = useState(aluminationEvents);
+  const [now, setNow] = useState(() => Date.now());
+  const currentEvents = events
+    .filter((event) => now <= Date.parse(event.end_time))
+    .sort((a, b) => Date.parse(a.start_time) - Date.parse(b.start_time))
+    .slice(0, 3);
+  const [activePhoto, setActivePhoto] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(
+    () => window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+  );
+  const menuButton = useRef(null);
+
   useEffect(() => {
-    const root = rootRef.current;
-    const slides = [...root.querySelectorAll(".hero-image")];
-    const buttons = [...root.querySelectorAll("[data-slide]")];
-    const pause = root.querySelector(".pause");
-    const toggle = root.querySelector(".menu-button");
-    const menu = root.querySelector(".mobile-nav");
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const lenis =
-      !reduced.matches && window.matchMedia("(pointer: fine)").matches
-        ? new Lenis({
-            autoRaf: true,
-            anchors: true,
-            duration: 1.05,
-            smoothWheel: true,
-            syncTouch: false,
-          })
-        : null;
-    let current = 0;
-    let stopped = reduced.matches;
-    let timer;
-    const show = (index) => {
-      current = index;
-      slides.forEach((slide, n) =>
-        slide.classList.toggle("active", n === index),
-      );
-      buttons.forEach((button, n) =>
-        n === index
-          ? button.setAttribute("aria-current", "true")
-          : button.removeAttribute("aria-current"),
-      );
+    const clock = window.setInterval(() => setNow(Date.now()), 60 * 1000);
+    const endpoint = process.env.REACT_APP_SARC_EVENTS_URL ||
+      (process.env.NODE_ENV === "production" ? "/api/sarc-events/" : null);
+    if (!endpoint) return () => window.clearInterval(clock);
+
+    let active = true;
+    const refresh = async () => {
+      try {
+        const response = await fetch(endpoint, { cache: "no-store" });
+        if (!response.ok) return;
+        const result = await response.json();
+        if (active && Array.isArray(result.events)) setEvents(result.events);
+      } catch (_error) {
+        // Keep the dated local fallback when the live feed is unavailable.
+      }
     };
-    const sync = () => {
-      window.clearInterval(timer);
-      pause.textContent = stopped ? "▶" : "Ⅱ";
-      pause.setAttribute(
-        "aria-label",
-        stopped ? "Play slideshow" : "Pause slideshow",
-      );
-      if (!stopped && !document.hidden)
-        timer = window.setInterval(
-          () => show((current + 1) % slides.length),
-          3500,
-        );
-    };
-    const slideListeners = buttons.map((button, index) => {
-      const listener = () => {
-        show(index);
-        sync();
-      };
-      button.addEventListener("click", listener);
-      return [button, listener];
-    });
-    const onPause = () => {
-      stopped = !stopped;
-      sync();
-    };
-    const onVisibility = () => sync();
-    const onMotionChange = () => {
-      stopped = reduced.matches;
-      sync();
-    };
-    const closeMenu = () => {
-      menu.classList.remove("open");
-      toggle.setAttribute("aria-expanded", "false");
-    };
-    const onToggle = () => {
-      const open = menu.classList.toggle("open");
-      toggle.setAttribute("aria-expanded", String(open));
-      toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
-    };
-    const onEscape = (e) => {
-      if (e.key === "Escape") closeMenu();
-    };
-    const menuLinks = [...menu.querySelectorAll("a")];
-    pause.addEventListener("click", onPause);
-    toggle.addEventListener("click", onToggle);
-    menuLinks.forEach((link) => link.addEventListener("click", closeMenu));
-    document.addEventListener("visibilitychange", onVisibility);
-    document.addEventListener("keydown", onEscape);
-    reduced.addEventListener("change", onMotionChange);
-    const documentaryImages = [
-      ...root.querySelectorAll(
-        ".about-photo img, .feature-photo img, .gallery-pair img",
-      ),
-    ];
-    let mediaObserver;
-    if (!reduced.matches && "IntersectionObserver" in window) {
-      documentaryImages.forEach((image) => image.classList.add("media-reveal"));
-      mediaObserver = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add("media-in");
-              mediaObserver.unobserve(entry.target);
-            }
-          });
-        },
-        { threshold: 0.18 },
-      );
-      documentaryImages.forEach((image) => mediaObserver.observe(image));
-    }
-    sync();
+    refresh();
+    const poll = window.setInterval(refresh, 15 * 60 * 1000);
     return () => {
-      mediaObserver?.disconnect();
-      lenis?.destroy();
-      window.clearInterval(timer);
-      slideListeners.forEach(([button, listener]) =>
-        button.removeEventListener("click", listener),
-      );
-      pause.removeEventListener("click", onPause);
-      toggle.removeEventListener("click", onToggle);
-      menuLinks.forEach((link) => link.removeEventListener("click", closeMenu));
-      document.removeEventListener("visibilitychange", onVisibility);
-      document.removeEventListener("keydown", onEscape);
-      reduced.removeEventListener("change", onMotionChange);
+      active = false;
+      window.clearInterval(clock);
+      window.clearInterval(poll);
     };
   }, []);
+
+  useEffect(() => {
+    const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const onChange = (event) => setReducedMotion(event.matches);
+    motion.addEventListener("change", onChange);
+    return () => motion.removeEventListener("change", onChange);
+  }, []);
+
+  useEffect(() => {
+    const lenis = new Lenis({
+      autoRaf: true,
+      anchors: true,
+      duration: 1.05,
+      smoothWheel: true,
+      syncTouch: false,
+      respectReducedMotion: true,
+    });
+    return () => lenis.destroy();
+  }, []);
+
+  useEffect(() => {
+    if (reducedMotion || paused) return undefined;
+    const timer = window.setInterval(() => {
+      if (!document.hidden)
+        setActivePhoto((current) => (current + 1) % photos.length);
+    }, 5500);
+    return () => window.clearInterval(timer);
+  }, [paused, reducedMotion]);
+
+  useEffect(() => {
+    if (!menuOpen) return undefined;
+    const onEscape = (event) => {
+      if (event.key === "Escape") {
+        setMenuOpen(false);
+        menuButton.current?.focus();
+      }
+    };
+    document.addEventListener("keydown", onEscape);
+    return () => document.removeEventListener("keydown", onEscape);
+  }, [menuOpen]);
+
+  const closeMenu = () => setMenuOpen(false);
+
   return (
-    <div className="sarc-home" ref={rootRef}>
-      <a className="skip" href="#main">
+    <div className="sarc-home">
+      <a className="home-skip" href="#main">
         Skip to content
       </a>
-      <header className="nav wrap">
-        <a className="brand" href="#main" aria-label="SARC IIT Bombay home">
-          <span className="logo" role="img" aria-label="SARC"></span>
-          <span className="brand-meta">
-            <strong>IIT Bombay</strong>Student Alumni Relations Cell
-          </span>
-        </a>
-        <nav className="nav-links" aria-label="Main navigation">
+      <header className="home-header home-container">
+        <Link
+          className="home-brand"
+          to="/"
+          aria-label="SARC, IIT Bombay home"
+          onClick={closeMenu}
+        >
+          <span className="home-logo" aria-hidden="true" />
+        </Link>
+        <nav className="home-desktop-nav" aria-label="Main navigation">
+          <a href="#about">About</a>
           <a href="#programs">Programs</a>
-          <Link to="/initiatives">Initiatives</Link>
+          <a href={sarcCalendar} target="_blank" rel="noreferrer">Events</a>
           <Link to="/gallery">Gallery</Link>
-          <Link to="/contact">Team & Contact</Link>
-          <a href="#about">About SARC</a>
-          <Link className="button" to="/initiatives">
-            Explore SARC <i aria-hidden="true">↗</i>
+          <Link className="home-nav-contact" to="/contact">
+            Get in touch <span aria-hidden="true">↗</span>
           </Link>
         </nav>
         <button
-          className="menu-button"
-          aria-label="Open menu"
-          aria-expanded="false"
-          aria-controls="mobile-nav"
+          ref={menuButton}
+          className="home-menu-button"
+          type="button"
+          aria-label={menuOpen ? "Close menu" : "Open menu"}
+          aria-expanded={menuOpen}
+          aria-controls="home-mobile-nav"
+          onClick={() => setMenuOpen(!menuOpen)}
         >
-          ≡
+          <span />
+          <span />
         </button>
       </header>
       <nav
-        className="mobile-nav"
-        id="mobile-nav"
+        className={`home-mobile-nav ${menuOpen ? "is-open" : ""}`}
+        id="home-mobile-nav"
         aria-label="Mobile navigation"
+        aria-hidden={!menuOpen}
       >
-        <a href="#programs">Programs</a>
-        <Link to="/initiatives">Initiatives</Link>
-        <Link to="/gallery">Gallery</Link>
-        <Link to="/contact">Team & Contact</Link>
-        <a href="#about">About SARC</a>
+        <a href="#about" onClick={closeMenu}>
+          About
+        </a>
+        <a href="#programs" onClick={closeMenu}>
+          Programs
+        </a>
+        <a href={sarcCalendar} target="_blank" rel="noreferrer" onClick={closeMenu}>
+          Events
+        </a>
+        <Link to="/gallery" onClick={closeMenu}>
+          Gallery
+        </Link>
+        <Link to="/contact" onClick={closeMenu}>
+          Get in touch
+        </Link>
       </nav>
+
       <main id="main">
-        <div className="hero-shell">
-          <section className="hero" aria-label="SARC photo gallery">
-            <picture>
-              <source
-                media="(max-width:650px)"
-                srcSet={require("../assets/gallery/gallery/3.JPG")}
-              />
-              <img
-                className="hero-image active"
-                src={require("../assets/gallery/gallery/12.png")}
-                alt="SARC students and alumni gathering"
-              />
-            </picture>
-            <picture>
-              <source
-                media="(max-width:650px)"
-                srcSet={require("../assets/gallery/gallery/12.png")}
-              />
-              <img
-                className="hero-image"
-                src={require("../assets/gallery/gallery/3.JPG")}
-                alt="SARC students and alumni gathering"
-              />
-            </picture>
+        <section className="home-hero" aria-labelledby="home-title">
+          <div className="home-hero-photos" aria-hidden="true">
+            {photos.map((photo, index) =>
+              index === 0 ? (
+                <picture key={photo}>
+                  <source
+                    media="(max-width: 700px)"
+                    srcSet={require("../assets/home-media/hero-gathering-mobile.webp")}
+                  />
+                  <img
+                    className={index === activePhoto ? "is-active" : ""}
+                    src={photo}
+                    alt=""
+                    fetchpriority="high"
+                  />
+                </picture>
+              ) : (
+                <img
+                  key={photo}
+                  className={index === activePhoto ? "is-active" : ""}
+                  src={photo}
+                  alt=""
+                />
+              ),
+            )}
+          </div>
+          <div className="home-hero-shade" />
+          <div className="home-hero-content home-container">
+            <p className="home-hero-overline">
+              The student and alumni community at IIT Bombay
+            </p>
+            <h1 id="home-title">
+              Connections
+              <br />
+              that stay.
+            </h1>
+            <p className="home-hero-description">
+              Mentorship, events and initiatives that bring students and alumni
+              together.
+            </p>
+            <ArrowLink to="/initiatives" className="home-hero-cta">
+              Explore our initiatives
+            </ArrowLink>
+          </div>
+          <div className="home-hero-bottom home-container">
+            <span>
+              Student Alumni Relations Cell{" "}
+              <span className="home-hero-divider">/</span> IIT Bombay
+            </span>
+            <div className="home-photo-controls" aria-label="Hero photographs">
+              {photos.map((photo, index) => (
+                <button
+                  key={photo}
+                  type="button"
+                  onClick={() => setActivePhoto(index)}
+                  aria-label={`Show photograph ${index + 1}`}
+                  aria-current={index === activePhoto ? "true" : undefined}
+                >
+                  {String(index + 1).padStart(2, "0")}
+                </button>
+              ))}
+              <button
+                className="home-pause"
+                type="button"
+                onClick={() => setPaused(!paused)}
+                aria-label={paused ? "Play photographs" : "Pause photographs"}
+              >
+                {paused ? "▶" : "Ⅱ"}
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <nav className="home-pathways home-container" aria-label="Explore SARC">
+          <ArrowLink to="/initiatives">
+            <small>Find guidance</small>
+            <strong>For students</strong>
+          </ArrowLink>
+          <ArrowLink to="/contact">
+            <small>Stay involved</small>
+            <strong>For alumni</strong>
+          </ArrowLink>
+          <ArrowLink to={sarcCalendar}>
+            <small>Come together</small>
+            <strong>Events</strong>
+          </ArrowLink>
+        </nav>
+
+        <section
+          className="home-about home-container"
+          id="about"
+          aria-labelledby="home-about-title"
+        >
+          <div className="home-about-copy">
+            <h2 id="home-about-title">
+              A bridge between campus life and everything that comes after.
+            </h2>
+            <p>
+              SARC is a student-run team working with the Dean Alumni and
+              Corporate Relations office at IIT Bombay. We create opportunities
+              for students and alumni to share experience, build relationships
+              and return to campus life.
+            </p>
+            <ArrowLink to="/contact">Meet the team</ArrowLink>
+          </div>
+          <figure className="home-about-figure">
             <img
-              className="hero-image"
-              src={require("../assets/gallery/gallery/4.png")}
-              alt="Audience attending a SARC event"
+              src={require("../assets/home-media/conversation.webp")}
+              alt="An alumnus and student speaking across a table"
+              loading="lazy"
             />
-            <div className="hero-main">
-              <p className="school">Student Alumni Relations Cell</p>
-              <h1>SARC</h1>
-              <p className="hero-sub">
-                Mentorship, events and initiatives
-                <br />
-                for IIT Bombay students and alumni.
+            <figcaption>
+              Conversations across generations at IIT Bombay.
+            </figcaption>
+          </figure>
+        </section>
+
+        <section
+          className="home-programs"
+          id="programs"
+          aria-labelledby="home-programs-title"
+        >
+          <div className="home-container">
+            <div className="home-section-intro">
+              <h2 id="home-programs-title">Ways to connect.</h2>
+              <p>
+                From conversations at Alumination to yearlong guidance, find
+                your way into the SARC community.
               </p>
-              <a href="#programs" className="button">
-                Explore our initiatives <i aria-hidden="true">↗</i>
+            </div>
+            <div className="home-events-layout">
+              <div className="home-events-current">
+                <div className="home-events-heading">
+                  <h3>Upcoming events</h3>
+                </div>
+                {currentEvents.length > 0 ? (
+                  <div className="home-events-list">
+                    {currentEvents.map((event) => (
+                      <a
+                        className="home-event-item"
+                        href={event.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        key={event.name}
+                      >
+                        <time dateTime={event.start_time}>
+                          <strong>{eventDateParts(event.start_time).day}</strong>
+                          <span>{eventDateParts(event.start_time).month}</span>
+                        </time>
+                        <span className="home-event-details">
+                          <strong>{event.name}</strong>
+                          <small>
+                            {eventTime.format(new Date(event.start_time))} – {eventTime.format(new Date(event.end_time))}
+                            {event.venue ? ` · ${event.venue}` : ""}
+                          </small>
+                        </span>
+                        <span className="home-event-arrow" aria-hidden="true">↗</span>
+                      </a>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="home-events-empty">
+                    No new dates are listed here right now. Explore the
+                    initiatives that keep students and alumni connected.
+                  </p>
+                )}
+                <Link className="home-events-more" to="/initiatives">
+                  Explore more events <span aria-hidden="true">↗</span>
+                </Link>
+              </div>
+              <a
+                className="home-event-feature"
+                href={sarcCalendar}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <img
+                  src={require("../assets/home-media/alumination-conversation.webp")}
+                  alt="Speakers in conversation at Alumination"
+                  loading="lazy"
+                />
+                <div>
+                  <span>Student–alumni festival</span>
+                  <h3>Alumination</h3>
+                  <p>Mentoring, talks and workshops bring students and alumni together on campus.</p>
+                  <strong>Explore SARC events <span aria-hidden="true">↗</span></strong>
+                </div>
               </a>
             </div>
-            <div className="hero-caption">
-              <p>SARC gatherings & events</p>
-              <div className="playback" aria-label="Photo controls">
-                <button
-                  aria-label="Show photo 1"
-                  aria-current="true"
-                  data-slide="0"
+            <div className="home-program-list">
+              {programs.map((program) => (
+                <Link
+                  className="home-program"
+                  to={program.href}
+                  key={program.short}
                 >
-                  01
-                </button>
-                <button aria-label="Show photo 2" data-slide="1">
-                  02
-                </button>
-                <button aria-label="Show photo 3" data-slide="2">
-                  03
-                </button>
-                <button className="pause" aria-label="Pause slideshow">
-                  Ⅱ
-                </button>
-              </div>
+                  <div className="home-program-image">
+                    <img src={program.image} alt={program.alt} loading="lazy" />
+                  </div>
+                  <div className="home-program-title">
+                    <small>{program.short}</small>
+                    <h3>{program.name}</h3>
+                  </div>
+                  <p>{program.description}</p>
+                  <span className="home-program-arrow" aria-hidden="true">↗</span>
+                </Link>
+              ))}
             </div>
-          </section>
-          <nav className="routes" aria-label="Quick links">
-            <Link className="route" to="/initiatives">
-              <div>
-                <small>Explore 17 Initiatives</small>
-                <strong>Mentorship & Programs</strong>
-              </div>
-              <span aria-hidden="true">↗</span>
-            </Link>
-            <Link className="route" to="/gallery">
-              <div>
-                <small>3D Ring Experience</small>
-                <strong>Photo Gallery</strong>
-              </div>
-              <span aria-hidden="true">↗</span>
-            </Link>
-            <Link className="route" to="/contact">
-              <div>
-                <small>Council 2026–2027</small>
-                <strong>Team & Contact</strong>
-              </div>
-              <span aria-hidden="true">↗</span>
-            </Link>
-          </nav>
-        </div>
-
-        {/* 1. Authority Metric Ribbon */}
-        <section className="authority-ribbon wrap" aria-label="SARC Reach and Scale">
-          <div className="authority-item">
-            <span className="authority-num">70,000+</span>
-            <span className="authority-label">Alumni in 90+ Countries</span>
-          </div>
-          <div className="authority-item">
-            <span className="authority-num">14,000+</span>
-            <span className="authority-label">Students Connected</span>
-          </div>
-          <div className="authority-item">
-            <span className="authority-num">17</span>
-            <span className="authority-label">Strategic Initiatives</span>
-          </div>
-          <div className="authority-item">
-            <span className="authority-num">Est. 2008</span>
-            <span className="authority-label">Dean ACR · IIT Bombay</span>
+            <ArrowLink className="home-all-programs" to="/initiatives">
+              Explore all initiatives
+            </ArrowLink>
           </div>
         </section>
 
-        {/* 2. Main Gateway Grid */}
-        <section className="gateway-section wrap" id="initiatives">
-          <div className="gateway-grid">
-            {/* Left Column: Initiatives Gateway */}
-            <div className="gateway-main">
-              <div className="gateway-header">
-                <span className="gateway-kicker">OUR INITIATIVES</span>
-                <h2>Connecting students to world-class alumni.</h2>
-                <p>Three core pillars of mentorship, flagship conclaves, and campus traditions.</p>
-              </div>
-
-              <div className="gateway-cards">
-                {/* Pillar 1: Mentorship */}
-                <Link to="/initiatives" className="gateway-card">
-                  <div className="gateway-card-top">
-                    <span className="gateway-pill pill-mentorship">MENTORSHIP</span>
-                  </div>
-                  <h3>Mentorship & Career</h3>
-                  <ul className="gateway-card-list">
-                    <li>ASMP (1-on-1 Alumni Pairings)</li>
-                    <li>Industrial Learning Program (ILP)</li>
-                    <li>Mock Interview & GD Drive</li>
-                  </ul>
-                  <div className="gateway-card-img">
-                    <img
-                      src={require("../assets/gallery/gallery/1.jpg")}
-                      alt="Student mentoring interaction"
-                    />
-                  </div>
-                </Link>
-
-                {/* Pillar 2: Summits */}
-                <Link to="/initiatives" className="gateway-card">
-                  <div className="gateway-card-top">
-                    <span className="gateway-pill pill-fest">FLAGSHIP FEST</span>
-                  </div>
-                  <h3>Alumination & Summits</h3>
-                  <ul className="gateway-card-list">
-                    <li>Annual Alumination Fest</li>
-                    <li>Student Alumni Meet (SAM)</li>
-                    <li>Beyond the Horizon Conclave</li>
-                  </ul>
-                  <div className="gateway-card-img">
-                    <img
-                      src={require("../assets/gallery/gallery/12.png")}
-                      alt="Alumination mainstage"
-                    />
-                  </div>
-                </Link>
-
-                {/* Pillar 3: Traditions */}
-                <Link to="/initiatives" className="gateway-card">
-                  <div className="gateway-card-top">
-                    <span className="gateway-pill pill-heritage">HERITAGE</span>
-                  </div>
-                  <h3>Campus Traditions</h3>
-                  <ul className="gateway-card-list">
-                    <li>Hostel Alumni Meets</li>
-                    <li>Milestone Batch Reunions</li>
-                    <li>Institute Valedictory Function</li>
-                  </ul>
-                  <div className="gateway-card-img">
-                    <img
-                      src={require("../assets/gallery/gallery/3.JPG")}
-                      alt="Campus batch gathering"
-                    />
-                  </div>
-                </Link>
-              </div>
-
-              <div className="gateway-cta-wrapper">
-                <Link to="/initiatives" className="gateway-explore-btn">
-                  Explore All 17 SARC Initiatives <span aria-hidden="true">→</span>
-                </Link>
-              </div>
-            </div>
-
-            {/* Right Column: Gallery Portal & Events Ledger */}
-            <div className="gateway-side">
-              {/* Gallery Gateway Portal */}
-              <div className="gateway-gallery-portal">
-                <div className="gallery-portal-header">
-                  <span className="gallery-portal-kicker">MOMENTS OF CONNECTION</span>
-                  <h3>Moments Across Decades</h3>
-                  <p>A living archive of reunions, conclaves, and campus memories.</p>
-                </div>
-                
-                <div className="gallery-portal-strip">
-                  <div className="gallery-thumb">
-                    <img src={require("../assets/gallery/gallery/8.JPG")} alt="Alumni panel" />
-                  </div>
-                  <div className="gallery-thumb">
-                    <img src={require("../assets/gallery/gallery/32.JPG")} alt="Alumination lights" />
-                  </div>
-                  <div className="gallery-thumb">
-                    <img src={require("../assets/gallery/gallery/4.png")} alt="Audience" />
-                  </div>
-                  <div className="gallery-thumb">
-                    <img src={require("../assets/gallery/gallery/23.jpeg")} alt="Student mentorship" />
-                  </div>
-                </div>
-
-                <Link to="/gallery" className="gallery-portal-btn">
-                  Launch 3D Ring Gallery <span aria-hidden="true">↗</span>
-                </Link>
-              </div>
-
-              {/* Events Ledger */}
-              <div className="gateway-events-ledger">
-                <div className="ledger-header">
-                  <h4>Events Ledger</h4>
-                  <span className="ledger-sub">2026 Season</span>
-                </div>
-                <div className="ledger-list">
-                  <div className="ledger-item">
-                    <div className="ledger-date">
-                      <strong>24-25</strong>
-                      <span>OCT</span>
-                    </div>
-                    <div className="ledger-info">
-                      <h5>Alumination 2026</h5>
-                      <p>Annual Student-Alumni Conclave · LHC & Convocation Hall</p>
-                    </div>
-                  </div>
-                  <div className="ledger-item">
-                    <div className="ledger-date">
-                      <strong>OCT-NOV</strong>
-                      <span>DRIVE</span>
-                    </div>
-                    <div className="ledger-info">
-                      <h5>Placement Mock Interview Drive</h5>
-                      <p>Simulated technical & GD rounds with senior alumni</p>
-                    </div>
-                  </div>
-                  <div className="ledger-item">
-                    <div className="ledger-date">
-                      <strong>ANNUAL</strong>
-                      <span>MEET</span>
-                    </div>
-                    <div className="ledger-info">
-                      <h5>Student Alumni Meet (SAM)</h5>
-                      <p>Interactive department & hostel networking sessions</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* 3. About & Council Anchor */}
-        <section className="council-anchor wrap" id="about">
-          <div className="council-anchor-box">
-            <div className="council-anchor-content">
-              <span className="council-kicker">ABOUT SARC</span>
-              <h2>Bridging students and alumni under the Dean ACR Office.</h2>
+        <section className="home-gallery" aria-labelledby="home-gallery-title">
+          <div className="home-container home-gallery-layout">
+            <div className="home-gallery-copy">
+              <h2 id="home-gallery-title">The moments we make together.</h2>
               <p>
-                Established in 2008, the Student Alumni Relations Cell fosters lifelong bonds
-                between over 70,000 alumni and 14,000 students through year-round mentorship,
-                conclaves, and collaborative initiatives.
+                Talks, reunions and the conversations in between. A look at the
+                people who keep the connection alive.
               </p>
-              <div className="council-anchor-links">
-                <Link to="/contact" className="anchor-link-btn">
-                  Meet the 2026–2027 Team <span aria-hidden="true">↗</span>
-                </Link>
-                <a href="https://acr.iitbombay.org/" target="_blank" rel="noreferrer" className="anchor-link-text">
-                  Dean ACR Office, IIT Bombay <span aria-hidden="true">↗</span>
-                </a>
-              </div>
+              <ArrowLink to="/gallery">View the gallery</ArrowLink>
             </div>
-            <div className="council-anchor-visual">
+            <div className="home-gallery-images">
               <img
-                src={require("../assets/gallery/gallery/5.JPG")}
-                alt="SARC student and alumni meeting"
+                src={require("../assets/home-media/campus-gathering.webp")}
+                alt="Students gathered together on campus"
+                loading="lazy"
+              />
+              <img
+                src={require("../assets/home-media/alumination-stage.webp")}
+                alt="Students and alumni together on the Alumination stage"
+                loading="lazy"
               />
             </div>
           </div>
         </section>
+
+        <section
+          className="home-close home-container"
+          aria-labelledby="home-close-title"
+        >
+          <h2 id="home-close-title">
+            There is always a way back to the conversation.
+          </h2>
+          <ArrowLink to="/contact">Get in touch with SARC</ArrowLink>
+        </section>
       </main>
-      <footer className="footer">
-        <div className="footer-top">
+      <footer className="home-footer">
+        <div className="home-container home-footer-main">
           <div>
-            <span className="logo" role="img" aria-label="SARC"></span>
-            <p className="footer-name">
-              Student Alumni Relations Cell · IIT Bombay
+            <span className="home-footer-logo" role="img" aria-label="SARC logo" />
+            <p>
+              Student Alumni Relations Cell
+              <br />
+              IIT Bombay, Powai, Mumbai
             </p>
           </div>
-          <div className="footer-links">
-            <div>
-              <h3>Explore</h3>
-              <a href="#programs">Programs</a>
-              <Link to="/initiatives">Initiatives</Link>
-              <Link to="/gallery">Gallery</Link>
-              <Link to="/contact">Team & Contact</Link>
-              <a href="https://acr.iitbombay.org/sarc/" target="_blank" rel="noreferrer">About SARC ↗</a>
-            </div>
-            <div>
-              <h3>Visit & connect</h3>
-              <p>
-                SARC Room, Old SAC
-                <br />
-                IIT Bombay, Powai
-                <br />
-                Mumbai, Maharashtra 400076
-              </p>
-              <a href="https://www.instagram.com/sarc_iitb/">Instagram ↗</a>
-            </div>
+          <nav aria-label="Quick links">
+            <strong>Quick links</strong>
+            <Link to="/">Home</Link>
+            <Link to="/initiatives">Initiatives</Link>
+            <a href={sarcCalendar} target="_blank" rel="noreferrer">Events</a>
+            <Link to="/gallery">Gallery</Link>
+            <Link to="/contact">Contact</Link>
+          </nav>
+          <div className="home-footer-social">
+            <a
+              href="https://www.instagram.com/sarc_iitb/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Instagram ↗
+            </a>
+            <a
+              href="https://acr.iitbombay.org/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Dean ACR Office ↗
+            </a>
           </div>
         </div>
-        <div className="footer-bottom">
-          <span>© 2026 SARC, IIT Bombay</span>
-          <a href="https://acr.iitbombay.org/">Dean ACR Office ↗</a>
+        <div className="home-container home-footer-bottom">
+          <span>© {new Date().getFullYear()} SARC, IIT Bombay</span>
+          <a href="#main">Back to top ↑</a>
         </div>
       </footer>
     </div>
