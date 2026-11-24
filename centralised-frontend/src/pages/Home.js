@@ -77,18 +77,215 @@ const programs = [
   },
 ];
 
-function ArrowLink({ to, children, className = "" }) {
+const audiences = {
+  students: {
+    tab: "I’m a student",
+    intro: "Guidance, stories and people to learn from while you’re on campus.",
+    links: [
+      {
+        label: "Find guidance",
+        title: "Get a mentor",
+        note: "Yearlong one-to-one pairing with an alumnus.",
+        to: "/initiatives",
+      },
+      {
+        label: "Learn from experience",
+        title: "Alumni advice",
+        note: "What alumni wish they had known at your stage.",
+        to: "/alumni-advice",
+      },
+      {
+        label: "Read more",
+        title: "Stories & blogs",
+        note: "Experiences shared by the SARC community.",
+        to: "/blogs",
+      },
+    ],
+  },
+  alumni: {
+    tab: "I’m an alumnus",
+    intro: "Come back, meet fellow alumni and help the next batch find its way.",
+    links: [
+      {
+        label: "Give back",
+        title: "Mentor a student",
+        note: "Share your journey through ASMP and ILP.",
+        to: "/initiatives",
+      },
+      {
+        label: "Reconnect",
+        title: "Meet alumni",
+        note: "See who is part of the SARC network.",
+        to: "/alum",
+      },
+      {
+        label: "Stay involved",
+        title: "Reach the team",
+        note: "Tell us how you would like to take part.",
+        to: "/contact",
+      },
+    ],
+  },
+};
+
+// Figures are the ones already published on SARC's About page (/aboutUs).
+// Update them here if SARC's numbers change.
+const stats = [
+  { value: 70000, label: "alumni in the network" },
+  { value: 14000, label: "students on campus" },
+  { value: 50, label: "events and counting" },
+];
+
+function CountUp({ value, reducedMotion }) {
+  const ref = useRef(null);
+  const [shown, setShown] = useState(reducedMotion ? value : 0);
+
+  useEffect(() => {
+    if (reducedMotion) {
+      setShown(value);
+      return undefined;
+    }
+    const node = ref.current;
+    let frame;
+    const run = () => {
+      const start = performance.now();
+      const duration = 1600;
+      const tick = (time) => {
+        const t = Math.min((time - start) / duration, 1);
+        setShown(Math.round(value * (1 - Math.pow(1 - t, 3))));
+        if (t < 1) frame = requestAnimationFrame(tick);
+      };
+      frame = requestAnimationFrame(tick);
+    };
+    if (!("IntersectionObserver" in window)) {
+      setShown(value);
+      return undefined;
+    }
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        observer.disconnect();
+        run();
+      },
+      { threshold: 0.6 },
+    );
+    observer.observe(node);
+    return () => {
+      observer.disconnect();
+      cancelAnimationFrame(frame);
+    };
+  }, [value, reducedMotion]);
+
+  return (
+    <span ref={ref} aria-label={`${value.toLocaleString("en-IN")}+`}>
+      <span aria-hidden="true">{shown.toLocaleString("en-IN")}+</span>
+    </span>
+  );
+}
+
+// Quotes are taken word for word from SARC's alumni advice page (/alumni-advice).
+const voices = [
+  {
+    quote:
+      "Try to find your passion — what you love thinking about and doing. If you can find a career doing something you are already passionate about, the finances will flow, along with a better balance in life.",
+    author: "Neha Gupta",
+    batch: "2004",
+  },
+  {
+    quote:
+      "Look for mentors who are in a place you would like to be, doing what you would like to do. Seek their counsel.",
+    author: "Anonymous",
+    batch: "1983",
+  },
+  {
+    quote:
+      "Keep re-inventing yourself through self-education, because industries change quickly.",
+    author: "Rahul Sharma",
+    batch: "1973",
+  },
+];
+
+function Reveal({ children, delay = 0, className = "", reducedMotion }) {
+  const ref = useRef(null);
+  const [seen, setSeen] = useState(reducedMotion || !("IntersectionObserver" in window));
+
+  useEffect(() => {
+    if (seen) return undefined;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        setSeen(true);
+        observer.disconnect();
+      },
+      { threshold: 0.25 },
+    );
+    observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [seen]);
+
+  return (
+    <div
+      ref={ref}
+      className={`home-reveal ${seen ? "is-in" : ""} ${className}`}
+      style={{ transitionDelay: `${delay}ms` }}
+    >
+      {children}
+    </div>
+  );
+}
+
+const teaserPhotos = [
+  {
+    src: require("../assets/home-media/campus-gathering.webp"),
+    alt: "Students gathered together on campus",
+  },
+  {
+    src: require("../assets/home-media/alumination-stage.webp"),
+    alt: "Students and alumni together on the Alumination stage",
+  },
+  {
+    src: require("../assets/home-media/mentorship.webp"),
+    alt: "A student in conversation with an alumna",
+  },
+  {
+    src: require("../assets/home-media/learning.webp"),
+    alt: "Students discussing work around a table",
+  },
+];
+
+function GalleryTeaser() {
+  return (
+    <div className="home-teaser">
+      {teaserPhotos.map((photo, index) => (
+        <Link
+          key={photo.src}
+          to="/gallery"
+          className="home-teaser-card"
+          aria-label={`Open the gallery: ${photo.alt}`}
+          style={{ transitionDelay: `${index * 40}ms` }}
+        >
+          <img src={photo.src} alt="" loading="lazy" />
+        </Link>
+      ))}
+      <Link to="/gallery" className="home-teaser-card is-more">
+        <span>
+          See all photos
+        </span>
+      </Link>
+    </div>
+  );
+}
+
+function ArrowLink({ to, children, className = "", style }) {
   const external = /^https?:\/\//.test(to);
   const Target = external ? "a" : Link;
   return (
     <Target
       className={`home-arrow-link ${className}`}
+      style={style}
       {...(external ? { href: to, target: "_blank", rel: "noreferrer" } : { to })}
     >
       <span>{children}</span>
-      <span className="home-arrow" aria-hidden="true">
-        ↗
-      </span>
     </Target>
   );
 }
@@ -100,13 +297,25 @@ export default function Home() {
     .filter((event) => now <= Date.parse(event.end_time))
     .sort((a, b) => Date.parse(a.start_time) - Date.parse(b.start_time))
     .slice(0, 3);
+  const pastEvents = events
+    .filter((event) => now > Date.parse(event.end_time))
+    .sort((a, b) => Date.parse(b.start_time) - Date.parse(a.start_time))
+    .slice(0, 3);
   const [activePhoto, setActivePhoto] = useState(0);
   const [paused, setPaused] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(
     () => window.matchMedia("(prefers-reduced-motion: reduce)").matches,
   );
-  const menuButton = useRef(null);
+  const [audience, setAudience] = useState("students");
+
+  const onAudienceKey = (event) => {
+    if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+    const keys = Object.keys(audiences);
+    const next = keys[(keys.indexOf(audience) + 1) % keys.length];
+    setAudience(next);
+    document.getElementById(`audience-tab-${next}`)?.focus();
+    event.preventDefault();
+  };
 
   useEffect(() => {
     const clock = window.setInterval(() => setNow(Date.now()), 60 * 1000);
@@ -162,79 +371,10 @@ export default function Home() {
     return () => window.clearInterval(timer);
   }, [paused, reducedMotion]);
 
-  useEffect(() => {
-    if (!menuOpen) return undefined;
-    const onEscape = (event) => {
-      if (event.key === "Escape") {
-        setMenuOpen(false);
-        menuButton.current?.focus();
-      }
-    };
-    document.addEventListener("keydown", onEscape);
-    return () => document.removeEventListener("keydown", onEscape);
-  }, [menuOpen]);
 
-  const closeMenu = () => setMenuOpen(false);
 
   return (
     <div className="sarc-home">
-      <a className="home-skip" href="#main">
-        Skip to content
-      </a>
-      <header className="home-header home-container">
-        <Link
-          className="home-brand"
-          to="/"
-          aria-label="SARC, IIT Bombay home"
-          onClick={closeMenu}
-        >
-          <span className="home-logo" aria-hidden="true" />
-        </Link>
-        <nav className="home-desktop-nav" aria-label="Main navigation">
-          <a href="#about">About</a>
-          <a href="#programs">Programs</a>
-          <a href={sarcCalendar} target="_blank" rel="noreferrer">Events</a>
-          <Link to="/gallery">Gallery</Link>
-          <Link className="home-nav-contact" to="/contact">
-            Get in touch <span aria-hidden="true">↗</span>
-          </Link>
-        </nav>
-        <button
-          ref={menuButton}
-          className="home-menu-button"
-          type="button"
-          aria-label={menuOpen ? "Close menu" : "Open menu"}
-          aria-expanded={menuOpen}
-          aria-controls="home-mobile-nav"
-          onClick={() => setMenuOpen(!menuOpen)}
-        >
-          <span />
-          <span />
-        </button>
-      </header>
-      <nav
-        className={`home-mobile-nav ${menuOpen ? "is-open" : ""}`}
-        id="home-mobile-nav"
-        aria-label="Mobile navigation"
-        aria-hidden={!menuOpen}
-      >
-        <a href="#about" onClick={closeMenu}>
-          About
-        </a>
-        <a href="#programs" onClick={closeMenu}>
-          Programs
-        </a>
-        <a href={sarcCalendar} target="_blank" rel="noreferrer" onClick={closeMenu}>
-          Events
-        </a>
-        <Link to="/gallery" onClick={closeMenu}>
-          Gallery
-        </Link>
-        <Link to="/contact" onClick={closeMenu}>
-          Get in touch
-        </Link>
-      </nav>
-
       <main id="main">
         <section className="home-hero" aria-labelledby="home-title">
           <div className="home-hero-photos" aria-hidden="true">
@@ -268,17 +408,38 @@ export default function Home() {
               The student and alumni community at IIT Bombay
             </p>
             <h1 id="home-title">
-              Connections
-              <br />
-              that stay.
+              {[["Connections"], ["that", "stay."]].map((line, lineIndex) => (
+                <span className="home-hero-line" key={line.join(" ")}>
+                  {line.map((word, wordIndex) => (
+                    <span className="home-hero-word" key={word}>
+                      <span
+                        style={{
+                          animationDelay: `${0.15 + (lineIndex * 2 + wordIndex) * 0.12}s`,
+                        }}
+                      >
+                        {word}
+                      </span>
+                    </span>
+                  ))}
+                </span>
+              ))}
             </h1>
             <p className="home-hero-description">
               Mentorship, events and initiatives that bring students and alumni
               together.
             </p>
-            <ArrowLink to="/initiatives" className="home-hero-cta">
-              Explore our initiatives
-            </ArrowLink>
+            <div className="home-hero-actions">
+              {Object.entries(audiences).map(([key, item]) => (
+                <a
+                  key={key}
+                  href="#audience"
+                  className={`home-arrow-link home-hero-cta ${key === "alumni" ? "is-outline" : ""}`}
+                  onClick={() => setAudience(key)}
+                >
+                  <span>{item.tab}</span>
+                </a>
+              ))}
+            </div>
           </div>
           <div className="home-hero-bottom home-container">
             <span>
@@ -286,71 +447,83 @@ export default function Home() {
               <span className="home-hero-divider">/</span> IIT Bombay
             </span>
             <div className="home-photo-controls" aria-label="Hero photographs">
-              {photos.map((photo, index) => (
+              {[
+                { label: "Previous photograph", glyph: "←", step: -1 },
+                { label: "Next photograph", glyph: "→", step: 1 },
+              ].map((control) => (
                 <button
-                  key={photo}
+                  key={control.label}
                   type="button"
-                  onClick={() => setActivePhoto(index)}
-                  aria-label={`Show photograph ${index + 1}`}
-                  aria-current={index === activePhoto ? "true" : undefined}
+                  aria-label={control.label}
+                  onClick={() => {
+                    // Using the arrows hands control to the visitor, so autoplay stops.
+                    setPaused(true);
+                    setActivePhoto(
+                      (current) =>
+                        (current + control.step + photos.length) % photos.length,
+                    );
+                  }}
                 >
-                  {String(index + 1).padStart(2, "0")}
+                  <span aria-hidden="true">{control.glyph}</span>
                 </button>
               ))}
-              <button
-                className="home-pause"
-                type="button"
-                onClick={() => setPaused(!paused)}
-                aria-label={paused ? "Play photographs" : "Pause photographs"}
-              >
-                {paused ? "▶" : "Ⅱ"}
-              </button>
             </div>
           </div>
         </section>
 
-        <nav className="home-pathways home-container" aria-label="Explore SARC">
-          <ArrowLink to="/initiatives">
-            <small>Find guidance</small>
-            <strong>For students</strong>
-          </ArrowLink>
-          <ArrowLink to="/contact">
-            <small>Stay involved</small>
-            <strong>For alumni</strong>
-          </ArrowLink>
-          <ArrowLink to={sarcCalendar}>
-            <small>Come together</small>
-            <strong>Events</strong>
-          </ArrowLink>
-        </nav>
-
         <section
-          className="home-about home-container"
-          id="about"
-          aria-labelledby="home-about-title"
+          className="home-audience home-container"
+          id="audience"
+          aria-label="Explore SARC"
         >
-          <div className="home-about-copy">
-            <h2 id="home-about-title">
-              A bridge between campus life and everything that comes after.
-            </h2>
-            <p>
-              SARC is a student-run team working with the Dean Alumni and
-              Corporate Relations office at IIT Bombay. We create opportunities
-              for students and alumni to share experience, build relationships
-              and return to campus life.
-            </p>
-            <ArrowLink to="/contact">Meet the team</ArrowLink>
+          <div className="home-audience-head">
+            <p className="home-audience-prompt">What brings you here?</p>
+            <div
+              className="home-audience-tabs"
+              role="tablist"
+              aria-label="Choose your path"
+              onKeyDown={onAudienceKey}
+            >
+              {Object.entries(audiences).map(([key, item]) => (
+                <button
+                  key={key}
+                  id={`audience-tab-${key}`}
+                  type="button"
+                  role="tab"
+                  aria-selected={audience === key}
+                  aria-controls="audience-panel"
+                  tabIndex={audience === key ? 0 : -1}
+                  onClick={() => setAudience(key)}
+                >
+                  {item.tab}
+                </button>
+              ))}
+            </div>
           </div>
-          <figure className="home-about-figure">
-            <img
-              src={require("../assets/home-media/conversation.webp")}
-              alt="An alumnus and student speaking across a table"
-              loading="lazy"
-            />
-            <figcaption>
-              Conversations across generations at IIT Bombay.
-            </figcaption>
-          </figure>
+          <div
+            className="home-audience-panel"
+            id="audience-panel"
+            role="tabpanel"
+            aria-labelledby={`audience-tab-${audience}`}
+            key={audience}
+          >
+            <p className="home-audience-intro">{audiences[audience].intro}</p>
+            <div className="home-pathways">
+              {audiences[audience].links.map((link, index) => (
+                <ArrowLink
+                  key={link.to + link.title}
+                  to={link.to}
+                  style={{ animationDelay: `${0.08 + index * 0.09}s` }}
+                >
+                  <span>
+                    <small>{link.label}</small>
+                    <strong>{link.title}</strong>
+                    <span className="home-path-note">{link.note}</span>
+                  </span>
+                </ArrowLink>
+              ))}
+            </div>
+          </div>
         </section>
 
         <section
@@ -391,19 +564,44 @@ export default function Home() {
                             {eventTime.format(new Date(event.start_time))} – {eventTime.format(new Date(event.end_time))}
                             {event.venue ? ` · ${event.venue}` : ""}
                           </small>
-                        </span>
-                        <span className="home-event-arrow" aria-hidden="true">↗</span>
+                        </span>
                       </a>
                     ))}
                   </div>
                 ) : (
-                  <p className="home-events-empty">
-                    No new dates are listed here right now. Explore the
-                    initiatives that keep students and alumni connected.
-                  </p>
+                  <>
+                    <p className="home-events-empty">
+                      Nothing is scheduled right now.
+                      {pastEvents.length > 0
+                        ? " Here is what happened recently."
+                        : " Explore the initiatives that keep students and alumni connected."}
+                    </p>
+                    {pastEvents.length > 0 && (
+                      <div className="home-events-list is-past">
+                        {pastEvents.map((event) => (
+                          <a
+                            className="home-event-item"
+                            href={event.url}
+                            target="_blank"
+                            rel="noreferrer"
+                            key={event.name}
+                          >
+                            <time dateTime={event.start_time}>
+                              <strong>{eventDateParts(event.start_time).day}</strong>
+                              <span>{eventDateParts(event.start_time).month}</span>
+                            </time>
+                            <span className="home-event-details">
+                              <strong>{event.name}</strong>
+                              <small>Recent{event.venue ? ` · ${event.venue}` : ""}</small>
+                            </span>
+                          </a>
+                        ))}
+                      </div>
+                    )}
+                  </>
                 )}
                 <Link className="home-events-more" to="/initiatives">
-                  Explore more events <span aria-hidden="true">↗</span>
+                  Explore more events
                 </Link>
               </div>
               <a
@@ -421,7 +619,7 @@ export default function Home() {
                   <span>Student–alumni festival</span>
                   <h3>Alumination</h3>
                   <p>Mentoring, talks and workshops bring students and alumni together on campus.</p>
-                  <strong>Explore SARC events <span aria-hidden="true">↗</span></strong>
+                  <strong>Explore SARC events</strong>
                 </div>
               </a>
             </div>
@@ -439,8 +637,7 @@ export default function Home() {
                     <small>{program.short}</small>
                     <h3>{program.name}</h3>
                   </div>
-                  <p>{program.description}</p>
-                  <span className="home-program-arrow" aria-hidden="true">↗</span>
+                  <p>{program.description}</p>
                 </Link>
               ))}
             </div>
@@ -450,28 +647,85 @@ export default function Home() {
           </div>
         </section>
 
+        <section className="home-stats home-container" aria-label="SARC in numbers">
+          {stats.map((stat) => (
+            <div className="home-stat" key={stat.label}>
+              <strong>
+                <CountUp value={stat.value} reducedMotion={reducedMotion} />
+              </strong>
+              <span>{stat.label}</span>
+            </div>
+          ))}
+        </section>
+
+        <section
+          className="home-voices home-container"
+          aria-labelledby="home-voices-title"
+        >
+          <div className="home-voices-head">
+            <h2 id="home-voices-title">Advice that stays with you.</h2>
+            <ArrowLink to="/alumni-advice">More alumni advice</ArrowLink>
+          </div>
+          <div className="home-voices-grid">
+            {voices.map((voice, index) => (
+              <Reveal key={voice.author} delay={index * 120} reducedMotion={reducedMotion}>
+                <figure className="home-voice">
+                  <span className="home-voice-mark" aria-hidden="true">
+                    “
+                  </span>
+                  <blockquote>{voice.quote}</blockquote>
+                  <figcaption>
+                    <strong>{voice.author}</strong>
+                    <span>Batch of {voice.batch}</span>
+                  </figcaption>
+                </figure>
+              </Reveal>
+            ))}
+          </div>
+        </section>
+
+        <section
+          className="home-about home-container"
+          id="about"
+          aria-labelledby="home-about-title"
+        >
+          <div className="home-about-copy">
+            <h2 id="home-about-title">
+              A bridge between campus life and everything that comes after.
+            </h2>
+            <p>
+              SARC is a student-run team working with the Dean Alumni and
+              Corporate Relations office at IIT Bombay. We create opportunities
+              for students and alumni to share experience, build relationships
+              and return to campus life.
+            </p>
+            <ArrowLink to="/contact">Meet the team</ArrowLink>
+          </div>
+          <figure className="home-about-figure">
+            <img
+              src={require("../assets/home-media/conversation.webp")}
+              alt="An alumnus and student speaking across a table"
+              loading="lazy"
+            />
+            <figcaption>
+              Conversations across generations at IIT Bombay.
+            </figcaption>
+          </figure>
+        </section>
+
         <section className="home-gallery" aria-labelledby="home-gallery-title">
-          <div className="home-container home-gallery-layout">
-            <div className="home-gallery-copy">
+          <div className="home-container">
+            <div className="home-gallery-copy home-gallery-intro">
               <h2 id="home-gallery-title">The moments we make together.</h2>
-              <p>
-                Talks, reunions and the conversations in between. A look at the
-                people who keep the connection alive.
-              </p>
-              <ArrowLink to="/gallery">View the gallery</ArrowLink>
+              <div>
+                <p>
+                  Talks, reunions and the conversations in between. A look at
+                  the people who keep the connection alive.
+                </p>
+                <ArrowLink to="/gallery">View the gallery</ArrowLink>
+              </div>
             </div>
-            <div className="home-gallery-images">
-              <img
-                src={require("../assets/home-media/campus-gathering.webp")}
-                alt="Students gathered together on campus"
-                loading="lazy"
-              />
-              <img
-                src={require("../assets/home-media/alumination-stage.webp")}
-                alt="Students and alumni together on the Alumination stage"
-                loading="lazy"
-              />
-            </div>
+            <GalleryTeaser />
           </div>
         </section>
 
@@ -485,46 +739,6 @@ export default function Home() {
           <ArrowLink to="/contact">Get in touch with SARC</ArrowLink>
         </section>
       </main>
-      <footer className="home-footer">
-        <div className="home-container home-footer-main">
-          <div>
-            <span className="home-footer-logo" role="img" aria-label="SARC logo" />
-            <p>
-              Student Alumni Relations Cell
-              <br />
-              IIT Bombay, Powai, Mumbai
-            </p>
-          </div>
-          <nav aria-label="Quick links">
-            <strong>Quick links</strong>
-            <Link to="/">Home</Link>
-            <Link to="/initiatives">Initiatives</Link>
-            <a href={sarcCalendar} target="_blank" rel="noreferrer">Events</a>
-            <Link to="/gallery">Gallery</Link>
-            <Link to="/contact">Contact</Link>
-          </nav>
-          <div className="home-footer-social">
-            <a
-              href="https://www.instagram.com/sarc_iitb/"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Instagram ↗
-            </a>
-            <a
-              href="https://acr.iitbombay.org/"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Dean ACR Office ↗
-            </a>
-          </div>
-        </div>
-        <div className="home-container home-footer-bottom">
-          <span>© {new Date().getFullYear()} SARC, IIT Bombay</span>
-          <a href="#main">Back to top ↑</a>
-        </div>
-      </footer>
     </div>
   );
 }

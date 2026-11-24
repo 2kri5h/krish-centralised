@@ -3,7 +3,6 @@ import {
   BrowserRouter as Router,
   Route,
   Routes,
-  useLocation,
 } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import Home from "./pages/Home";
@@ -15,7 +14,8 @@ import Contact from "./components/Contact/Contact";
 import Blogs from "./pages/Blogs";
 import JoinUs from "./pages/JoinUs";
 import UpcomingEvents from "./pages/UpcomingEvents";
-import Navbar from "./components/Navbar/Navbar";
+import SiteHeader from "./components/SiteChrome/SiteHeader";
+import SiteFooter from "./components/SiteChrome/SiteFooter";
 import Login from "./pages/Login";
 import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 import ResetPassword from "./pages/ForgotPassword/ResetPassword";
@@ -27,10 +27,10 @@ import DirectVerify from "./pages/DirectVerify";
 import IfIKnewThen from "./components/IfIKnewThen/IfIKnewThen";
 
 const SiteRoutes = () => {
-  const { pathname } = useLocation();
   return (
     <>
-      {pathname !== "/" && <Navbar />}
+      <SiteHeader />
+      <div id="content" tabIndex={-1}>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/initiatives" element={<Initiatives />} />
@@ -51,6 +51,8 @@ const SiteRoutes = () => {
         <Route path="/reset-password/:uid/:token" element={<ResetPassword />} />
         <Route path="/changePassword" element={<ChangePassword />} />
       </Routes>
+      </div>
+      <SiteFooter />
     </>
   );
 };
